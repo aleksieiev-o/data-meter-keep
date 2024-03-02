@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, {FC, ReactElement} from 'react';
 import AppThemeChange from '@/components/ui/custom-ui/AppThemeChange';
 import {BarChartHorizontal} from 'lucide-react';
+import AppAuthButton from '@/components/ui/custom-ui/AppAuth.button';
 
 const AppHeader: FC = (): ReactElement => {
   return (
@@ -18,6 +19,8 @@ const AppHeader: FC = (): ReactElement => {
 
         {/* TODO add localization */}
         {/*<AppLocaleChange/>*/}
+
+        <AppAuthButton/>
 
         {/*<AppNavMenuMobile/>*/}
       </div>

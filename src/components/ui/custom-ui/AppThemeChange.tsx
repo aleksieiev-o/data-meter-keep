@@ -2,10 +2,9 @@
 
 import React, {FC, ReactElement} from 'react';
 import {useTheme} from 'next-themes';
-import {DropdownMenu, DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import {Button} from '@/components/ui/button';
 import {Moon, Sun} from 'lucide-react';
-import {DropdownMenuContent, DropdownMenuItem} from '@/components/ui/dropdown-menu';
+import {DropdownMenuContent, DropdownMenuItem, DropdownMenu, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import {AppThemeEnum} from '@/shared/types/appTheme.enum';
 
 const AppThemeChange: FC = (): ReactElement => {

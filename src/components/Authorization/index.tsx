@@ -10,18 +10,17 @@ import AppFormFieldPassword from '@/components/ui/custom-ui/AppFormFields/AppFor
 import {Button} from '@/components/ui/button';
 import SubmitButton from '@/components/Authorization/Submit.button';
 import {RoutePath} from '@/router/Routes.enum';
-import {useChangeRoute} from '@/hooks/useChangeRoute';
 import {usePathname} from 'next/navigation';
 import {IAuthUserCredentialsShape} from '@/components/Authorization/types';
 import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
+import Link from 'next/link';
 
 const Authorization: FC = (): ReactElement => {
   const authFormID = useId();
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
-  const {changeRoute} = useChangeRoute();
   const pathname = usePathname();
 
   const isSignInPage = useMemo(() => pathname === RoutePath.SIGN_IN, [pathname]);
@@ -73,10 +72,6 @@ const Authorization: FC = (): ReactElement => {
     }
   };
 
-  const handleToggleAuthRoute = () => {
-    changeRoute(isSignInPage ? RoutePath.SIGN_UP : RoutePath.SIGN_IN);
-  };
-
   return (
     <section className={'w-full h-full grid grid-cols-1 justify-items-center content-center'}>
       <Card className={'md:w-[550px] w-[350px] shadow-md'}>
@@ -118,13 +113,14 @@ const Authorization: FC = (): ReactElement => {
                 </p>
 
                 <Button
-                  onClick={() => handleToggleAuthRoute()}
                   variant={'link'}
                   disabled={isLoading}
                   title={isSignInPage ? 'Sign up' : 'Sign in'}>
-                  {
-                    isSignInPage ? 'Sign up' : 'Sign in'
-                  }
+                  <Link href={isSignInPage ? RoutePath.SIGN_UP : RoutePath.SIGN_IN} className={'w-full h-full'}>
+                    {
+                      isSignInPage ? 'Sign up' : 'Sign in'
+                    }
+                  </Link>
                 </Button>
               </div>
             </form>
@@ -132,13 +128,6 @@ const Authorization: FC = (): ReactElement => {
         </CardContent>
 
         <CardFooter className={'w-full flex items-center justify-end gap-4'}>
-          <Button
-            onClick={() => changeRoute(RoutePath.NOTE_LIST)}
-            variant={'ghost'}
-            title={'Cancel'}>
-            Cancel
-          </Button>
-
           <SubmitButton
             formId={authFormID}
             title={isSignInPage ? 'Sign in' : 'Sign up'}

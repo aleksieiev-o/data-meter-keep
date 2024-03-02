@@ -3,7 +3,7 @@ export enum RoutePath {
   NOTE_LIST = '/notes',
   ANALYTICS = '/analytics',
   SIGN_IN = '/sign-in',
-  SIGN_UP = '/sing-up',
+  SIGN_UP = '/sign-up',
   CRETE_NOTE = '/notes/create',
   UPDATE_NOTE = '/notes/update',
 }
@@ -13,7 +13,7 @@ export enum RouteName {
   NOTE_LIST = 'List of notes',
   ANALYTICS = 'Analytics page',
   SIGN_IN = 'Sign in',
-  SIGN_UP = 'Sing up',
+  SIGN_UP = 'Sign up',
   CRETE_NOTE = 'Create new note',
   UPDATE_NOTE = 'Update note',
 }
