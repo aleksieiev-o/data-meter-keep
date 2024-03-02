@@ -1,27 +1,47 @@
 {
   "name": "data-meter-keep",
+  "description": "Data meter keep application",
   "version": "0.1.0",
+  "license": "MIT",
+  "author": "Oleksandr Aleksieiev",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:aleksieiev-o/data-meter-keep.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aleksieiev-o/data-meter-keep/issues"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint_fix": "next lint --fix",
+    "prepare": "husky"
   },
   "dependencies": {
+    "firebase": "^10.8.1",
+    "lucide-react": "^0.344.0",
+    "next": "14.1.1",
+    "next-themes": "^0.2.1",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "react-hook-form": "^7.51.0",
+    "sass": "^1.71.1",
+    "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
     "eslint": "^8",
-    "eslint-config-next": "14.1.1"
+    "eslint-config-next": "14.1.1",
+    "husky": "^9.0.11",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
