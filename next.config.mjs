@@ -5,20 +5,20 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/home',
+        destination: '/notes',
         permanent: true,
         basePath: false,
       },
     ];
   },
-  // images: {
-  //   remotePatterns: [
-  //     {
-  //       protocol: 'https',
-  //       hostname: 'firebasestorage.googleapis.com',
-  //       port: '',
-  //       pathname: `/v0/b/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com/**`,
-  //     },
-  //   ],
-  // },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: `/v0/b/${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com/**`,
+      },
+    ],
+  },
 };
