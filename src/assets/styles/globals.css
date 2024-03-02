@@ -2,32 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+    --background: 174 96.75% 98.38%;
+    --foreground: 174 3.5% 0.76%;
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    --muted: 174 3.5% 91.9%;
+    --muted-foreground: 174 1.75% 41.9%;
+
+    --popover: 174 62% 91.9%;
+    --popover-foreground: 174 3.5% 0.95%;
+
+    --card: 174 62% 91.9%;
+    --card-foreground: 174 3.5% 0.95%;
+
+    --border: 174 8.5% 89.76%;
+    --input: 174 8.5% 89.76%;
+
+    --primary: 174 35% 19%;
+    --primary-foreground: 174 0.7% 91.9%;
+
+    --secondary: 174 1.75% 95.95%;
+    --secondary-foreground: 174 3.0999999999999996% 11.9%;
+
+    --accent: 174 1.75% 95.95%;
+    --accent-foreground: 174 3.0999999999999996% 11.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 174 35% 19%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* CSS: .bg-gradient { background: var(--gradient) } */
+    --gradient: linear-gradient(to top left,#BBD2C5,#536976);
+
+    --background: 155 13% 6.24%;
+    --foreground: 155 2% 98.9%;
+
+    --muted: 155 10% 23.400000000000002%;
+    --muted-foreground: 155 2% 57.8%;
+
+    --popover: 155 61% 10.14%;
+    --popover-foreground: 155 2% 98.9%;
+
+    --card: 155 61% 10.14%;
+    --card-foreground: 155 2% 98.9%;
+
+    --border: 155 10% 23.400000000000002%;
+    --input: 155 10% 23.400000000000002%;
+
+    --primary: 155 20% 78%;
+    --primary-foreground: 155 2% 7.800000000000001%;
+
+    --secondary: 155 10% 23.400000000000002%;
+    --secondary-foreground: 155 2% 98.9%;
+
+    --accent: 155 10% 23.400000000000002%;
+    --accent-foreground: 155 2% 98.9%;
+
+    --destructive: 0 62.8% 45.6%;
+    --destructive-foreground: 155 2% 98.9%;
+
+    --ring: 155 20% 78%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+body {
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: rgba(0,0,0,0.15) rgba(0,0,0,0.0); /* scroll thumb and track */
+}
+.scrollbar {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  background: rgba(0,0,0,0.15);
+  margin: 0;
+}
+*::-webkit-scrollbar-button:vertical:decrement {
+  background: rgba(0,0,0,0.0);
+  height: 8px;
+}
+*::-webkit-scrollbar-button:vertical:increment {
+  background: rgba(0,0,0,0.0);
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  background: #999999;
+  border-radius: 2px;
+  background-clip: content-box;
 }
