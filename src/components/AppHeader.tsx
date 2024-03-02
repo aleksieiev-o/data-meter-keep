@@ -9,7 +9,7 @@ const AppHeader: FC = (): ReactElement => {
     <header className={'w-full h-20 flex flex-row items-center justify-between overflow-hidden border-b shadow-md pl-2 md:pl-4 pr-4 md:pr-8'}>
       <div className={'h-full'}>
         <Link href={RoutePath.NOTE_LIST} className={'w-full h-full mr-4 flex items-center justify-center'}>
-          <BarChartHorizontal className={'w-[48px] h-[48px]'}/>
+          <BarChartHorizontal className={'w-[48px] h-[48px] stroke-primary'}/>
         </Link>
       </div>
 

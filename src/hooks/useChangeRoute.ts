@@ -8,9 +8,7 @@ interface IUseChangeRoute {
 export const useChangeRoute = (): IUseChangeRoute => {
   const {push} = useRouter();
   const pathname = usePathname();
-  // eslint-disable-next-line no-console
-  console.log(111, pathname);
-  
+
   const changeRoute = (to: RoutePath) => {
     if (pathname !== to) {
       push(to);
