@@ -1,9 +1,9 @@
-import { RoutePath } from '@/router/Routes.enum';
+import { RoutePath } from '@/shared/router/Routes.enum';
 import Link from 'next/link';
 import React, {FC, ReactElement} from 'react';
-import AppThemeChange from '@/components/ui/custom-ui/AppThemeChange';
+import ThemeChangeButton from '@/features/theme/ThemeChange.button';
 import {BarChartHorizontal} from 'lucide-react';
-import AppAuthButton from '@/components/ui/custom-ui/AppAuth.button';
+import AuthStateChangeButton from '@/widgets/header/_ui/AuthStateChange.button';
 
 const AppHeader: FC = (): ReactElement => {
   return (
@@ -15,12 +15,12 @@ const AppHeader: FC = (): ReactElement => {
       </div>
 
       <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 md:gap-8 items-center'}>
-        <AppThemeChange/>
+        <ThemeChangeButton/>
 
         {/* TODO add localization */}
-        {/*<AppLocaleChange/>*/}
+        {/*<LocaleChangeButton/>*/}
 
-        <AppAuthButton/>
+        <AuthStateChangeButton/>
 
         {/*<AppNavMenuMobile/>*/}
       </div>

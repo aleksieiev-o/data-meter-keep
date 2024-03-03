@@ -4,13 +4,13 @@ import {FC, ReactElement, useId, useMemo} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import AppFormFieldText from '@/components/ui/custom-ui/AppFormFields/AppFormField.text';
-import AppFormFieldPassword from '@/components/ui/custom-ui/AppFormFields/AppFormField.password';
+import FormFieldText from '@/shared/ui/AppFormFields/FormField.text';
+import FormFieldPassword from '@/shared/ui/AppFormFields/FormField.password';
 import {Button} from '@/components/ui/button';
-import SubmitButton from '@/components/Authorization/Submit.button';
-import {RoutePath} from '@/router/Routes.enum';
+import SubmitButton from '@/shared/ui/Submit.button';
+import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname} from 'next/navigation';
-import {IAuthUserCredentialsShape} from '@/components/Authorization/types';
+import {IAuthUserCredentialsShape} from '@/features/Authorization/types';
 import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -96,7 +96,7 @@ const Authorization: FC = (): ReactElement => {
               id={authFormID}
               className={'w-full flex flex-col items-start justify-center gap-4'}>
               <div className={'w-full flex flex-col items-start justify-center gap-4'}>
-                <AppFormFieldText
+                <FormFieldText
                   mode={'input'}
                   type={'email'}
                   formModel={formModel}
@@ -106,7 +106,7 @@ const Authorization: FC = (): ReactElement => {
                   required={true}
                   disabled={isLoading}/>
 
-                <AppFormFieldPassword
+                <FormFieldPassword
                   formModel={formModel}
                   disabled={isLoading}/>
               </div>

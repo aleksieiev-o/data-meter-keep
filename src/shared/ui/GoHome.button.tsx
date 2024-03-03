@@ -2,7 +2,7 @@
 
 import React, {FC, ReactElement} from 'react';
 import {Button} from '@/components/ui/button';
-import {RoutePath} from '@/router/Routes.enum';
+import {RoutePath} from '@/shared/router/Routes.enum';
 import {useRouter} from 'next/navigation';
 import {Home} from 'lucide-react';
 

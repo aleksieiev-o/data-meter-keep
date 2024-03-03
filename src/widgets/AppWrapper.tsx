@@ -1,5 +1,5 @@
 import React, {FC, PropsWithChildren, ReactElement} from 'react';
-import AppHeader from '@/components/AppHeader';
+import AppHeader from '@/widgets/header/AppHeader';
 import {Toaster} from '@/components/ui/toaster';
 
 const AppWrapper: FC<PropsWithChildren> = ({children}): ReactElement => {

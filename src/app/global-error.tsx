@@ -1,7 +1,7 @@
 'use client';
 
 import React, {FC, ReactElement} from 'react';
-import ForceReloadPageButton from '@/components/ui/custom-ui/ForceReloadPage.button';
+import ForceReloadPageButton from '@/shared/ui/ForceReloadPage.button';
 
 const GlobalErrorPage: FC = (): ReactElement => {
   return (

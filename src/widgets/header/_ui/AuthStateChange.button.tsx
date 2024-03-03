@@ -5,12 +5,12 @@ import {DropdownMenu, DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import {Button} from '@/components/ui/button';
 import {DropdownMenuContent, DropdownMenuItem} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import {RoutePath} from '@/router/Routes.enum';
+import {RoutePath} from '@/shared/router/Routes.enum';
 import {LogIn, LogOut} from 'lucide-react';
 import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase';
 
-const AppAuthButton: FC = (): ReactElement => {
+const AuthStateChangeButton: FC = (): ReactElement => {
   const [user] = useAuthState(firebaseAuth);
   const [signOut, signOutLoading] = useSignOut(firebaseAuth);
 
@@ -53,4 +53,4 @@ const AppAuthButton: FC = (): ReactElement => {
   );
 };
 
-export default AppAuthButton;
+export default AuthStateChangeButton;

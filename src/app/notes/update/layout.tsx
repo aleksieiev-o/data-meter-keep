@@ -1,9 +1,9 @@
 import {Metadata} from 'next';
-import {createAppMetaData} from '@/utils/createAppMetaData';
+import {createAppMetaData} from '@/shared/createAppMetaData';
 import {FC, PropsWithChildren, ReactElement} from 'react';
-import AppContentWrapper from '@/components/AppContentWrapper';
-import {RouteName} from '@/router/Routes.enum';
-import {APP_DESCRIPTION} from '@/utils/appConstants';
+import AppContentWrapper from '@/widgets/AppContentWrapper';
+import {RouteName} from '@/shared/router/Routes.enum';
+import {APP_DESCRIPTION} from '@/shared/appConstants';
 
 export const metadata: Metadata = createAppMetaData({
   title: RouteName.UPDATE_NOTE,

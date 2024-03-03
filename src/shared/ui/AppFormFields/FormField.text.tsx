@@ -3,9 +3,9 @@ import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/compon
 import {Asterisk} from 'lucide-react';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
-import {IAppFormFieldProps} from '@/components/ui/custom-ui/AppFormFields/types';
+import {IAppFormFieldProps} from '@/shared/ui/AppFormFields/types';
 
-const AppFormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
+const FormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
   const {mode, formModel, name, label, placeholder, required, disabled, type} = props;
 
   return (
@@ -46,4 +46,4 @@ const AppFormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
   );
 };
 
-export default AppFormFieldText;
+export default FormFieldText;

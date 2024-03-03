@@ -1,5 +1,5 @@
 import {FC, ReactElement} from 'react';
-import ScrollContentWrapper from '@/components/ui/custom-ui/ScrollContentWrapper';
+import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
 
 const CreateNotePage: FC = async (): Promise<ReactElement> => {
   return (

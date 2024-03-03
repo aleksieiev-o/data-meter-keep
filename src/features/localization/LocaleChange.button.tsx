@@ -7,7 +7,7 @@ import {Languages} from 'lucide-react';
 import {DropdownMenuContent, DropdownMenuItem} from '@/components/ui/dropdown-menu';
 import {AppLocaleEnum, AppLocaleNameEnum} from '@/shared/types/appLocale.enum';
 
-const AppLocaleChange: FC = (): ReactElement => {
+const LocaleChangeButton: FC = (): ReactElement => {
   const [locale, setLocale] = useState<AppLocaleEnum>(AppLocaleEnum.EN_US);
 
   return (
@@ -39,4 +39,4 @@ const AppLocaleChange: FC = (): ReactElement => {
   );
 };
 
-export default AppLocaleChange;
+export default LocaleChangeButton;

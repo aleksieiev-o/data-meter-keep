@@ -1,4 +1,4 @@
-import { RouteName, RoutePath } from '@/router/Routes.enum';
+import { RouteName, RoutePath } from '@/shared/router/Routes.enum';
 
 export interface Rout {
   href: RoutePath;

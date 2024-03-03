@@ -1,4 +1,4 @@
-import {RoutePath} from '@/router/Routes.enum';
+import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname, useRouter} from 'next/navigation';
 
 interface IUseChangeRoute {

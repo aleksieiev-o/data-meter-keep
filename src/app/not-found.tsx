@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import GoHomeButton from '@/components/ui/custom-ui/GoHome.button';
+import GoHomeButton from '@/shared/ui/GoHome.button';
 
 const NotFoundPage: FC = (): ReactElement => {
   return (

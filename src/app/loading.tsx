@@ -1,5 +1,5 @@
 import React, {FC, ReactElement} from 'react';
-import ScrollContentWrapper from '@/components/ui/custom-ui/ScrollContentWrapper';
+import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
 import {Loader2} from 'lucide-react';
 
 const Loading: FC = (): ReactElement => {
