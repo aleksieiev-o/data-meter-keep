@@ -1,14 +1,14 @@
 'use client';
 
 import React, {FC, ReactElement} from 'react';
-import {DropdownMenu, DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import {Button} from '@/components/ui/button';
-import {DropdownMenuContent, DropdownMenuItem} from '@/components/ui/dropdown-menu';
+import {DropdownMenuContent, DropdownMenuItem, DropdownMenu, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {LogIn, LogOut} from 'lucide-react';
 import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase';
+import {Skeleton} from '@/components/ui/skeleton';
 
 const AuthStateChangeButton: FC = (): ReactElement => {
   const [user] = useAuthState(firebaseAuth);
@@ -28,11 +28,20 @@ const AuthStateChangeButton: FC = (): ReactElement => {
         </Button>
         :
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant={'default'} size="icon" className="shadow-md" title={'Authorization pages menu'}>
-              <LogIn className={'h-[1.2rem] w-[1.2rem]'}/>
-            </Button>
-          </DropdownMenuTrigger>
+          {
+            user ?
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={'default'}
+                  size="icon"
+                  className="shadow-md"
+                  title={'Authorization pages menu'}>
+                  <LogIn className={'h-[1.2rem] w-[1.2rem]'}/>
+                </Button>
+              </DropdownMenuTrigger>
+              :
+              <Skeleton className={'h-12 w-12'}/>
+          }
 
           <DropdownMenuContent align="end">
             <Link href={RoutePath.SIGN_IN}>
