@@ -1,26 +1,25 @@
 'use client';
 
-import React, {FC, ReactElement, useContext} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {DropdownMenu, DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import {Button} from '@/components/ui/button';
 import {DropdownMenuContent, DropdownMenuItem} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import {RoutePath} from '@/router/Routes.enum';
 import {LogIn, LogOut} from 'lucide-react';
-import {AppAuthContext} from '@/components/providers/AppAuth.provider';
-import {useSignOut} from 'react-firebase-hooks/auth';
+import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase';
 
 const AppAuthButton: FC = (): ReactElement => {
-  const {isAuth} = useContext(AppAuthContext);
-  const [signOut, loading] = useSignOut(firebaseAuth);
+  const [user] = useAuthState(firebaseAuth);
+  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
 
   return (
     <>
-      {isAuth ?
+      {user ?
         <Button
           onClick={() => signOut()}
-          disabled={loading}
+          disabled={signOutLoading}
           variant={'default'}
           size="icon"
           className="shadow-md"
