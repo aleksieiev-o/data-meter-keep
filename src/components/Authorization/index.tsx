@@ -4,7 +4,6 @@ import {FC, ReactElement, useId, useMemo} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import {useLoading} from '@/hooks/useLoading';
 import AppFormFieldText from '@/components/ui/custom-ui/AppFormFields/AppFormField.text';
 import AppFormFieldPassword from '@/components/ui/custom-ui/AppFormFields/AppFormField.password';
 import {Button} from '@/components/ui/button';
@@ -16,14 +15,19 @@ import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
+import {firebaseAuth} from '@/lib/firebase';
 
 const Authorization: FC = (): ReactElement => {
   const authFormID = useId();
   const { toast } = useToast();
-  const {isLoading, setIsLoading} = useLoading();
   const pathname = usePathname();
+  const [signInWithEmailAndPassword, , signInLoading, signInError] = useSignInWithEmailAndPassword(firebaseAuth);
+  const [createUserWithEmailAndPassword, , signUpLoading, signUpError] = useCreateUserWithEmailAndPassword(firebaseAuth);
 
   const isSignInPage = useMemo(() => pathname === RoutePath.SIGN_IN, [pathname]);
+
+  const isLoading = useMemo(() => signInLoading || signUpLoading, [signInLoading, signUpLoading]);
 
   const shape = useMemo<IAuthUserCredentialsShape>(() => ({
     email: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
@@ -50,25 +54,27 @@ const Authorization: FC = (): ReactElement => {
   });
 
   const handleSubmitForm = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
-
     try {
-      // await sendContactsForm<z.infer<typeof formSchema>>(values);
+      isSignInPage ?
+        await signInWithEmailAndPassword(values.email, values.password)
+        :
+        await createUserWithEmailAndPassword(values.email, values.password);
+
+      const description = isSignInPage ? 'You have successfully logged in.' : 'Profile has successfully created.';
 
       toast({
         title: 'Success',
-        description: 'Your message has been sent.',
+        description,
       });
 
       formModel.reset();
     } catch (err) {
+      console.warn(111, err, signInError, signUpError); // TODO check and delete!
       toast({
         title: 'Failure',
-        description: 'Your message has not been sent. Something went wrong.',
+        description: 'An error has occurred. Something went wrong.',
         variant: 'destructive',
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 

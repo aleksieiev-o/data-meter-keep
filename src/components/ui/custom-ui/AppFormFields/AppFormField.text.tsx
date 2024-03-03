@@ -6,7 +6,7 @@ import {Textarea} from '@/components/ui/textarea';
 import {IAppFormFieldProps} from '@/components/ui/custom-ui/AppFormFields/types';
 
 const AppFormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
-  const {mode, formModel, name, label, placeholder, required, disabled} = props;
+  const {mode, formModel, name, label, placeholder, required, disabled, type} = props;
 
   return (
     <FormField
@@ -26,6 +26,7 @@ const AppFormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
               <Input
                 placeholder={placeholder}
                 aria-required={required}
+                type={type}
                 className={'shadow-md'}
                 disabled={disabled}
                 {...field}/>

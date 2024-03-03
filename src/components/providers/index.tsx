@@ -3,6 +3,7 @@
 import React, {FC, PropsWithChildren, ReactElement} from 'react';
 import {AppThemeEnum} from '@/shared/types/appTheme.enum';
 import AppThemeProvider from '@/components/providers/AppTheme.provider';
+import AppAuthProvider from '@/components/providers/AppAuth.provider';
 
 const AppProviders: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
@@ -12,7 +13,9 @@ const AppProviders: FC<PropsWithChildren> = ({children}): ReactElement => {
       storageKey={'dmk-app-theme'}
       disableTransitionOnChange
       enableSystem>
-      {children}
+      <AppAuthProvider>
+        {children}
+      </AppAuthProvider>
     </AppThemeProvider>
   );
 };
