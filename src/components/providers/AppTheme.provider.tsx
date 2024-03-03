@@ -1,14 +1,17 @@
 'use client';
 
 import React, {FC, PropsWithChildren, ReactElement} from 'react';
-import {ThemeProviderProps} from 'next-themes/dist/types';
 import {ThemeProvider} from 'next-themes';
+import {AppThemeEnum} from '@/shared/types/appTheme.enum';
 
-const AppThemeProvider: FC<PropsWithChildren<ThemeProviderProps>> = (props): ReactElement => {
-  const {children} = props;
-
+const AppThemeProvider: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
-    <ThemeProvider {...props}>
+    <ThemeProvider
+      attribute={'class'}
+      defaultTheme={AppThemeEnum.SYSTEM}
+      storageKey={'dmk-app-theme'}
+      disableTransitionOnChange
+      enableSystem>
       {children}
     </ThemeProvider>
   );
