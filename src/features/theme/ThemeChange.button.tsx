@@ -4,7 +4,13 @@ import React, {FC, ReactElement} from 'react';
 import {useTheme} from 'next-themes';
 import {Button} from '@/components/ui/button';
 import {Moon, Sun} from 'lucide-react';
-import {DropdownMenuContent, DropdownMenuItem, DropdownMenu, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuLabel
+} from '@/components/ui/dropdown-menu';
 import {AppThemeEnum} from '@/shared/types/appTheme.enum';
 
 const ThemeChangeButton: FC = (): ReactElement => {
@@ -21,6 +27,8 @@ const ThemeChangeButton: FC = (): ReactElement => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Application theme mode</DropdownMenuLabel>
+
         <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.SYSTEM)}>
           System
         </DropdownMenuItem>
