@@ -7,7 +7,13 @@ import AuthStateChangeButton from '@/widgets/Header/_ui/AuthStateChange.button';
 import AppHeaderInfo from '@/widgets/Header/AppHeaderInfo';
 import {APP_NAME} from '@/shared/appConstants';
 
-const AppHeader: FC = (): ReactElement => {
+interface Props {
+  variant: 'auth' | 'private' | 'public';
+}
+
+const AppHeader: FC<Props> = (props): ReactElement => {
+  const {variant} = props;
+
   return (
     <header className={'w-full h-20 flex flex-row items-center justify-between overflow-hidden border-b shadow-md pl-2 md:pl-4 pr-4 md:pr-8'}>
       <Link href={RoutePath.NOTE_LIST}>
@@ -21,9 +27,9 @@ const AppHeader: FC = (): ReactElement => {
       </Link>
 
       <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 md:gap-8 items-center'}>
-        <AppHeaderInfo/>
-        {/*<LocaleChangeButton/>*/}
+        {variant !== 'auth' && <AppHeaderInfo/>}
         <AuthStateChangeButton/>
+        {/*<LocaleChangeButton/>*/}
         <ThemeChangeButton/>
         {/*<AppNavMenuMobile/>*/}
       </div>

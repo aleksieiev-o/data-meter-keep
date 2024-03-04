@@ -6,18 +6,16 @@ import {RouteName} from '@/shared/router/Routes.enum';
 import {APP_DESCRIPTION} from '@/shared/appConstants';
 
 export const metadata: Metadata = createAppMetaData({
-  title: RouteName.CRETE_NOTE,
+  title: RouteName.SIGN_IN,
   description: APP_DESCRIPTION,
 });
 
-const CreateNoteLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
+const SignInLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
-    <section className={'w-full h-full overflow-hidden'}>
-      <AppContentWrapper>
-        {children}
-      </AppContentWrapper>
-    </section>
+    <AppContentWrapper>
+      {children}
+    </AppContentWrapper>
   );
 };
 
-export default CreateNoteLayout;
+export default SignInLayout;

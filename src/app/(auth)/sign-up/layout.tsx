@@ -6,18 +6,16 @@ import {RouteName} from '@/shared/router/Routes.enum';
 import {APP_DESCRIPTION} from '@/shared/appConstants';
 
 export const metadata: Metadata = createAppMetaData({
-  title: RouteName.CATEGORY_LIST,
+  title: RouteName.SIGN_UP,
   description: APP_DESCRIPTION,
 });
 
-const CategoriesLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
+const SignUpLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
-    <section className={'w-full h-full overflow-hidden'}>
-      <AppContentWrapper>
-        {children}
-      </AppContentWrapper>
-    </section>
+    <AppContentWrapper>
+      {children}
+    </AppContentWrapper>
   );
 };
 
-export default CategoriesLayout;
+export default SignUpLayout;

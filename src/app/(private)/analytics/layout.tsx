@@ -12,11 +12,9 @@ export const metadata: Metadata = createAppMetaData({
 
 const AnalyticsLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
-    <section className={'w-full h-full overflow-hidden'}>
-      <AppContentWrapper>
-        {children}
-      </AppContentWrapper>
-    </section>
+    <AppContentWrapper>
+      {children}
+    </AppContentWrapper>
   );
 };
 
