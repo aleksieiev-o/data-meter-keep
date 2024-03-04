@@ -13,8 +13,8 @@ const LocaleChangeButton: FC = (): ReactElement => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant={'default'} size="icon" className="shadow-md" title={'Change locale menu'}>
-          <Languages className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+        <Button variant={'ghost'} size="icon" title={'Change locale menu'}>
+          <Languages className="h-[1.7rem] w-[1.7rem] rotate-0 scale-100 transition-all" />
 
           <span className="sr-only">
             Toggle locale

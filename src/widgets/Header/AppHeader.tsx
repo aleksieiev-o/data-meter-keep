@@ -26,7 +26,7 @@ const AppHeader: FC<Props> = (props): ReactElement => {
         </div>
       </Link>
 
-      <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 md:gap-8 items-center'}>
+      <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 md:gap-6 items-center'}>
         {variant !== 'auth' && <AppHeaderInfo/>}
         <AuthStateChangeButton/>
         {/*<LocaleChangeButton/>*/}

@@ -20,11 +20,10 @@ const AuthStateChangeButton: FC = (): ReactElement => {
         <Button
           onClick={() => signOut()}
           disabled={signOutLoading}
-          variant={'default'}
+          variant={'ghost'}
           size="icon"
-          className="shadow-md"
           title={'Sign out'}>
-          <LogOut className={'h-[1.2rem] w-[1.2rem]'}/>
+          <LogOut className={'h-[1.7rem] w-[1.7rem]'}/>
         </Button>
         :
         <DropdownMenu>
@@ -32,11 +31,10 @@ const AuthStateChangeButton: FC = (): ReactElement => {
             user ?
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant={'default'}
+                  variant={'ghost'}
                   size="icon"
-                  className="shadow-md"
                   title={'Authorization pages menu'}>
-                  <LogIn className={'h-[1.2rem] w-[1.2rem]'}/>
+                  <LogIn className={'h-[1.7rem] w-[1.7rem]'}/>
                 </Button>
               </DropdownMenuTrigger>
               :
