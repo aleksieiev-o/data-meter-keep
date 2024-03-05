@@ -9,9 +9,9 @@ export enum RoutePath {
 }
 
 export enum RouteName {
-  CATEGORY_LIST = 'List of categories',
-  NOTE_LIST = 'List of notes',
-  ANALYTICS = 'Analytics page',
+  CATEGORY_LIST = 'Categories',
+  NOTE_LIST = 'Notes',
+  ANALYTICS = 'Analytics',
   SIGN_IN = 'Sign in',
   SIGN_UP = 'Sign up',
   CRETE_NOTE = 'Create new note',

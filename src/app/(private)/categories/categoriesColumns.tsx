@@ -21,7 +21,7 @@ export interface ICategory {
 export const categoriesColumns: ColumnDef<ICategory>[] = [
   {
     accessorKey: 'categoryId',
-    header: () => <div className="font-bold text-start">Category ID</div>,
+    header: () => <div className="font-bold text-start whitespace-nowrap">Category ID</div>,
     cell: ({row}) => <div className="text-start">{row.getValue('categoryId')}</div>,
   },
   {

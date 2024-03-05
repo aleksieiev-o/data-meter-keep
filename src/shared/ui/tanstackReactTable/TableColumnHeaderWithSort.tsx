@@ -28,7 +28,7 @@ const TableColumnHeaderWithSort = <TData, TValue>(props: Props<TData, TValue>): 
   };
 
   return (
-    <div className="font-bold text-start flex items-center">
+    <div className="font-bold text-start flex items-center whitespace-nowrap">
       <div className="mr-2">{columnName}</div>
 
       <DropdownMenu>
