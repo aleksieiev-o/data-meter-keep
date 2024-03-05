@@ -2,8 +2,8 @@
 
 import React, {FC, ReactElement, useId, useState} from 'react';
 import {Checkbox} from '@/components/ui/checkbox';
-import FormFieldText from '@/shared/ui/AppFormFields/FormField.text';
-import {IAppFormFieldProps} from '@/shared/ui/AppFormFields/types';
+import FormFieldText from '@/shared/ui/FormField/FormField.text';
+import {IAppFormFieldProps} from '@/shared/ui/FormField/types';
 
 type Props = Pick<IAppFormFieldProps, 'formModel' | 'disabled'>;
 

@@ -19,6 +19,7 @@ import {
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {ChevronLeft, ChevronRight, Plus} from 'lucide-react';
+import CreateCategoryDialog from '@/app/(private)/categories/CreateCategory.dialog';
 
 interface ICategoriesTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -54,18 +55,12 @@ const CategoriesTable = <TData, TValue>(props: ICategoriesTableProps<TData, TVal
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
         <Input
-          onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
+          value={(table.getColumn('categoryName')?.getFilterValue() as string) ?? ''}
           placeholder={'Filter category names...'}
           className={'w-full h-12'}/>
 
-        <Button variant={'default'} title={'Create category'}>
-          <Plus/>
-
-          <span className={'ml-2'}>
-            Create category
-          </span>
-        </Button>
+        <CreateCategoryDialog/>
       </div>
 
       <div className="rounded-md border">

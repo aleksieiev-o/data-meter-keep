@@ -6,7 +6,7 @@ const Loading: FC = (): ReactElement => {
   return (
     <section className={'w-full h-full grid grid-cols-1 content-center overflow-hidden'}>
       <ScrollContentWrapper>
-        <div className={'w-full h-full flex flex-col items-center justify-items-center gap-2'}>
+        <div className={'w-full h-full flex flex-col items-center justify-center gap-2'}>
           <Loader2 className={'h-10 w-10 animate-spin'}/>
 
           <span>Loading...</span>
