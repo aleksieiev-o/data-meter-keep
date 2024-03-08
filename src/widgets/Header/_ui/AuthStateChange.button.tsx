@@ -1,6 +1,6 @@
 'use client';
 
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {DropdownMenuContent, DropdownMenuItem, DropdownMenu, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
@@ -9,16 +9,18 @@ import {LogIn, LogOut} from 'lucide-react';
 import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
+import SignOutConfirmDialog from '@/widgets/Header/_ui/SignOutConfirm.dialog';
 
 const AuthStateChangeButton: FC = (): ReactElement => {
   const [user] = useAuthState(firebaseAuth);
-  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
+  const [, signOutLoading] = useSignOut(firebaseAuth);
+  const [dialogIsOpenSignOut, setDialogIsOpenSignOut] = useState<boolean>(false);
 
   return (
     <>
       {user ?
         <Button
-          onClick={() => signOut()}
+          onClick={() => setDialogIsOpenSignOut(true)}
           disabled={signOutLoading}
           variant={'ghost'}
           size="icon"
@@ -56,6 +58,10 @@ const AuthStateChangeButton: FC = (): ReactElement => {
           </DropdownMenuContent>
         </DropdownMenu>
       }
+
+      <SignOutConfirmDialog
+        setDialogIsOpen={setDialogIsOpenSignOut}
+        dialogIsOpen={dialogIsOpenSignOut}/>
     </>
   );
 };
