@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals"],
+  "extends": ["next/core-web-vitals", "plugin:@tanstack/eslint-plugin-query/recommended"],
   "rules": {
     "no-empty": 0,
     "semi": 2,

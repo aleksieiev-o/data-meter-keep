@@ -1,8 +1,16 @@
-import {ICategory, TCreateCategoryDto} from '@/app/(private)/categories/types';
-import {child, push, ref, remove, set, update} from '@firebase/database';
+import {ICategory, TCreateCategoryDto} from '@/shared/types/categories.types';
+import {child, DataSnapshot, get, push, ref, remove, set, update} from '@firebase/database';
 import {firebaseDataBase} from '@/lib/firebase';
 import {EndpointsList} from '@/shared/Endpoints.enum';
-import {createEndpointWithUser} from '@/shared/utils';
+import {createEndpointWithUser} from '@/entities/_vm/user';
+
+export const fetchCategories = async(): Promise<ICategory[]> => {
+  const snapshot: DataSnapshot = await get(child(ref(firebaseDataBase), createEndpointWithUser(EndpointsList.CATEGORIES)));
+  const result = snapshot.val() || {};
+  return Promise.resolve(Object
+    .keys(result)
+    .map((key) => ({ ...result[key] })) || []);
+};
 
 export const createCategory = async (payload: TCreateCategoryDto): Promise<void> => {
   const {categoryName} = payload;

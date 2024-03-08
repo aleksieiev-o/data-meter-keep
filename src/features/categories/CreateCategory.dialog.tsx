@@ -20,7 +20,9 @@ import SubmitButton from '@/shared/ui/Submit.button';
 import {object, string, z, ZodRawShape, ZodString} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {createCategory} from '@/app/(private)/categories/categories.service';
+import {createCategory} from '@/entities/categories/categories.service';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {RoutePath} from '@/shared/router/Routes.enum';
 
 interface ICategoryShape extends ZodRawShape {
   categoryName: ZodString;
@@ -31,6 +33,19 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  const mutationCreate = useMutation({
+    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({
+        queryKey: [RoutePath.CATEGORY_LIST],
+      });
+    },
+    onError: (error, variables) => {
+      console.warn(error, variables);
+    },
+  });
 
   const shape = useMemo<ICategoryShape>(() => ({
     categoryName: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
@@ -54,11 +69,11 @@ const CreateCategoryDialog: FC = (): ReactElement => {
     try {
       setIsLoading(true);
 
-      await createCategory({categoryName: values.categoryName});
+      mutationCreate.mutate(values);
 
       toast({
         title: 'Success',
-        description: 'You have successfully created a new category.',
+        description: 'You have successfully created a new categories.',
       });
 
       formModel.reset();
@@ -77,7 +92,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={'default'} title={'Create category'}>
+        <Button variant={'default'} title={'Create categories'}>
           <Plus/>
 
           <span className={'ml-2'}>
@@ -108,7 +123,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
                 formModel={formModel}
                 name={'categoryName'}
                 label={'Category name'}
-                placeholder={'New category'}
+                placeholder={'New categories'}
                 required={true}
                 disabled={isLoading}/>
             </form>

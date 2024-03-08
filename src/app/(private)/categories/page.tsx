@@ -1,27 +1,25 @@
 import {FC, ReactElement} from 'react';
 import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
-import {categoriesColumns} from '@/app/(private)/categories/categoriesColumns';
-import CategoriesTable from '@/app/(private)/categories/CategoriesTable';
+import {categoriesColumns} from '@/widgets/Categories/_categoriesColumns';
+import CategoriesTable from '@/widgets/Categories/CategoriesTable';
+import {dehydrate, QueryClient, HydrationBoundary} from '@tanstack/react-query';
+import {fetchCategories} from '@/entities/categories/categories.service';
+import {RoutePath} from '@/shared/router/Routes.enum';
 
 const CategoriesPage: FC = async (): Promise<ReactElement> => {
-  const data: Array<any> = [
-    {categoryId: '12433', categoryName: 'Category 1'},
-    {categoryId: '12131', categoryName: 'Category 21'},
-    {categoryId: '12832', categoryName: 'Category 12'},
-    {categoryId: '12339', categoryName: 'Category 4'},
-    {categoryId: '12333', categoryName: 'Category 56'},
-    {categoryId: '12533', categoryName: 'Category 74'},
-    {categoryId: '12343', categoryName: 'Category 87'},
-    {categoryId: '31233', categoryName: 'Category 9'},
-    {categoryId: '12633', categoryName: 'Category 23'},
-    {categoryId: '12733', categoryName: 'Category 45'},
-    {categoryId: '12833', categoryName: 'Category 22'},
-    {categoryId: '12133', categoryName: 'Category 72'},
-  ];
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: [RoutePath.CATEGORY_LIST],
+    queryFn: fetchCategories,
+    staleTime: 1000 * 5,
+  });
 
   return (
     <ScrollContentWrapper>
-      <CategoriesTable data={data} columns={categoriesColumns}/>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <CategoriesTable columns={categoriesColumns}/>
+      </HydrationBoundary>
     </ScrollContentWrapper>
   );
 };

@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import TableColumnHeaderWithSort from '@/shared/ui/tanstackReactTable/TableColumnHeaderWithSort';
 import TableRowActionDropdown from '@/shared/ui/tanstackReactTable/TableRowAction.dropdown';
-import {ICategory} from '@/app/(private)/categories/types';
+import {ICategory} from '@/shared/types/categories.types';
 
 type TCategoriesColumns = Omit<ICategory, ''>;
 
