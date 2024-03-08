@@ -9,7 +9,7 @@ import FormFieldPassword from '@/shared/ui/FormField/FormField.password';
 import {Button} from '@/components/ui/button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import {IAuthUserCredentialsShape} from '@/features/authentication/types';
 import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
@@ -22,6 +22,7 @@ const Authentication: FC = (): ReactElement => {
   const authFormID = useId();
   const { toast } = useToast();
   const pathname = usePathname();
+  const {replace} = useRouter();
   const [signInWithEmailAndPassword, , signInLoading, signInError] = useSignInWithEmailAndPassword(firebaseAuth);
   const [createUserWithEmailAndPassword, , signUpLoading, signUpError] = useCreateUserWithEmailAndPassword(firebaseAuth);
 
@@ -68,8 +69,9 @@ const Authentication: FC = (): ReactElement => {
       });
 
       formModel.reset();
+
+      replace(RoutePath.CATEGORY_LIST);
     } catch (err) {
-      console.warn(111, err, signInError, signUpError); // TODO check and delete!
       toast({
         title: 'Failure',
         description: 'An error has occurred. Something went wrong.',

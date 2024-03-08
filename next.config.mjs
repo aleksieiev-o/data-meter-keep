@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/notes',
+        destination: '/categories',
         permanent: true,
         basePath: false,
       },
