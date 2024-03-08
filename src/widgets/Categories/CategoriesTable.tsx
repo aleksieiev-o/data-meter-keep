@@ -7,7 +7,6 @@ import {
   getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-
 import {
   Table,
   TableBody,
@@ -18,7 +17,7 @@ import {
 } from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {ChevronLeft, ChevronRight, Plus} from 'lucide-react';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
 import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {useQuery} from '@tanstack/react-query';
