@@ -35,18 +35,6 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const mutationCreate = useMutation({
-    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({
-        queryKey: [RoutePath.CATEGORY_LIST],
-      });
-    },
-    onError: (error, variables) => {
-      console.warn(error, variables);
-    },
-  });
-
   const shape = useMemo<ICategoryShape>(() => ({
     categoryName: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
       .trim()
@@ -65,28 +53,49 @@ const CreateCategoryDialog: FC = (): ReactElement => {
     },
   });
 
-  const handleSubmitForm = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setIsLoading(true);
+  const onSuccessCallback = async (): Promise<void> => {
+    await queryClient.invalidateQueries({
+      queryKey: [RoutePath.CATEGORY_LIST],
+    });
 
-      mutationCreate.mutate(values);
+    toast({
+      title: 'Success',
+      description: 'You have successfully created a new categories.',
+    });
 
-      toast({
-        title: 'Success',
-        description: 'You have successfully created a new categories.',
-      });
+    formModel.reset();
+  };
 
-      formModel.reset();
-      setDialogIsOpen(false);
-    } catch (err) {
-      toast({
-        title: 'Failure',
-        description: 'An error has occurred. Something went wrong.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const onErrorCallback = async (): Promise<void> => {
+    toast({
+      title: 'Failure',
+      description: 'An error has occurred. Something went wrong.',
+      variant: 'destructive',
+    });
+  };
+
+  const onSettledCallback = async (): Promise<void> => {
+    setIsLoading(false);
+    setDialogIsOpen(false);
+  };
+
+  const mutationCreate = useMutation({
+    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
+    onSuccess: async (data, variables, context) => {
+      await onSuccessCallback();
+    },
+    onError: async (error, variables) => {
+      await onErrorCallback();
+      console.warn(error, variables);
+    },
+    onSettled: async (data, error, variables, context) => {
+      await onSettledCallback();
+    },
+  });
+
+  const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    mutationCreate.mutate(values);
   };
 
   return (

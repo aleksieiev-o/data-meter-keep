@@ -69,29 +69,7 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
 
   const handleRemoveCategory = () => {
     setIsLoading(true);
-
     mutationCreate.mutate(category.categoryId);
-
-    // try {
-    //   setIsLoading(true);
-    //
-    //   mutationCreate.mutate(category.categoryId);
-    //
-    //   toast({
-    //     title: 'Success',
-    //     description: 'The category has successfully removed.',
-    //   });
-    //
-    //   setDialogIsOpen(false);
-    // } catch (err) {
-    //   toast({
-    //     title: 'Failure',
-    //     description: 'An error has occurred. Something went wrong.',
-    //     variant: 'destructive',
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
   };
 
   return (
