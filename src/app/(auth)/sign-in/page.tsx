@@ -1,9 +1,9 @@
 import {FC, ReactElement} from 'react';
-import Authorization from '@/features/Authorization';
+import Authentication from '@/features/Authentication';
 
 const SignInPage: FC = async (): Promise<ReactElement> => {
   return (
-    <Authorization/>
+    <Authentication/>
   );
 };
 

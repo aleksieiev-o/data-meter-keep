@@ -14,27 +14,31 @@ const AppHeader: FC<Props> = (props): ReactElement => {
   const {variant} = props;
 
   return (
-    <header className={'w-full h-20 flex flex-row items-center justify-between gap-4 lg:gap-6 overflow-hidden border-b shadow-md pl-2 md:pl-4 pr-4 md:pr-8'}>
-      <HeaderDrawer/>
+    <header className={'w-full h-20 flex flex-row items-center justify-between gap-4 lg:gap-6 overflow-hidden border-b shadow-md px-2 md:px-4'}>
+      {variant !== 'auth' && <HeaderDrawer/>}
+
+      <div className={'h-full flex md:hidden items-center'}>
+        {variant === 'auth' && <HeaderLogo appNameVisibilityClasses={''} withSheetClose={false}/>}
+      </div>
 
       <div className={'w-full h-full hidden md:flex items-center justify-start gap-4 lg:gap-6'}>
         <HeaderLogo appNameVisibilityClasses={'hidden lg:block'} withSheetClose={false}/>
 
-        <div className={'flex-row items-center justify-center gap-4 lg:gap-6 mx-auto'}>
-          <HeaderNav withSheetClose={false}/>
-        </div>
+        {variant !== 'auth' &&
+          <div className={'flex-row items-center justify-center gap-4 lg:gap-6 mx-auto'}>
+            <HeaderNav withSheetClose={false}/>
+          </div>
+        }
       </div>
 
       <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 lg:gap-6 items-center'}>
         {variant !== 'auth' && <AppHeaderInfo/>}
 
-        <AuthStateChangeButton/>
+        {variant !== 'auth' && <AuthStateChangeButton/>}
 
         {/*<LocaleChangeButton/>*/}
 
         <ThemeChangeButton/>
-
-        {/*<AppNavMenuMobile/>*/}
       </div>
     </header>
   );

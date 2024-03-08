@@ -33,7 +33,7 @@ const AuthStateChangeButton: FC = (): ReactElement => {
                 <Button
                   variant={'ghost'}
                   size="icon"
-                  title={'Authorization pages menu'}>
+                  title={'Authentication pages menu'}>
                   <LogIn className={'h-[1.7rem] w-[1.7rem]'}/>
                 </Button>
               </DropdownMenuTrigger>

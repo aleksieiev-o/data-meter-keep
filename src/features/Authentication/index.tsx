@@ -10,7 +10,7 @@ import {Button} from '@/components/ui/button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname} from 'next/navigation';
-import {IAuthUserCredentialsShape} from '@/features/Authorization/types';
+import {IAuthUserCredentialsShape} from '@/features/Authentication/types';
 import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -18,7 +18,7 @@ import Link from 'next/link';
 import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase';
 
-const Authorization: FC = (): ReactElement => {
+const Authentication: FC = (): ReactElement => {
   const authFormID = useId();
   const { toast } = useToast();
   const pathname = usePathname();
@@ -145,4 +145,4 @@ const Authorization: FC = (): ReactElement => {
   );
 };
 
-export default Authorization;
+export default Authentication;
