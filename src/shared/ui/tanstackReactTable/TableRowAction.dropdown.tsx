@@ -13,6 +13,7 @@ import {MoreHorizontal, Pencil, Trash} from 'lucide-react';
 import {Row} from '@tanstack/table-core/build/lib/types';
 import RemoveConfirmCategoryDialog from '@/features/categories/RemoveConfirmCategory.dialog';
 import {ICategory} from '@/shared/types/categories.types';
+import UpdateCategoryDialog from '@/features/categories/UpdateCategory.dialog';
 
 interface Props<TData> {
   row: Row<TData>;
@@ -22,10 +23,10 @@ const TableRowActionDropdown = <TData,>(props: Props<TData>): ReactElement => {
   const {row} = props;
   const rowOriginal = row.original;
   const [dialogRemoveIsOpen, setDialogRemoveIsOpen] = useState<boolean>(false);
-  const [dialogEditIsOpen, setDialogEditIsOpen] = useState<boolean>(false);
+  const [dialogUpdateIsOpen, setDialogUpdateIsOpen] = useState<boolean>(false);
 
-  const handlePrepareEdit = () => {
-    // setDialogEditIsOpen(true);
+  const handlePrepareUpdate = () => {
+    setDialogUpdateIsOpen(true);
   };
 
   const handlePrepareDelete = () => {
@@ -47,10 +48,10 @@ const TableRowActionDropdown = <TData,>(props: Props<TData>): ReactElement => {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
             <DropdownMenuItem
-              onClick={() => handlePrepareEdit()}
+              onClick={() => handlePrepareUpdate()}
               className={'flex flex-row items-center justify-start gap-4'}>
               <Pencil className={'h-4 w-4'}/>
-              Edit
+              Update
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -62,6 +63,11 @@ const TableRowActionDropdown = <TData,>(props: Props<TData>): ReactElement => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      <UpdateCategoryDialog
+        setDialogIsOpen={setDialogUpdateIsOpen}
+        dialogIsOpen={dialogUpdateIsOpen}
+        category={rowOriginal as ICategory}/>
 
       <RemoveConfirmCategoryDialog
         setDialogIsOpen={setDialogRemoveIsOpen}

@@ -53,7 +53,7 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
     setDialogIsOpen(false);
   };
 
-  const mutationCreate = useMutation<ICategory>({
+  const mutation = useMutation<ICategory>({
     mutationFn: (id) => removeCategory(id),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
@@ -67,9 +67,9 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
     },
   });
 
-  const handleRemoveCategory = () => {
+  const handleConfirm = () => {
     setIsLoading(true);
-    mutationCreate.mutate(category.categoryId);
+    mutation.mutate(category.categoryId);
   };
 
   return (
@@ -95,7 +95,7 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
           </DialogClose>
 
           <Button
-            onClick={handleRemoveCategory}
+            onClick={handleConfirm}
             disabled={isLoading}
             variant={'destructive'}
             title={'Remove category'}>

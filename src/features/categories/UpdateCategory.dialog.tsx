@@ -1,38 +1,44 @@
 'use client';
 
-import {FC, ReactElement, useId, useMemo, useState} from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription, DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from '@/components/ui/dialog';
-import {Form} from '@/components/ui/form';
-import {Plus} from 'lucide-react';
-import {Button} from '@/components/ui/button';
+import {FC, ReactElement, useId, useMemo} from 'react';
+import {ICategory} from '@/shared/types/categories.types';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
-import FormFieldText from '@/shared/ui/FormField/FormField.text';
-import SubmitButton from '@/shared/ui/Submit.button';
-import {object, string, z, ZodRawShape, ZodString} from 'zod';
-import {useForm} from 'react-hook-form';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {updateCategory} from '@/entities/categories/categories.service';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {Button} from '@/components/ui/button';
+import {Form} from '@/components/ui/form';
+import FormFieldText from '@/shared/ui/FormField/FormField.text';
+import SubmitButton from '@/shared/ui/Submit.button';
+import {object, string, z, ZodIssueCode, ZodRawShape, ZodString} from 'zod';
+import {useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+
+interface Props {
+  category: ICategory;
+  dialogIsOpen: boolean;
+  setDialogIsOpen: (value: boolean) => void;
+}
 
 interface ICategoryShape extends ZodRawShape {
   categoryName: ZodString;
 }
 
-const CreateCategoryDialog: FC = (): ReactElement => {
+const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
+  const {category, dialogIsOpen, setDialogIsOpen} = props;
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
-  const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const shape = useMemo<ICategoryShape>(() => ({
@@ -43,8 +49,17 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   }), []);
 
   const formSchema = useMemo(() => {
-    return object<ICategoryShape>(shape);
-  }, [shape]);
+    return object<ICategoryShape>(shape)
+      .superRefine((data, ctx) => {
+        if (data.categoryName === category.categoryName) {
+          ctx.addIssue({
+            code: ZodIssueCode.custom,
+            path: ['categoryName'],
+            message: 'The names are the same',
+          });
+        }
+      });
+  }, [category.categoryName, shape]);
 
   const formModel = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,7 +75,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
 
     toast({
       title: 'Success',
-      description: 'You have successfully created a new categories.',
+      description: 'The category has successfully updated.',
     });
 
     formModel.reset();
@@ -79,8 +94,8 @@ const CreateCategoryDialog: FC = (): ReactElement => {
     setDialogIsOpen(false);
   };
 
-  const mutationCreate = useMutation({
-    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
+  const mutation = useMutation({
+    mutationFn: (values) => updateCategory({categoryName: values.categoryName}, category.categoryId),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -95,28 +110,19 @@ const CreateCategoryDialog: FC = (): ReactElement => {
 
   const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    mutationCreate.mutate(values);
+    mutation.mutate(values);
   };
 
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant={'default'} title={'Create categories'}>
-          <Plus/>
-
-          <span className={'ml-2'}>
-            Create category
-          </span>
-        </Button>
-      </DialogTrigger>
-
       <DialogContent className={'flex flex-col gap-6'}>
         <DialogHeader>
-          <DialogTitle>Create new category</DialogTitle>
+          <DialogTitle>Update category</DialogTitle>
 
           <DialogDescription>
-            Category is used to differentiate notes.
-            Category name cannot be repeated.
+            {
+              `Current category name is ${category.categoryName}.`
+            }
           </DialogDescription>
         </DialogHeader>
 
@@ -131,7 +137,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
                 type={'text'}
                 formModel={formModel}
                 name={'categoryName'}
-                label={'Category name'}
+                label={'New category name'}
                 placeholder={'New category...'}
                 required={true}
                 disabled={isLoading}/>
@@ -148,8 +154,8 @@ const CreateCategoryDialog: FC = (): ReactElement => {
 
           <SubmitButton
             formId={formID}
-            title={'Create'}
-            btnBody={'Create'}
+            title={'Update'}
+            btnBody={'Update'}
             isLoading={isLoading}/>
         </DialogFooter>
       </DialogContent>
@@ -157,4 +163,4 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   );
 };
 
-export default CreateCategoryDialog;
+export default UpdateCategoryDialog;
