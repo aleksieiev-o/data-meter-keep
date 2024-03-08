@@ -1,5 +1,5 @@
 import {FC, ReactElement} from 'react';
-import Authentication from '@/features/Authentication';
+import Authentication from '@/features/authentication';
 
 const SignUpPage: FC = async (): Promise<ReactElement> => {
   return (

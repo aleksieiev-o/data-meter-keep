@@ -10,7 +10,7 @@ import {Button} from '@/components/ui/button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname} from 'next/navigation';
-import {IAuthUserCredentialsShape} from '@/features/Authentication/types';
+import {IAuthUserCredentialsShape} from '@/features/authentication/types';
 import {object, string, z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
