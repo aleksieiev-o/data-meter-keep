@@ -9,7 +9,9 @@ const GlobalErrorPage: FC = (): ReactElement => {
       <body>
         <section className={'w-full h-full grid grid-cols-1 content-center justify-items-center overflow-hidden'}>
           <div className={'h-full grid grid-cols-1 gap-6 content-start'}>
-            <p className={'text-md text-center'}>Something went wrong!</p>
+            <p className={'text-md text-center'}>
+              Something went wrong!
+            </p>
 
             <ForceReloadPageButton/>
           </div>

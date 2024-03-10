@@ -20,8 +20,9 @@ const RootLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
     <html lang={'en'} className={'w-full h-full'}>
       <body className={`${inter.className} w-full h-full`}>
         <AppProvider>
-          <div className={'w-full h-full overflow-hidden bg-background  '}>
+          <div className={'w-full h-full overflow-hidden bg-background'}>
             {children}
+
             <Toaster/>
           </div>
         </AppProvider>

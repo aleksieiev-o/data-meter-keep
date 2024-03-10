@@ -10,7 +10,11 @@ const ForceReloadPageButton: FC = (): ReactElement => {
   };
 
   return (
-    <Button onClick={() => forceReloadPage()} variant={'default'} className={'shadow-md'} title={'Reload page'}>
+    <Button
+      onClick={() => forceReloadPage()}
+      variant={'default'}
+      className={'shadow-md'}
+      title={'Reload page'}>
       <RefreshCw className={'w-4 h-4 mr-4'}/>
 
       Reload page
