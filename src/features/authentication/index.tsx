@@ -56,46 +56,34 @@ const Authentication: FC = (): ReactElement => {
     },
   });
 
-  const handleSignInWithEmailAndPassword = async (email: string, password: string): Promise<APIResponse<string>> => {
-    try {
-      const userCredential: UserCredential = await signInWithEmailAndPassword(email, password);
-
-      const idToken = await userCredential?.user.getIdToken();
-
-      const response = await fetch('/api/auth/sign-in', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idToken }),
-      });
-
-      const resBody = (await response.json()) as unknown as APIResponse<string>;
-
-      if (response.ok && resBody.success) {
-        return resBody;
-      }
-
-      return resBody;
-    } catch (err) {
-
-    }
-  };
-
-  const handleCreateUserWithEmailAndPassword = async (email: string, password: string): Promise<void> => {
-    try {
+  const handleUserAuth = async (email: string, password: string): Promise<APIResponse<string>> => {
+    const userCredential: UserCredential = isSignInPage ?
+      await signInWithEmailAndPassword(email, password)
+      :
       await createUserWithEmailAndPassword(email, password);
-    } catch (err) {
 
+    const idToken = await userCredential?.user.getIdToken();
+
+    const response = await fetch('/api/auth/sign-in', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ idToken }),
+    });
+
+    const resBody = (await response.json()) as unknown as APIResponse<string>;
+
+    if (response.ok && resBody.success) {
+      return Promise.resolve(resBody);
     }
+
+    return Promise.reject(resBody);
   };
 
   const handleSubmitForm = async (values: z.infer<typeof formSchema>) => {
     try {
-      isSignInPage ?
-        await handleSignInWithEmailAndPassword(values.email, values.password)
-        :
-        await handleCreateUserWithEmailAndPassword(values.email, values.password);
+      await handleUserAuth(values.email, values.password);
 
       const description = isSignInPage ? 'You signed in successfully.' : 'Profile created successfully.';
 

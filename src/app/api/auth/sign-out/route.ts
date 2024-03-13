@@ -21,6 +21,6 @@ export async function GET() {
 
   return NextResponse.json<APIResponse<string>>({
     success: true,
-    data: 'You signed out successfully.',
+    data: 'Success',
   });
 }

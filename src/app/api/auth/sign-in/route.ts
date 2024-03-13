@@ -3,22 +3,29 @@ import {createSessionCookie} from '@/lib/firebase/firebase-admin';
 import {cookies} from 'next/headers';
 import {APIResponse} from '@/app/api/auth/APIResponse';
 
-export async function POST(request: NextRequest) {
-  const reqBody = (await request.json()) as { idToken: string };
-  const idToken = reqBody.idToken;
+export async function POST(request: NextRequest): Promise<NextResponse<APIResponse<string> | APIResponse>> {
+  try {
+    const reqBody = (await request.json()) as { idToken: string };
+    const idToken = reqBody.idToken;
 
-  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
+    const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
 
-  const sessionCookie = await createSessionCookie(idToken, { expiresIn });
+    const sessionCookie = await createSessionCookie(idToken, { expiresIn });
 
-  cookies().set('__session', sessionCookie, {
-    maxAge: expiresIn,
-    httpOnly: true,
-    secure: true,
-  });
+    cookies().set('__session', sessionCookie, {
+      maxAge: expiresIn,
+      httpOnly: true,
+      secure: true,
+    });
 
-  return NextResponse.json<APIResponse<string>>({
-    success: true,
-    data: 'You signed in successfully.',
-  });
+    return NextResponse.json<APIResponse<string>>({
+      success: true,
+      data: 'Success',
+    });
+  } catch (err) {
+    return NextResponse.json<APIResponse>({
+      success: false,
+      error: err.message,
+    });
+  }
 }
