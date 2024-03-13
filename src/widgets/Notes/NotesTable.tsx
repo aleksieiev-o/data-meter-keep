@@ -2,46 +2,41 @@
 
 import {ReactElement, useState} from 'react';
 import {
-  ColumnDef, ColumnFiltersState,
-  flexRender,
-  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState,
-  useReactTable,
+  ColumnDef,
+  ColumnFiltersState, flexRender,
+  getCoreRowModel, getFilteredRowModel,
+  getPaginationRowModel, getSortedRowModel,
+  SortingState,
+  useReactTable
 } from '@tanstack/react-table';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {Button} from '@/components/ui/button';
-import {Input} from '@/components/ui/input';
-import {ChevronLeft, ChevronRight} from 'lucide-react';
-import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
-import {fetchCategories} from '@/entities/categories/categories.service';
-import {useQuery} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
-import {Skeleton} from '@/components/ui/skeleton';
-import {ICategory} from '@/shared/types/categories.types';
+import {useQuery} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {INote} from '@/shared/types/notes.types';
+import {fetchNotes} from '@/entities/notes/notes.service';
+import {Input} from '@/components/ui/input';
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
+import {Skeleton} from '@/components/ui/skeleton';
+import {Button} from '@/components/ui/button';
+import {ChevronLeft, ChevronRight} from 'lucide-react';
+import CreateNoteDialog from '@/features/notes/CreateNote.dialog';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   // data: TData[];
 }
 
-const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
+const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
   const {columns} = props;
-  const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
+  const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 7});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: queryData, isPending } = useQuery<ICategory>({
-    queryKey: [RoutePath.CATEGORY_LIST],
-    queryFn: () => fetchCategories(),
+  const { data: queryData, isPending } = useQuery<INote>({
+    queryKey: [RoutePath.NOTE_LIST],
+    queryFn: () => fetchNotes(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
@@ -69,13 +64,13 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
         <Input
-          onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
+          onChange={(event) => table.getColumn('noteCategory')?.setFilterValue(event.target.value)}
           disabled={!queryData || !queryData.length}
-          value={(table.getColumn('categoryName')?.getFilterValue() as string) ?? ''}
-          placeholder={'Filter categories names...'}
+          value={(table.getColumn('noteCategory')?.getFilterValue() as string) ?? ''}
+          placeholder={'Filter notes by their category name...'}
           className={'w-full h-12'}/>
 
-        <CreateCategoryDialog/>
+        <CreateNoteDialog/>
       </div>
 
       <div className="rounded-md border">
@@ -166,4 +161,4 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   );
 };
 
-export default CategoriesTable;
+export default NotesTable;

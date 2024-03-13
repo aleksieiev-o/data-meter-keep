@@ -1,64 +1,77 @@
 'use client';
 
 import {FC, ReactElement, useId, useMemo, useState} from 'react';
+import {object, string, z, ZodRawShape, ZodString} from 'zod';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogDescription, DialogFooter,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose,
+  DialogTrigger
 } from '@/components/ui/dialog';
-import {Form} from '@/components/ui/form';
-import {Plus} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {useToast} from '@/components/ui/use-toast';
-import {useLoading} from '@/shared/hooks/useLoading';
+import {Plus} from 'lucide-react';
+import {Form} from '@/components/ui/form';
 import FormFieldText from '@/shared/ui/FormField/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
-import {object, string, z, ZodRawShape, ZodString} from 'zod';
+import {useToast} from '@/components/ui/use-toast';
+import {useLoading} from '@/shared/hooks/useLoading';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {createCategory} from '@/entities/categories/categories.service';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {createNote} from '@/entities/notes/notes.service';
 
-interface ICategoryShape extends ZodRawShape {
-  categoryName: ZodString;
+interface Props {
+  CreateNoteDialog: string;
 }
 
-const CreateCategoryDialog: FC = (): ReactElement => {
+interface INoteShape extends ZodRawShape {
+  noteValue: ZodString;
+  endCalculationDate: ZodString;
+  noteDescription: ZodString;
+  noteCoefficient: ZodString;
+  categoryId: ZodString;
+}
+
+const CreateNoteDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const shape = useMemo<ICategoryShape>(() => ({
-    categoryName: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
+  const shape = useMemo<INoteShape>(() => ({
+    noteValue: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
       .trim()
       .min(3, 'Category name length must be at least 3 characters')
       .max(180, 'Category name length must not exceed 180 characters'),
   }), []);
 
   const formSchema = useMemo(() => {
-    return object<ICategoryShape>(shape);
+    return object<INoteShape>(shape);
   }, [shape]);
 
   const formModel = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryName: '',
+      noteValue: '',
+      endCalculationDate: '',
+      noteDescription: '',
+      noteCoefficient: '',
+      categoryId: '',
     },
   });
 
   const onSuccessCallback = async (): Promise<void> => {
     await queryClient.invalidateQueries({
-      queryKey: [RoutePath.CATEGORY_LIST],
+      queryKey: [RoutePath.NOTE_LIST],
     });
 
-    toast({title: 'Success', description: 'You have successfully created a new category.'});
+    toast({title: 'Success', description: 'You have successfully created a new note.'});
 
     formModel.reset();
   };
@@ -73,7 +86,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   };
 
   const mutationCreate = useMutation({
-    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
+    mutationFn: (values) => createNote({categoryName: values.categoryName}),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -94,22 +107,21 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={'default'} title={'Create category'}>
+        <Button variant={'default'} title={'Create note'}>
           <Plus/>
 
           <span className={'ml-2'}>
-            Create category
+            Create note
           </span>
         </Button>
       </DialogTrigger>
 
       <DialogContent className={'flex flex-col gap-6'}>
         <DialogHeader>
-          <DialogTitle>Create new category</DialogTitle>
+          <DialogTitle>Create new note</DialogTitle>
 
           <DialogDescription>
-            Category is used to differentiate notes.
-            Category name cannot be repeated.
+            The note contains data and belongs to one of the categories.
           </DialogDescription>
         </DialogHeader>
 
@@ -123,9 +135,9 @@ const CreateCategoryDialog: FC = (): ReactElement => {
                 mode={'input'}
                 type={'text'}
                 formModel={formModel}
-                name={'categoryName'}
-                label={'Category name'}
-                placeholder={'New category...'}
+                name={'noteValue'}
+                label={'Note value'}
+                placeholder={'100'}
                 required={true}
                 disabled={isLoading}/>
             </form>
@@ -150,4 +162,4 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   );
 };
 
-export default CreateCategoryDialog;
+export default CreateNoteDialog;

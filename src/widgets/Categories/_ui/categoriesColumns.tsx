@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import TableColumnHeaderWithSort from '@/shared/ui/tanstackReactTable/TableColumnHeaderWithSort';
-import TableRowActionDropdown from '@/shared/ui/tanstackReactTable/TableRowAction.dropdown';
+import CategoryTableRowActions from '@/widgets/Categories/_ui/CategoryTableRowActions';
 import {ICategory} from '@/shared/types/categories.types';
 
 type TCategoriesColumns = Omit<ICategory, ''>;
@@ -20,6 +20,6 @@ export const categoriesColumns: ColumnDef<TCategoriesColumns>[] = [
   },
   {
     id: 'actions',
-    cell: ({row}) => <TableRowActionDropdown row={row}/>,
+    cell: ({row}) => <CategoryTableRowActions row={row}/>,
   },
 ];

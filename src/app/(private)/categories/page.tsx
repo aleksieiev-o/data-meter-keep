@@ -1,6 +1,6 @@
 import {FC, ReactElement} from 'react';
 import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
-import {categoriesColumns} from '@/widgets/Categories/_categoriesColumns';
+import {categoriesColumns} from '@/widgets/Categories/_ui/categoriesColumns';
 import CategoriesTable from '@/widgets/Categories/CategoriesTable';
 import {dehydrate, QueryClient, HydrationBoundary} from '@tanstack/react-query';
 import {fetchCategories} from '@/entities/categories/categories.service';

@@ -1,6 +1,6 @@
 export interface ICategory {
-  categoryId: string;
   categoryName: string;
+  categoryId: string;
   createdDate: string;
   updatedDate: string;
 }
