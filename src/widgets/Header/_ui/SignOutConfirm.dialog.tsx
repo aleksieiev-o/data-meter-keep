@@ -51,18 +51,11 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
     try {
       await handleSignOut();
 
-      toast({
-        title: 'Success',
-        description: 'You signed out successfully.',
-      });
+      toast({title: 'Success', description: 'You signed out successfully.'});
 
       replace(RoutePath.SIGN_IN);
     } catch (e) {
-      toast({
-        title: 'Failure',
-        description: 'An error has occurred. Something went wrong.',
-        variant: 'destructive',
-      });
+      toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
       console.warn(e);
     } finally {
       setDialogIsOpen(false);

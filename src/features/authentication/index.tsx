@@ -19,6 +19,7 @@ import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from '
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {APIResponse} from '@/app/api/auth/APIResponse';
 import {UserCredential} from '@firebase/auth';
+import {FirebaseError} from '@firebase/app';
 
 const Authentication: FC = (): ReactElement => {
   const authFormID = useId();
@@ -87,20 +88,34 @@ const Authentication: FC = (): ReactElement => {
 
       const description = isSignInPage ? 'You signed in successfully.' : 'Profile created successfully.';
 
-      toast({
-        title: 'Success',
-        description,
-      });
+      toast({title: 'Success', description});
 
       formModel.reset();
 
       replace(RoutePath.CATEGORY_LIST);
-    } catch (err) {
-      toast({
-        title: 'Failure',
-        description: 'An error has occurred. Something went wrong.',
-        variant: 'destructive',
-      });
+    } catch (err: unknown) {
+      switch (signInError?.code || signUpError?.code) {
+        case('auth/invalid-credential'): {
+          toast({title: 'Failure', description: 'Wrong email or password.', variant: 'destructive'});
+          break;
+        }
+        case('auth/wrong-password'): {
+          toast({title: 'Failure', description: 'Wrong email or password.', variant: 'destructive'});
+          break;
+        }
+        case('auth/user-not-found'): {
+          toast({title: 'Failure', description: 'User not found.', variant: 'destructive'});
+          break;
+        }
+        case('auth/email-already-in-use'): {
+          toast({title: 'Failure', description: 'This email is already in use.', variant: 'destructive'});
+          break;
+        }
+        default: {
+          toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
+          console.warn(signInError?.code, signUpError?.code);
+        }
+      }
     }
   };
 

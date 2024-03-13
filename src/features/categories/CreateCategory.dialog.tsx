@@ -60,7 +60,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
 
     toast({
       title: 'Success',
-      description: 'You have successfully created a new categories.',
+      description: 'You have successfully created a new category.',
     });
 
     formModel.reset();
