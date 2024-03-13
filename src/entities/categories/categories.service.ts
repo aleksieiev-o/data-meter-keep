@@ -1,6 +1,6 @@
 import {ICategory, TCreateCategoryDto} from '@/shared/types/categories.types';
 import {child, DataSnapshot, get, push, ref, remove, set, update} from '@firebase/database';
-import {firebaseDataBase} from '@/lib/firebase';
+import {firebaseDataBase} from '@/lib/firebase/firebase';
 import {EndpointsList} from '@/shared/Endpoints.enum';
 import {createEndpointWithUser} from '@/entities/_vm/user';
 

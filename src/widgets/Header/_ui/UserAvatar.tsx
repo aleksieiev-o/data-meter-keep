@@ -4,7 +4,7 @@ import {FC, ReactElement} from 'react';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {useInitials} from '@/widgets/Header/_hooks/useInitials';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
 
 const UserAvatar: FC = (): ReactElement => {

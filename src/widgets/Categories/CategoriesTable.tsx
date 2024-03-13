@@ -22,7 +22,7 @@ import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {useQuery} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
 import {ICategory} from '@/shared/types/categories.types';
 import {RoutePath} from '@/shared/router/Routes.enum';

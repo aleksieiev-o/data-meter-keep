@@ -50,3 +50,6 @@ next-env.d.ts
 
 #other
 .eslintcache
+
+# Firebase
+data-meter-keep-firebase-adminsdk-*.json

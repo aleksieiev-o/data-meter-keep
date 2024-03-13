@@ -13,9 +13,10 @@ import {
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
 import {useSignOut} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {APIResponse} from '@/app/api/auth/APIResponse';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -28,13 +29,31 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
   const { toast } = useToast();
   const {replace} = useRouter();
 
+  const handleSignOut = async (): Promise<APIResponse<string>> => {
+    await signOut();
+
+    const response = await fetch('/api/auth/sign-out', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const resBody = (await response.json()) as unknown as APIResponse<string>;
+
+    if (response.ok && resBody.success) {
+      return resBody;
+    }
+
+    return resBody;
+  };
+
   const handleConfirm = async (): Promise<void> => {
     try {
-      await signOut();
+      await handleSignOut();
 
       toast({
         title: 'Success',
-        description: 'You are successfully signed out.',
+        description: 'You signed out successfully.',
       });
 
       replace(RoutePath.SIGN_IN);

@@ -3,7 +3,7 @@
 import {FC, ReactElement} from 'react';
 import UserAvatar from '@/widgets/Header/_ui/UserAvatar';
 import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Button} from '@/components/ui/button';
 

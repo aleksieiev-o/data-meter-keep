@@ -16,7 +16,9 @@ import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
+import {APIResponse} from '@/app/api/auth/APIResponse';
+import {UserCredential} from '@firebase/auth';
 
 const Authentication: FC = (): ReactElement => {
   const authFormID = useId();
@@ -54,14 +56,48 @@ const Authentication: FC = (): ReactElement => {
     },
   });
 
+  const handleSignInWithEmailAndPassword = async (email: string, password: string): Promise<APIResponse<string>> => {
+    try {
+      const userCredential: UserCredential = await signInWithEmailAndPassword(email, password);
+
+      const idToken = await userCredential?.user.getIdToken();
+
+      const response = await fetch('/api/auth/sign-in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      const resBody = (await response.json()) as unknown as APIResponse<string>;
+
+      if (response.ok && resBody.success) {
+        return resBody;
+      }
+
+      return resBody;
+    } catch (err) {
+
+    }
+  };
+
+  const handleCreateUserWithEmailAndPassword = async (email: string, password: string): Promise<void> => {
+    try {
+      await createUserWithEmailAndPassword(email, password);
+    } catch (err) {
+
+    }
+  };
+
   const handleSubmitForm = async (values: z.infer<typeof formSchema>) => {
     try {
       isSignInPage ?
-        await signInWithEmailAndPassword(values.email, values.password)
+        await handleSignInWithEmailAndPassword(values.email, values.password)
         :
-        await createUserWithEmailAndPassword(values.email, values.password);
+        await handleCreateUserWithEmailAndPassword(values.email, values.password);
 
-      const description = isSignInPage ? 'You have successfully logged in.' : 'Profile has successfully created.';
+      const description = isSignInPage ? 'You signed in successfully.' : 'Profile created successfully.';
 
       toast({
         title: 'Success',

@@ -1,5 +1,5 @@
 import {EndpointsList} from '@/shared/Endpoints.enum';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {User} from '@firebase/auth';
 
 export const getUserCredentials = (): User | null => firebaseAuth.currentUser;

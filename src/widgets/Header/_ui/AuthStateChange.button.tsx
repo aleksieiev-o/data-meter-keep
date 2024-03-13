@@ -7,7 +7,7 @@ import Link from 'next/link';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {LogIn, LogOut} from 'lucide-react';
 import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase';
+import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
 import SignOutConfirmDialog from '@/widgets/Header/_ui/SignOutConfirm.dialog';
 
