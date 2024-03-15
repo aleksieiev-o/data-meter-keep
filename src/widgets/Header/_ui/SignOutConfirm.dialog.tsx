@@ -77,7 +77,7 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
           Are you sure you want to sign out?
         </p>
 
-        <DialogFooter className="flex justify-end gap-2">
+        <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
             <Button variant={'ghost'} title={'Close'}>
               Close

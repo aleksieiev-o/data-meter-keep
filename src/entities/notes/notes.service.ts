@@ -13,7 +13,7 @@ export const fetchNotes = async(): Promise<INote[]> => {
 };
 
 export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
-  const {noteValue, endCalculationDate, noteDescription, noteCoefficient} = payload;
+  const {noteValue, endCalculationDate, noteDescription, noteCoefficient, categoryId} = payload;
   const notesRef = push(ref(firebaseDataBase, createEndpointWithUser(EndpointsList.NOTES)));
 
   const category: INote = {
@@ -22,7 +22,7 @@ export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
     endCalculationDate,
     noteDescription,
     noteCoefficient,
-    categoryId: '-NssQxP9wvEYwlDNojw1', // TODO add real category ID
+    categoryId,
     createdDate: new Date().toISOString(),
     updatedDate: new Date().toISOString(),
   };

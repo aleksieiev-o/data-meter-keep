@@ -11,7 +11,7 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import {Form} from '@/components/ui/form';
-import {Plus} from 'lucide-react';
+import {Plus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
@@ -23,6 +23,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import CloseButton from '@/shared/ui/Close.button';
 
 interface ICategoryShape extends ZodRawShape {
   categoryName: ZodString;
@@ -94,11 +95,11 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={'default'} title={'Create category'}>
+        <Button variant={'default'} title={'Add category'}>
           <Plus/>
 
           <span className={'ml-2'}>
-            Create category
+            Add category
           </span>
         </Button>
       </DialogTrigger>
@@ -132,11 +133,9 @@ const CreateCategoryDialog: FC = (): ReactElement => {
           </Form>
         </div>
 
-        <DialogFooter className="flex justify-end gap-2">
+        <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'ghost'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton/>
           </DialogClose>
 
           <SubmitButton

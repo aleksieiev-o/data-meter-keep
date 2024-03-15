@@ -1,13 +1,14 @@
 import {FC, ReactElement} from 'react';
 import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
+import CreateOrUpdateNote from '@/widgets/CreateOrUpdateNote/CreateOrUpdateNote';
 
 const UpdateNotePage: FC = async (): Promise<ReactElement> => {
   return (
-    <section className={'w-full h-full grid grid-cols-1 content-center overflow-hidden'}>
-      <ScrollContentWrapper>
-        UpdateNote
-      </ScrollContentWrapper>
-    </section>
+    <ScrollContentWrapper>
+      <div className={'w-full h-full flex items-center justify-center'}>
+        <CreateOrUpdateNote variant={'update'}/>
+      </div>
+    </ScrollContentWrapper>
   );
 };
 

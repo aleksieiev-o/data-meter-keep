@@ -27,14 +27,12 @@ const FormFieldText: FC<IAppFormFieldProps> = (props): ReactElement => {
                 placeholder={placeholder}
                 aria-required={required}
                 type={type}
-                className={'shadow-md'}
                 disabled={disabled}
                 {...field}/>
               :
               <Textarea
                 placeholder={placeholder}
                 aria-required={required}
-                className={'shadow-md'}
                 disabled={disabled}
                 {...field}/>
             }

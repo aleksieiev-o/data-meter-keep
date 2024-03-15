@@ -1,5 +1,5 @@
 import {FC, ReactElement} from 'react';
-import {Loader2} from 'lucide-react';
+import {Loader2, Send} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 
 interface Props {
@@ -18,19 +18,22 @@ const SubmitButton: FC<Props> = (props): ReactElement => {
       form={formId}
       disabled={isLoading}
       title={title}>
-      {
-        isLoading ?
-          <>
-            <Loader2 className={'h-4 w-4 mr-2 animate-spin'}/>
+      <>
+        {
+          isLoading ? <Loader2 className={'h-4 w-4 mr-2 animate-spin'}/> : <Send className={'h-4 w-4 mr-2'}/>
+        }
+
+        {
+          isLoading ?
             <p>
               Please wait
             </p>
-          </>
-          :
-          <p>
-            {btnBody}
-          </p>
-      }
+            :
+            <p>
+              {btnBody}
+            </p>
+        }
+      </>
     </Button>
   );
 };

@@ -145,7 +145,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
           </Form>
         </div>
 
-        <DialogFooter className="flex justify-end gap-2">
+        <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
             <Button variant={'ghost'} title={'Close'}>
               Close
