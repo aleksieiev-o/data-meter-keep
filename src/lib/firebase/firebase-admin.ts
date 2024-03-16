@@ -3,29 +3,13 @@ import {cookies} from 'next/headers';
 import {App, cert, getApps, initializeApp} from 'firebase-admin/app';
 import {getAuth, SessionCookieOptions} from 'firebase-admin/auth';
 import {Auth} from 'firebase-admin/lib/auth/auth';
+import {firebaseAdminEnvSchema} from '@/lib/firebase/_types/firebaseAdminEnvSchema';
 
-const initApp = (): App => {
-  const {privateKey} = JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY);
-
-  return initializeApp({
-      credential: cert({
-        type: process.env.NEXT_PUBLIC_TYPE,
-        projectId: process.env.PROJECT_ID,
-        privateKeyId: process.env.NEXT_PUBLIC_PROJECT_ID,
-        privateKey,
-        clientEmail: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-        clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-        authUri: process.env.NEXT_PUBLIC_AUTH_URI,
-        tokenUri: process.env.NEXT_PUBLIC_TOKEN_URI,
-        authProviderX509CertUrl: process.env.NEXT_PUBLIC_AUTH_PROVIDER_X509_CERT_URL,
-        clientX509CertUrl: process.env.NEXT_PUBLIC_CLIENT_X509_CERT_URL,
-        universeDomain: process.env.NEXT_PUBLIC_UNIVERSE_DOMAIN,
-      }),
-      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-    },
-    'data-meter-keep'
-  );
-};
+const initApp = (): App => (initializeApp({
+    credential: cert(firebaseAdminEnvSchema.credential),
+    databaseURL: firebaseAdminEnvSchema.databaseURL},
+  'data-meter-keep'
+));
 
 const firebaseApp: App = getApps().find((app) => app.name === 'data-meter-keep') || initApp();
 
