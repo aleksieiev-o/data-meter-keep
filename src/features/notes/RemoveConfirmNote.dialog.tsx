@@ -1,43 +1,33 @@
-'use client';
-
 import {FC, ReactElement} from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription, DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from '@/components/ui/dialog';
-import {ICategory} from '@/shared/types/categories.types';
+import {INote} from '@/shared/types/notes.types';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {removeCategory} from '@/entities/categories/categories.service';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {Button} from '@/components/ui/button';
+import {ICategory} from '@/shared/types/categories.types';
+import {removeNote} from '@/entities/notes/notes.service';
 import RemoveConfirmDialog from '@/shared/ui/RemoveConfirm.dialog';
 
 interface Props {
-  category: ICategory;
+  note: INote;
   dialogIsOpen: boolean;
   setDialogIsOpen: (value: boolean) => void;
 }
 
-const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
-  const {category, dialogIsOpen, setDialogIsOpen} = props;
+const RemoveConfirmNoteDialog: FC<Props> = (props): ReactElement => {
+  const {note, dialogIsOpen, setDialogIsOpen} = props;
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
 
   const onSuccessCallback = async (): Promise<void> => {
     await queryClient.invalidateQueries({
-      queryKey: [RoutePath.CATEGORY_LIST],
+      queryKey: [RoutePath.NOTE_LIST],
     });
 
     toast({
       title: 'Success',
-      description: 'The category has successfully removed.',
+      description: 'The note has successfully removed.',
     });
   };
 
@@ -55,7 +45,7 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
   };
 
   const mutation = useMutation<ICategory>({
-    mutationFn: (id) => removeCategory(id),
+    mutationFn: (id) => removeNote(id),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -70,7 +60,7 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
 
   const handleConfirm = () => {
     setIsLoading(true);
-    mutation.mutate(category.categoryId);
+    mutation.mutate(note.noteId);
   };
 
   return (
@@ -79,12 +69,12 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
       dialogIsOpen={dialogIsOpen}
       setDialogIsOpen={setDialogIsOpen}
       handleConfirm={handleConfirm}
-      dialogTitle={'Remove category confirmation'}
-      dialogDescription={'You are about to remove this category.'}
-      dialogQuestion={'Are you sure you want to delete this category?'}
-      btnTitle={'Remove category'}
+      dialogTitle={'Remove note confirmation'}
+      dialogDescription={'You are about to remove this note.'}
+      dialogQuestion={'Are you sure you want to delete this note?'}
+      btnTitle={'Remove note'}
       btnBody={'Remove'}/>
   );
 };
 
-export default RemoveConfirmCategoryDialog;
+export default RemoveConfirmNoteDialog;

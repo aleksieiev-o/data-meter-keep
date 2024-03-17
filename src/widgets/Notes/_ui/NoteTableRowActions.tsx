@@ -4,6 +4,7 @@ import {ReactElement, useState} from 'react';
 import {Row} from '@tanstack/table-core/build/lib/types';
 import TableActionsDropdown from '@/shared/ui/TableActions.dropdown';
 import {INote} from '@/shared/types/notes.types';
+import RemoveConfirmNoteDialog from '@/features/notes/RemoveConfirmNote.dialog';
 
 interface Props<TData> {
   row: Row<TData>;
@@ -32,12 +33,12 @@ const NoteTableRowActions = <TData,>(props: Props<TData>): ReactElement => {
       {/*<UpdateNoteDialog*/}
       {/*  setDialogIsOpen={setDialogUpdateIsOpen}*/}
       {/*  dialogIsOpen={dialogUpdateIsOpen}*/}
-      {/*  category={rowOriginal as INote}/>*/}
+      {/*  note={rowOriginal as INote}/>*/}
 
-      {/*<RemoveConfirmNoteDialog*/}
-      {/*  setDialogIsOpen={setDialogRemoveIsOpen}*/}
-      {/*  dialogIsOpen={dialogRemoveIsOpen}*/}
-      {/*  category={rowOriginal as INote}/>*/}
+      <RemoveConfirmNoteDialog
+        setDialogIsOpen={setDialogRemoveIsOpen}
+        dialogIsOpen={dialogRemoveIsOpen}
+        note={rowOriginal as INote}/>
     </>
   );
 };
