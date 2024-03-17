@@ -5,14 +5,21 @@ import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import NotesTable from '@/widgets/Notes/NotesTable';
 import {notesColumns} from '@/widgets/Notes/_ui/notesColumns';
+import {fetchNotes} from '@/entities/notes/notes.service';
 
 const NoteListPage: FC = async (): Promise<ReactElement> => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: [RoutePath.NOTE_LIST],
+    queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: fetchCategories,
-    staleTime: 1000 * 5,
+    staleTime: 5 * 1000,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: [RoutePath.NOTE_LIST],
+    queryFn: fetchNotes,
+    staleTime: 5 * 1000,
   });
 
   return (

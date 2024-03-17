@@ -5,7 +5,7 @@ export enum RoutePath {
   SIGN_IN = '/sign-in',
   SIGN_UP = '/sign-up',
   CRETE_NOTE = '/notes/create',
-  UPDATE_NOTE = '/notes/update',
+  UPDATE_NOTE = '/notes/update/[id]',
 }
 
 export enum RouteName {

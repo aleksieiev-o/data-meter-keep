@@ -12,6 +12,12 @@ export const fetchNotes = async(): Promise<INote[]> => {
     .map((key) => ({ ...result[key] })) || []);
 };
 
+export const fetchNoteById = async(itemId: string): Promise<INote> => {
+  const snapshot: DataSnapshot = await get(child(ref(firebaseDataBase), createEndpointWithUser(EndpointsList.NOTE_BY_ID, itemId)));
+  const result = snapshot.val() || {};
+  return Promise.resolve(result);
+};
+
 export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
   const {noteValue, endCalculationDate, noteDescription, noteCoefficient, categoryId} = payload;
   const notesRef = push(ref(firebaseDataBase, createEndpointWithUser(EndpointsList.NOTES)));
@@ -31,6 +37,8 @@ export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
 };
 
 export const updateNote = async (payload: TCreateNoteDto, id: string): Promise<void> => {
+  // eslint-disable-next-line no-console
+  console.log(111, payload, id);
   return await update(child(ref(firebaseDataBase), `${createEndpointWithUser(EndpointsList.NOTES)}/${id}`), {
     ...payload,
     updatedDate: new Date().toISOString(),

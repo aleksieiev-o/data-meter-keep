@@ -1,5 +1,6 @@
 export enum EndpointsList {
-  CATEGORIES = '[id]/categories',
-  NOTES = '[id]/notes',
-  SETTINGS = '[id]/settings',
+  CATEGORIES = '_userUID_/categories',
+  NOTES = '_userUID_/notes',
+  NOTE_BY_ID = '_userUID_/notes/[id]',
+  SETTINGS = '_userUID_/settings',
 }

@@ -12,7 +12,7 @@ import {fetchCategories} from '@/entities/categories/categories.service';
 import {coerce, date, object, string, z, ZodDate, ZodNumber, ZodRawShape, ZodString} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {createNote} from '@/entities/notes/notes.service';
+import {createNote, fetchNoteById, updateNote} from '@/entities/notes/notes.service';
 import GoToPreviousPageButton from '@/shared/ui/GoToPreviousPage.button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {useToast} from '@/components/ui/use-toast';
@@ -28,6 +28,8 @@ import {PopoverContent} from '@/components/ui/popover';
 import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
+import {usePathname} from 'next/navigation';
+import {INote} from '@/shared/types/notes.types';
 
 interface Props {
   variant: 'create' | 'update';
@@ -41,17 +43,27 @@ interface INoteShape extends ZodRawShape {
   categoryId: ZodString;
 }
 
-const CreateNoteForm: FC<Props> = (props): ReactElement => {
+const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   const {variant} = props;
   const formID = useId();
   const { toast } = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
   const [user] = useAuthState(firebaseAuth);
+  const pathname = usePathname();
+
+  const noteId = useMemo(() => pathname.split('/')[3], [pathname]);
 
   const { data: queryCategoriesListData, isPending: isPendingCategoriesList } = useQuery<ICategory>({
     queryKey: [RoutePath.CATEGORY_LIST],
-    queryFn: () => fetchCategories(),
+    queryFn: fetchCategories,
+    staleTime: 5 * 1000,
+    enabled: !!user,
+  });
+
+  const { data: queryNoteData, isPending: isPendingNote } = useQuery<INote>({
+    queryKey: [noteId],
+    queryFn: async () => await fetchNoteById(noteId),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
@@ -72,12 +84,30 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
     return object<INoteShape>(shape);
   }, [shape]);
 
+  const defaultValues = useMemo(() => {
+    if (variant === 'create') {
+      return {
+        noteCoefficient: 1,
+        noteDescription: 'Default description',
+      };
+    }
+
+    if (variant === 'update' && queryNoteData) {
+      return {
+        noteCoefficient: queryNoteData.noteCoefficient,
+        noteDescription: queryNoteData.noteDescription,
+        endCalculationDate: new Date(queryNoteData.endCalculationDate),
+        noteValue: queryNoteData.noteValue,
+        categoryId: queryNoteData.categoryId,
+      };
+    }
+
+    return {};
+  }, [queryNoteData, variant]);
+
   const formModel = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      noteCoefficient: 1,
-      noteDescription: '...',
-    }
+    defaultValues,
   });
 
   const onSuccessCallback = async (): Promise<void> => {
@@ -85,7 +115,8 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
       queryKey: [RoutePath.NOTE_LIST],
     });
 
-    toast({title: 'Success', description: 'You have successfully created a new note.'});
+    const description = variant === 'create' ? 'You have successfully created a new note.' : 'You have successfully updated this note.';
+    toast({title: 'Success', description});
 
     formModel.reset();
   };
@@ -98,14 +129,23 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
     setIsLoading(false);
   };
 
-  const mutationCreate = useMutation({
-    mutationFn: (values) => createNote({
+  const mutationCreateOrUpdate = useMutation({
+    mutationFn: (values) => variant === 'create' ?
+      createNote({
       noteValue: values.noteValue,
       endCalculationDate: values.endCalculationDate.toISOString(),
-      noteDescription: values.noteDescription || '...',
+      noteDescription: values.noteDescription || 'Default description',
       noteCoefficient: values.noteCoefficient,
       categoryId: values.categoryId,
-    }),
+    })
+    :
+    updateNote({
+      noteValue: values.noteValue,
+      endCalculationDate: values.endCalculationDate.toISOString(),
+      noteDescription: values.noteDescription || 'Default description',
+      noteCoefficient: values.noteCoefficient,
+      categoryId: values.categoryId,
+    }, noteId),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -120,7 +160,7 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
 
   const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    mutationCreate.mutate(values);
+    mutationCreateOrUpdate.mutate(values);
   };
 
   return (
@@ -143,7 +183,7 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
 
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl aria-required={true}>
-                          <SelectTrigger className={'w-full'}>
+                          <SelectTrigger className={'w-full'} disabled={isLoading}>
                             <SelectValue
                               placeholder={'Select category'}
                               aria-required={true}/>
@@ -195,6 +235,7 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
                     <FormControl aria-required={true}>
                       <Button
                         variant={'outline'}
+                        disabled={isLoading}
                         className={cn(
                           'w-full justify-start text-left font-normal',
                           !field.value && 'text-muted-foreground'
@@ -255,12 +296,12 @@ const CreateNoteForm: FC<Props> = (props): ReactElement => {
 
         <SubmitButton
           formId={formID}
-          title={'Create'}
-          btnBody={'Create'}
+          title={variant === 'create' ? 'Create' : 'Update'}
+          btnBody={variant === 'create' ? 'Create' : 'Update'}
           isLoading={isLoading}/>
       </div>
     </div>
   );
 };
 
-export default CreateNoteForm;
+export default CreateOrUpdateNoteForm;

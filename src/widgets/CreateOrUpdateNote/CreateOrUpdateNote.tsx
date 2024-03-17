@@ -1,5 +1,5 @@
 import {FC, ReactElement} from 'react';
-import CreateNoteForm from '@/features/notes/CreateNote.form';
+import CreateOrUpdateNoteForm from '@/features/notes/CreateOrUpdateNote.form';
 import {ICategory} from '@/shared/types/categories.types';
 
 interface Props {
@@ -21,7 +21,7 @@ const CreateOrUpdateNote: FC<Props> = (props): ReactElement => {
         </p>
       </div>
 
-      <CreateNoteForm variant={variant}/>
+      <CreateOrUpdateNoteForm variant={variant}/>
     </section>
   );
 };

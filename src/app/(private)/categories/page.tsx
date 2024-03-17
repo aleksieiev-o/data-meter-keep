@@ -12,7 +12,7 @@ const CategoriesPage: FC = async (): Promise<ReactElement> => {
   await queryClient.prefetchQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: fetchCategories,
-    staleTime: 1000 * 5,
+    staleTime: 5 * 1000,
   });
 
   return (

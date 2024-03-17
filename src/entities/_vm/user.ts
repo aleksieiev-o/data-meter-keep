@@ -4,10 +4,10 @@ import {User} from '@firebase/auth';
 
 export const getUserCredentials = (): User | null => firebaseAuth.currentUser;
 
-export const createEndpointWithUser = (endpoint: EndpointsList): string => {
+export const createEndpointWithUser = (endpoint: EndpointsList, itemId: string = ''): string => {
   try {
     const userUid = firebaseAuth.currentUser.uid;
-    return `${endpoint}`.replace('[id]', userUid);
+    return `${endpoint}`.replace('_userUID_', userUid).replace('[id]', itemId);
   } catch (e) {
     throw new Error('An error occurred. User is not defined');
   }
