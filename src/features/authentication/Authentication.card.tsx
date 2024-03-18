@@ -10,8 +10,7 @@ import {Button} from '@/components/ui/button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname, useRouter} from 'next/navigation';
-import {IAuthUserCredentialsShape} from '@/features/authentication/types';
-import {object, string, z} from 'zod';
+import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Link from 'next/link';
@@ -19,9 +18,8 @@ import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from '
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {APIResponse} from '@/app/api/auth/APIResponse';
 import {UserCredential} from '@firebase/auth';
-import {FirebaseError} from '@firebase/app';
 
-const Authentication: FC = (): ReactElement => {
+const AuthenticationCard: FC = (): ReactElement => {
   const authFormID = useId();
   const { toast } = useToast();
   const pathname = usePathname();
@@ -33,24 +31,22 @@ const Authentication: FC = (): ReactElement => {
 
   const isLoading = useMemo(() => signInLoading || signUpLoading, [signInLoading, signUpLoading]);
 
-  const shape = useMemo<IAuthUserCredentialsShape>(() => ({
-    email: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-      .trim()
-      .email('Invalid email address')
-      .min(3, 'Email length must be at least 3 characters')
-      .max(254, 'Email length must not exceed 254 characters'),
-    password: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-      .trim()
-      .min(6, 'Password length must be at least 6 characters')
-      .max(28, 'Password length must not exceed 28 characters'),
-  }), []);
+  const authSchema = useMemo(() => (z.
+    object({
+      email: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
+        .trim()
+        .email('Invalid email address')
+        .min(3, 'Email length must be at least 3 characters')
+        .max(254, 'Email length must not exceed 254 characters'),
+      password: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
+        .trim()
+        .min(6, 'Password length must be at least 6 characters')
+        .max(28, 'Password length must not exceed 28 characters'),
+    })
+  ), []);
 
-  const formSchema = useMemo(() => {
-    return object<IAuthUserCredentialsShape>(shape);
-  }, [shape]);
-
-  const formModel = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const formModel = useForm<z.infer<typeof authSchema>>({
+    resolver: zodResolver(authSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -82,7 +78,7 @@ const Authentication: FC = (): ReactElement => {
     return Promise.reject(resBody);
   };
 
-  const handleSubmitForm = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmitForm = async (values: z.infer<typeof authSchema>) => {
     try {
       await handleUserAuth(values.email, values.password);
 
@@ -186,4 +182,4 @@ const Authentication: FC = (): ReactElement => {
   );
 };
 
-export default Authentication;
+export default AuthenticationCard;

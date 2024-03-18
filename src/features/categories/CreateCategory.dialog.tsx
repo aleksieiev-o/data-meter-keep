@@ -17,17 +17,13 @@ import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import FormFieldText from '@/shared/ui/FormField/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
-import {object, string, z, ZodRawShape, ZodString} from 'zod';
+import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import CloseButton from '@/shared/ui/Close.button';
-
-interface ICategoryShape extends ZodRawShape {
-  categoryName: ZodString;
-}
 
 const CreateCategoryDialog: FC = (): ReactElement => {
   const formID = useId();
@@ -36,22 +32,17 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
-  const shape = useMemo<ICategoryShape>(() => ({
-    categoryName: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-      .trim()
-      .min(3, 'Category name length must be at least 3 characters')
-      .max(180, 'Category name length must not exceed 180 characters'),
-  }), []);
+  const categorySchema = useMemo(() => (z.
+    object({
+      categoryName: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
+        .trim()
+        .min(3, 'Category name length must be at least 3 characters')
+        .max(180, 'Category name length must not exceed 180 characters'),
+    })
+  ), []);
 
-  const formSchema = useMemo(() => {
-    return object<ICategoryShape>(shape);
-  }, [shape]);
-
-  const formModel = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      categoryName: '',
-    },
+  const formModel = useForm<z.infer<typeof categorySchema>>({
+    resolver: zodResolver(categorySchema),
   });
 
   const onSuccessCallback = async (): Promise<void> => {
@@ -87,7 +78,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
     },
   });
 
-  const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
+  const handleSubmitForm = (values: z.infer<typeof categorySchema>) => {
     setIsLoading(true);
     mutationCreate.mutate(values);
   };

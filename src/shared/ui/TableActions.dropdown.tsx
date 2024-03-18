@@ -41,7 +41,7 @@ const TableActionsDropdown: FC<Props> = (props): ReactElement => {
             onClick={handlePrepareDelete}
             className={'flex flex-row items-center justify-start gap-4'}>
             <Trash className={'h-4 w-4'}/>
-            Delete
+            Remove
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

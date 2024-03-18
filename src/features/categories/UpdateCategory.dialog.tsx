@@ -20,7 +20,7 @@ import {Button} from '@/components/ui/button';
 import {Form} from '@/components/ui/form';
 import FormFieldText from '@/shared/ui/FormField/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
-import {object, string, z, ZodIssueCode, ZodRawShape, ZodString} from 'zod';
+import {z, ZodIssueCode} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 
@@ -30,10 +30,6 @@ interface Props {
   setDialogIsOpen: (value: boolean) => void;
 }
 
-interface ICategoryShape extends ZodRawShape {
-  categoryName: ZodString;
-}
-
 const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
   const {category, dialogIsOpen, setDialogIsOpen} = props;
@@ -41,30 +37,28 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
 
-  const shape = useMemo<ICategoryShape>(() => ({
-    categoryName: string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-      .trim()
-      .min(3, 'Category name length must be at least 3 characters')
-      .max(180, 'Category name length must not exceed 180 characters'),
-  }), []);
+  const categorySchema = useMemo(() => (z.
+    object({
+      categoryName: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
+        .trim()
+        .min(3, 'Category name length must be at least 3 characters')
+        .max(180, 'Category name length must not exceed 180 characters'),
+    })
+    .superRefine((data, ctx) => {
+      if (data.categoryName === category.categoryName) {
+        ctx.addIssue({
+          code: ZodIssueCode.custom,
+          path: ['categoryName'],
+          message: 'The names of category are the same',
+        });
+      }
+    })
+  ), [category.categoryName]);
 
-  const formSchema = useMemo(() => {
-    return object<ICategoryShape>(shape)
-      .superRefine((data, ctx) => {
-        if (data.categoryName === category.categoryName) {
-          ctx.addIssue({
-            code: ZodIssueCode.custom,
-            path: ['categoryName'],
-            message: 'The names are the same',
-          });
-        }
-      });
-  }, [category.categoryName, shape]);
-
-  const formModel = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const formModel = useForm<z.infer<typeof categorySchema>>({
+    resolver: zodResolver(categorySchema),
     defaultValues: {
-      categoryName: '',
+      categoryName: category.categoryName,
     },
   });
 
@@ -108,7 +102,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
     },
   });
 
-  const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
+  const handleSubmitForm = (values: z.infer<typeof categorySchema>) => {
     setIsLoading(true);
     mutation.mutate(values);
   };

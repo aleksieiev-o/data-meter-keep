@@ -1,9 +1,9 @@
 import {FC, ReactElement} from 'react';
-import Authentication from '@/features/authentication';
+import AuthenticationCard from '@/features/authentication/Authentication.card';
 
 const SignInPage: FC = async (): Promise<ReactElement> => {
   return (
-    <Authentication/>
+    <AuthenticationCard/>
   );
 };
 

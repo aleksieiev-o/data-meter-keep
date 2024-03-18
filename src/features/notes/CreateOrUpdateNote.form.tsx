@@ -9,7 +9,7 @@ import {firebaseAuth} from '@/lib/firebase/firebase';
 import {ICategory} from '@/shared/types/categories.types';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
-import {coerce, date, object, string, z, ZodDate, ZodNumber, ZodRawShape, ZodString} from 'zod';
+import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createNote, fetchNoteById, updateNote} from '@/entities/notes/notes.service';
@@ -33,14 +33,6 @@ import {INote} from '@/shared/types/notes.types';
 
 interface Props {
   variant: 'create' | 'update';
-}
-
-interface INoteShape extends ZodRawShape {
-  noteValue: ZodNumber;
-  endCalculationDate: ZodDate;
-  noteDescription: ZodString;
-  noteCoefficient: ZodNumber;
-  categoryId: ZodString;
 }
 
 const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
@@ -68,21 +60,19 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     enabled: !!user,
   });
 
-  const shape = useMemo<INoteShape>(() => ({
-    noteValue: coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
-      .nonnegative(),
-    endCalculationDate: date({ required_error: 'Field is required', invalid_type_error: 'Value must be a date' }),
-    noteDescription: string({ invalid_type_error: 'Value must be a string' })
-      .trim()
-      .max(180, 'Note description length must not exceed 180 characters'),
-    noteCoefficient: coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
-      .nonnegative(),
-    categoryId: string({ required_error: 'Field is required', invalid_type_error: 'You need to select one of the categories or create new one' }),
-  }), []);
-
-  const formSchema = useMemo(() => {
-    return object<INoteShape>(shape);
-  }, [shape]);
+  const noteSchema = useMemo(() => (z.
+    object({
+      noteValue: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
+        .nonnegative(),
+      endCalculationDate: z.date({ required_error: 'Field is required', invalid_type_error: 'Value must be a date' }),
+      noteDescription: z.string({ invalid_type_error: 'Value must be a string' })
+        .trim()
+        .max(180, 'Note description length must not exceed 180 characters'),
+      noteCoefficient: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
+        .nonnegative(),
+      categoryId: z.string({ required_error: 'Field is required', invalid_type_error: 'You need to select one of the categories or create new one' }),
+    })
+  ), []);
 
   const defaultValues = useMemo(() => {
     if (variant === 'create') {
@@ -92,7 +82,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       };
     }
 
-    if (variant === 'update' && queryNoteData) {
+    if (variant === 'update' && queryNoteData) { // TODO no redrawing with queryNoteData values
       return {
         noteCoefficient: queryNoteData.noteCoefficient,
         noteDescription: queryNoteData.noteDescription,
@@ -105,8 +95,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     return {};
   }, [queryNoteData, variant]);
 
-  const formModel = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const formModel = useForm<z.infer<typeof noteSchema>>({
+    resolver: zodResolver(noteSchema),
     defaultValues,
   });
 
@@ -158,7 +148,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     },
   });
 
-  const handleSubmitForm = (values: z.infer<typeof formSchema>) => {
+  const handleSubmitForm = (values: z.infer<typeof noteSchema>) => {
     setIsLoading(true);
     mutationCreateOrUpdate.mutate(values);
   };
