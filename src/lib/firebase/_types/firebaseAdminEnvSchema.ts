@@ -15,16 +15,19 @@ const envSchema = object({
     universeDomain: string().trim(),
   }),
   databaseURL: string().trim().url(),
+  appName: string().trim(),
 });
 
 type TEnvSchema = z.infer<typeof envSchema>;
+
+const {privateKey} = JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY);
 
 export const firebaseAdminEnvSchema: TEnvSchema = envSchema.parse({
   credential: {
     type: process.env.NEXT_PUBLIC_TYPE,
     projectId: process.env.PROJECT_ID,
     privateKeyId: process.env.NEXT_PUBLIC_PROJECT_ID,
-    privateKey: JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY).privateKey,
+    privateKey,
     clientEmail: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
     authUri: process.env.NEXT_PUBLIC_AUTH_URI,
@@ -34,4 +37,5 @@ export const firebaseAdminEnvSchema: TEnvSchema = envSchema.parse({
     universeDomain: process.env.NEXT_PUBLIC_UNIVERSE_DOMAIN,
   },
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  appName: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 });

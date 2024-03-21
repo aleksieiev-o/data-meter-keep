@@ -1,17 +1,21 @@
 import 'server-only';
+
 import {cookies} from 'next/headers';
 import {App, cert, getApps, initializeApp} from 'firebase-admin/app';
 import {getAuth, SessionCookieOptions} from 'firebase-admin/auth';
 import {Auth} from 'firebase-admin/lib/auth/auth';
 import {firebaseAdminEnvSchema} from '@/lib/firebase/_types/firebaseAdminEnvSchema';
 
-const initApp = (): App => (initializeApp({
-    credential: cert(firebaseAdminEnvSchema.credential),
-    databaseURL: firebaseAdminEnvSchema.databaseURL},
-  'data-meter-keep'
-));
+const initApp = (): App => {
+  return initializeApp({
+      credential: cert(firebaseAdminEnvSchema.credential),
+      databaseURL: firebaseAdminEnvSchema.databaseURL
+    },
+    firebaseAdminEnvSchema.appName,
+  );
+};
 
-const firebaseApp: App = getApps().find((app) => app.name === 'data-meter-keep') || initApp();
+const firebaseApp: App = getApps().find((app) => app.name === firebaseAdminEnvSchema.appName) || initApp();
 
 const firebaseAdminAuth: Auth = getAuth(firebaseApp);
 
