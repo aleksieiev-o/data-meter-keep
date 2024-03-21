@@ -8,7 +8,7 @@ export const createEndpointWithUser = (endpoint: EndpointsList, itemId: string =
   try {
     const userUid = firebaseAuth.currentUser.uid;
     return `${endpoint}`.replace('_userUID_', userUid).replace('[id]', itemId);
-  } catch (e) {
-    throw new Error('An error occurred. User is not defined');
+  } catch (err) {
+    throw new Error(`An error occurred. User is not defined.\n${err}`);
   }
 };

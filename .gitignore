@@ -29,7 +29,7 @@ yarn-error.log*
 
 # local env files
 /env
-.env
+.env.production
 .env.*
 
 # vercel
@@ -52,4 +52,4 @@ next-env.d.ts
 .eslintcache
 
 # Firebase
-data-meter-keep-firebase-adminsdk-*.json
+data-meter-keep-*.json
