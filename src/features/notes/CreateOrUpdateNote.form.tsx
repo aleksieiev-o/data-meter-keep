@@ -48,7 +48,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
 
   const { data: queryCategoriesListData, isPending: isPendingCategoriesList } = useQuery<ICategory>({
     queryKey: [RoutePath.CATEGORY_LIST],
-    queryFn: fetchCategories,
+    queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });

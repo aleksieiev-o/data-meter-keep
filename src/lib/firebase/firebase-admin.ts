@@ -5,6 +5,7 @@ import {App, cert, getApps, initializeApp} from 'firebase-admin/app';
 import {getAuth, SessionCookieOptions} from 'firebase-admin/auth';
 import {Auth} from 'firebase-admin/lib/auth/auth';
 import {firebaseAdminEnvSchema} from '@/lib/firebase/_types/firebaseAdminEnvSchema';
+import {UserRecord} from 'firebase-admin/lib/auth/user-record';
 
 const initApp = (): App => {
   return initializeApp({
@@ -27,7 +28,7 @@ async function getSession() {
   }
 }
 
-async function getCurrentUser() {
+async function getCurrentUser(): Promise<null | UserRecord> {
   const session = await getSession();
 
   if (!(await isUserAuthenticated(session))) {

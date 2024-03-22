@@ -2,7 +2,7 @@ import {INote, TCreateNoteDto} from '@/shared/types/notes.types';
 import {push, ref, set} from '@firebase/database';
 import {firebaseDataBase} from '@/lib/firebase/firebase';
 import {EndpointsList} from '@/shared/Endpoints.enum';
-import {createEndpointWithUser} from '@/entities/_vm/user';
+import {createDataEndpoint} from '@/entities/_vm/user';
 import {
   fetchAllData,
   fetchDataItemById,
@@ -11,18 +11,18 @@ import {
   updateDataItemById
 } from '@/entities/_db.service';
 
-export const fetchNotes = async(): Promise<INote[]> => {
-  return await fetchAllData<INote>(EndpointsList.NOTES);
+export const fetchNotes = async(userUID?: string): Promise<INote[]> => {
+  return await fetchAllData<INote>(EndpointsList.NOTES, userUID);
 };
 
-export const fetchNoteById = async(itemId: string): Promise<INote> => {
-  return await fetchDataItemById<INote>(EndpointsList.NOTE_BY_ID, itemId);
+export const fetchNoteById = async(itemId: string, userUID?: string): Promise<INote> => {
+  return await fetchDataItemById<INote>(EndpointsList.NOTE_BY_ID, itemId, userUID);
 };
 
 export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
   try {
     const {noteValue, endCalculationDate, noteDescription, noteCoefficient, categoryId} = payload;
-    const notesRef = push(ref(firebaseDataBase, createEndpointWithUser(EndpointsList.NOTES)));
+    const notesRef = push(ref(firebaseDataBase, createDataEndpoint({endpoint: EndpointsList.NOTES})));
 
     const category: INote = {
       noteId: notesRef.key!,

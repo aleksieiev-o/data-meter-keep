@@ -5,15 +5,19 @@ import CategoriesTable from '@/widgets/Categories/CategoriesTable';
 import {dehydrate, QueryClient, HydrationBoundary} from '@tanstack/react-query';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {getCurrentUser} from '@/lib/firebase/firebase-admin';
 
 const CategoriesPage: FC = async (): Promise<ReactElement> => {
   const queryClient = new QueryClient();
+  const currentUser = await getCurrentUser();
 
-  await queryClient.prefetchQuery({
-    queryKey: [RoutePath.CATEGORY_LIST],
-    queryFn: fetchCategories,
-    staleTime: 5 * 1000,
-  });
+  if (currentUser) {
+    await queryClient.prefetchQuery({
+      queryKey: [RoutePath.CATEGORY_LIST, currentUser.uid],
+      queryFn: async () => await fetchCategories(currentUser.uid),
+      staleTime: 5 * 1000,
+    });
+  }
 
   return (
     <ScrollContentWrapper>

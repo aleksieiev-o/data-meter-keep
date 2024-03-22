@@ -41,7 +41,7 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
 
   const { data: queryData, isPending } = useQuery<ICategory>({
     queryKey: [RoutePath.CATEGORY_LIST],
-    queryFn: fetchCategories,
+    queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });

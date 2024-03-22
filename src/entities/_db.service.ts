@@ -1,11 +1,11 @@
 import {child, get, ref, remove, set, update} from '@firebase/database';
 import {firebaseDataBase} from '@/lib/firebase/firebase';
-import {createEndpointWithUser} from '@/entities/_vm/user';
+import {createDataEndpoint, createDataItemEndpoint} from '@/entities/_vm/user';
 import {EndpointsList} from '@/shared/Endpoints.enum';
 
-export const fetchAllData = async <T>(endpoint: EndpointsList): Promise<T[]> => {
+export const fetchAllData = async <T>(endpoint: EndpointsList, userUID?: string): Promise<T[]> => {
   try {
-    const snapshot = await get(child(ref(firebaseDataBase), createEndpointWithUser(endpoint)));
+    const snapshot = await get(child(ref(firebaseDataBase), createDataEndpoint({endpoint, userUID})));
     const result = snapshot.val() || {};
     return Promise.resolve<T[]>([...new Map<string, T>(Object.entries<T>(result)).values()]);
   } catch (err) {
@@ -14,9 +14,9 @@ export const fetchAllData = async <T>(endpoint: EndpointsList): Promise<T[]> => 
   }
 };
 
-export const fetchDataItemById = async <T>(endpoint: EndpointsList, itemId: string): Promise<T> => {
+export const fetchDataItemById = async <T>(endpoint: EndpointsList, itemId: string, userUID?: string): Promise<T> => {
   try {
-    const snapshot = await get(child(ref(firebaseDataBase), createEndpointWithUser(EndpointsList.NOTE_BY_ID, itemId)));
+    const snapshot = await get(child(ref(firebaseDataBase), createDataItemEndpoint({endpoint, itemId, userUID})));
     return Promise.resolve<T>(snapshot.val());
   } catch (err) {
     console.warn(err);
@@ -26,7 +26,7 @@ export const fetchDataItemById = async <T>(endpoint: EndpointsList, itemId: stri
 
 export const updateDataItemById = async <T>(endpoint: EndpointsList, itemId: string, payload: T): Promise<void> => {
   try {
-    return await update(child(ref(firebaseDataBase), `${createEndpointWithUser(endpoint)}/${itemId}`), {
+    return await update(child(ref(firebaseDataBase), `${createDataEndpoint({endpoint})}/${itemId}`), {
       ...payload,
       updatedDate: new Date().toISOString(),
     });
@@ -38,7 +38,7 @@ export const updateDataItemById = async <T>(endpoint: EndpointsList, itemId: str
 
 export const removeDataItemById = async <T>(endpoint: EndpointsList, itemId: string): Promise<void> => {
   try {
-    return await remove(child(ref(firebaseDataBase), `${createEndpointWithUser(endpoint)}/${itemId}`));
+    return await remove(child(ref(firebaseDataBase), `${createDataEndpoint({endpoint})}/${itemId}`));
   } catch (err) {
     console.warn(err);
     return Promise.reject(err);
@@ -47,7 +47,7 @@ export const removeDataItemById = async <T>(endpoint: EndpointsList, itemId: str
 
 export const removeAllData = async <T>(endpoint: EndpointsList): Promise<void> => {
   try {
-    return await set(ref(firebaseDataBase, createEndpointWithUser(endpoint)), null);
+    return await set(ref(firebaseDataBase, createDataEndpoint({endpoint})), null);
   } catch (err) {
     console.warn(err);
     return Promise.reject(err);

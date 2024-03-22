@@ -36,7 +36,7 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
 
   const { data: queryData, isPending } = useQuery<INote>({
     queryKey: [RoutePath.NOTE_LIST],
-    queryFn: fetchNotes,
+    queryFn: async () => await fetchNotes(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
