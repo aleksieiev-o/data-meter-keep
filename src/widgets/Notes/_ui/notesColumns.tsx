@@ -16,31 +16,36 @@ export const notesColumns: ColumnDef<TNotesColumns>[] = [
   },
   {
     accessorKey: 'categoryId',
-    header: ({ column }) => <TableColumnHeaderWithSort columnName={'Note category'} menuName={'Note sorting'} column={column}/>,
+    header: ({column}) =>
+      <TableColumnHeaderWithSort columnName={'Note category'} menuName={'Note sorting'} column={column}/>,
     cell: ({row}) => <div className="text-start">{row.getValue('categoryId')}</div>,
   },
   {
     accessorKey: 'endCalculationDate',
-    header: () => <div className="font-bold text-start whitespace-nowrap">End calculation date</div>,
+    header: ({column}) =>
+      <TableColumnHeaderWithSort columnName={'End calculation date'} menuName={'End calculation date'} column={column}/>,
     cell: ({row}) => <div className="text-start">
       {parseDate(row.getValue('endCalculationDate'))}
     </div>,
   },
   {
     accessorKey: 'noteValue',
-    header: () => <div className="font-bold text-start whitespace-nowrap">Value</div>,
+    header: ({column}) =>
+      <TableColumnHeaderWithSort columnName={'Value'} menuName={'Value'} column={column}/>,
     cell: ({row}) => <div className="text-start">
       {Number(row.getValue('noteValue')) * Number(row.getValue('noteCoefficient'))}
     </div>,
   },
   {
     accessorKey: 'noteCoefficient',
-    header: () => <div className="font-bold text-start whitespace-nowrap">Note coefficient</div>,
+    header: ({column}) =>
+      <TableColumnHeaderWithSort columnName={'Note coefficient'} menuName={'Note coefficient'} column={column}/>,
     cell: ({row}) => <div className="text-start">{row.getValue('noteCoefficient')}</div>,
   },
   {
     accessorKey: 'noteDescription',
-    header: () => <div className="font-bold text-start whitespace-nowrap">Description</div>,
+    header: ({column}) =>
+      <TableColumnHeaderWithSort columnName={'Description'} menuName={'Description'} column={column}/>,
     cell: ({row}) => <div className="text-start">{row.getValue('noteDescription')}</div>,
   },
   {
