@@ -25,7 +25,7 @@ const AppHeader: FC<Props> = (props): ReactElement => {
         <HeaderLogo appNameVisibilityClasses={'hidden lg:block'} withSheetClose={false}/>
 
         {variant !== 'auth' &&
-          <div className={'flex-row items-center justify-center gap-4 lg:gap-6 mx-auto'}>
+          <div className={'flex flex-row items-center justify-center gap-4 lg:gap-6 mx-auto'}>
             <HeaderNav withSheetClose={false}/>
           </div>
         }
