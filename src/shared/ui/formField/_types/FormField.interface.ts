@@ -1,4 +1,4 @@
-export interface IAppFormFieldProps {
+export interface IFormField {
   mode: 'input' | 'textarea';
   formModel: unknown;
   type: 'text' | 'email' | 'password' | 'number';

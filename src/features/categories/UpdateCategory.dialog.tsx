@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {Form} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/FormField/FormField.text';
+import FormFieldText from '@/shared/ui/formField/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {z, ZodIssueCode} from 'zod';
 import {useForm} from 'react-hook-form';

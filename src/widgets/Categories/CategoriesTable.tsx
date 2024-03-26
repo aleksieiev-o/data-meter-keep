@@ -14,9 +14,9 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {ICategory} from '@/shared/types/categories.types';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import EmptyDataAppTable from '@/shared/ui/AppTable/EmptyDataAppTable';
-import AppTable from '@/shared/ui/AppTable/AppTable';
-import AppTablePageControls from '@/shared/ui/AppTable/_ui/AppTablePageControls';
+import EmptyDataAppTable from '@/shared/ui/appTable/EmptyDataAppTable';
+import AppTable from '@/shared/ui/appTable/AppTable';
+import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

@@ -19,9 +19,9 @@ import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {Plus} from 'lucide-react';
 import Link from 'next/link';
-import AppTable from '@/shared/ui/AppTable/AppTable';
-import EmptyDataAppTable from '@/shared/ui/AppTable/EmptyDataAppTable';
-import AppTablePageControls from '@/shared/ui/AppTable/_ui/AppTablePageControls';
+import AppTable from '@/shared/ui/appTable/AppTable';
+import EmptyDataAppTable from '@/shared/ui/appTable/EmptyDataAppTable';
+import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

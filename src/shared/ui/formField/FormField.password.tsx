@@ -2,10 +2,10 @@
 
 import React, {FC, ReactElement, useId, useState} from 'react';
 import {Checkbox} from '@/components/ui/checkbox';
-import FormFieldText from '@/shared/ui/FormField/FormField.text';
-import {IAppFormFieldProps} from '@/shared/ui/FormField/types';
+import FormFieldText from '@/shared/ui/formField/FormField.text';
+import {IFormField} from '@/shared/ui/formField/_types/FormField.interface';
 
-type Props = Pick<IAppFormFieldProps, 'formModel' | 'disabled'>;
+type Props = Pick<IFormField, 'formModel' | 'disabled'>;
 
 const FormFieldPassword: FC<Props> = (props): ReactElement => {
   const {formModel, disabled} = props;

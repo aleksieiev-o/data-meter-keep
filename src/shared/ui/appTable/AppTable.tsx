@@ -1,10 +1,10 @@
 import {FC, ReactElement} from 'react';
 import {Table} from '@/components/ui/table';
-import AppTableHeader from '@/shared/ui/AppTable/_ui/AppTableHeader';
-import AppTableBody from '@/shared/ui/AppTable/_ui/AppTableBody';
+import AppTableHeader from '@/shared/ui/appTable/_ui/AppTableHeader';
+import AppTableBody from '@/shared/ui/appTable/_ui/AppTableBody';
 import {Skeleton} from '@/components/ui/skeleton';
 import {ColumnDef} from '@tanstack/react-table';
-import {ITableRowData} from '@/shared/ui/AppTable/_types/TableRowData.interface';
+import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
 interface Props<TData, TValue> extends ITableRowData {
   columns: ColumnDef<TData, TValue>[];

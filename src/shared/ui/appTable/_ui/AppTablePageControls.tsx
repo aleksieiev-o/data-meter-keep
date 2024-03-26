@@ -1,7 +1,7 @@
 import {FC, ReactElement} from 'react';
 import {Button} from '@/components/ui/button';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
-import {ITableRowData} from '@/shared/ui/AppTable/_types/TableRowData.interface';
+import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
 const AppTablePageControls: FC<ITableRowData> = (props): ReactElement => {
   const {table} = props;

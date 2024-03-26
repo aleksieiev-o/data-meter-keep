@@ -1,7 +1,7 @@
 import {FC, ReactElement} from 'react';
 import {ColumnDef, flexRender} from '@tanstack/react-table';
 import {TableBody, TableCell, TableRow} from '@/components/ui/table';
-import {ITableRowData} from '@/shared/ui/AppTable/_types/TableRowData.interface';
+import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
 interface Props<TData, TValue> extends ITableRowData {
   columns: ColumnDef<TData, TValue>[];

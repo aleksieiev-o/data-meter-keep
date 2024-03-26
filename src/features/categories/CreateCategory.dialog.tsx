@@ -15,7 +15,7 @@ import {Plus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
-import FormFieldText from '@/shared/ui/FormField/FormField.text';
+import FormFieldText from '@/shared/ui/formField/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {z} from 'zod';
 import {useForm} from 'react-hook-form';

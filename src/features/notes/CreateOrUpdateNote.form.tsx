@@ -2,7 +2,7 @@
 
 import {FC, ReactElement, useId, useMemo} from 'react';
 import {Form, FormControl, FormField, FormItem, FormLabel} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/FormField/FormField.text';
+import FormFieldText from '@/shared/ui/formField/FormField.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
