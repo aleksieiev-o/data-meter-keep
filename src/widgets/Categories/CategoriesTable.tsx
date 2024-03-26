@@ -63,7 +63,7 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
           onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
           disabled={!queryData || !queryData.length}
           value={(table.getColumn('categoryName')?.getFilterValue() as string) ?? ''}
-          placeholder={'Filter categories names...'}
+          placeholder={'Try to search something...'}
           className={'w-full h-12'}/>
 
         <CreateCategoryDialog/>
