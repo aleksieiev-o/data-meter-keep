@@ -3,7 +3,7 @@
 import {ReactElement, useState} from 'react';
 import {
   ColumnDef,
-  ColumnFiltersState, flexRender,
+  ColumnFiltersState,
   getCoreRowModel, getFilteredRowModel,
   getPaginationRowModel, getSortedRowModel,
   SortingState,
@@ -16,11 +16,12 @@ import {RoutePath} from '@/shared/router/Routes.enum';
 import {INote} from '@/shared/types/notes.types';
 import {fetchNotes} from '@/entities/notes/notes.service';
 import {Input} from '@/components/ui/input';
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
-import {Skeleton} from '@/components/ui/skeleton';
 import {Button} from '@/components/ui/button';
-import {ChevronLeft, ChevronRight, Plus} from 'lucide-react';
+import {Plus} from 'lucide-react';
 import Link from 'next/link';
+import AppTable from '@/shared/ui/AppTable/AppTable';
+import EmptyDataAppTable from '@/shared/ui/AppTable/EmptyDataAppTable';
+import AppTablePageControls from '@/shared/ui/AppTable/_ui/AppTablePageControls';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -83,94 +84,13 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
 
       {
         queryData ?
-          <div className="rounded-md border">
-            {
-              !isPending ?
-                <Table>
-                  <TableHeader>
-                    {
-                      table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                          {
-                            headerGroup.headers.map((header) => {
-                              return (
-                                <TableHead key={header.id}>
-                                  {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                      header.column.columnDef.header,
-                                      header.getContext()
-                                    )}
-                                </TableHead>
-                              );
-                            })
-                          }
-                        </TableRow>
-                      ))
-                    }
-                  </TableHeader>
-
-                  <TableBody>
-                    {
-                      table.getRowModel()?.rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                          <TableRow
-                            key={row.id}
-                            data-state={row.getIsSelected() && 'selected'}>
-                            {row.getVisibleCells().map((cell) => (
-                              <TableCell key={cell.id}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell colSpan={columns.length} className="h-24 text-center">
-                            No results
-                          </TableCell>
-                        </TableRow>
-                      )
-                    }
-                  </TableBody>
-                </Table>
-                :
-                <Skeleton className={'h-[144px] w-full rounded-md border'}/>
-            }
-          </div>
+          <AppTable table={table} columns={columns} isPending={isPending}/>
           :
-          <div className={'w-full flex items-center justify-center px-4'}>
-            <p>There are no notes yet.</p>
-          </div>
+          <EmptyDataAppTable text={'There are no notes yet.'}/>
       }
 
       {
-        queryData && queryData.length > 5 &&
-        <div className="flex items-center justify-end gap-6 mt-auto">
-          <Button
-            onClick={() => table.previousPage()}
-            variant={'default'}
-            title={'Previous page'}
-            disabled={!table.getCanPreviousPage()}>
-            <ChevronLeft/>
-
-            <span className={'sm:inline hidden ml-2'}>
-            Previous page
-          </span>
-          </Button>
-
-          <Button
-            onClick={() => table.nextPage()}
-            variant={'default'}
-            title={'Next page'}
-            disabled={!table.getCanNextPage()}>
-          <span className={'sm:inline hidden mr-2'}>
-            Next page
-          </span>
-
-            <ChevronRight/>
-          </Button>
-        </div>
+        queryData && queryData.length > 5 && <AppTablePageControls table={table}/>
       }
     </div>
   );
