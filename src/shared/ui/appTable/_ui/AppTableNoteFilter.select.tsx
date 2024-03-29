@@ -1,15 +1,15 @@
-import {FC, ReactElement} from 'react';
+import {ReactElement} from 'react';
 import {ENoteTableColumnAccessorKeys} from '@/widgets/Notes/_ui/notesColumns';
 import {SelectContent, SelectItem, SelectTrigger} from '@/components/ui/select';
 import {Select, SelectValue} from '@radix-ui/react-select';
 import {flexRender} from '@tanstack/react-table';
 import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
-interface Props extends ITableRowData {
+interface Props<TData> extends ITableRowData<TData> {
   setFilteredColumn: (value: ENoteTableColumnAccessorKeys) => void;
 }
 
-const AppTableNoteFilterSelect: FC<Props> = (props): ReactElement => {
+const AppTableNoteFilterSelect = <TData, >(props: Props<TData>): ReactElement => {
   const {table, setFilteredColumn} = props;
 
   return (

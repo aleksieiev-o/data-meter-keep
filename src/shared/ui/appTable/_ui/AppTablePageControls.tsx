@@ -1,9 +1,9 @@
-import {FC, ReactElement} from 'react';
+import {ReactElement} from 'react';
 import {Button} from '@/components/ui/button';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
-const AppTablePageControls: FC<ITableRowData> = (props): ReactElement => {
+const AppTablePageControls = <TData, >(props: ITableRowData<TData>): ReactElement => {
   const {table} = props;
 
   return (

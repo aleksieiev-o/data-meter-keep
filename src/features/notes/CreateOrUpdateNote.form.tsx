@@ -6,7 +6,6 @@ import FormFieldText from '@/shared/ui/formField/FormField.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
-import {ICategory} from '@/shared/types/categories.types';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {z} from 'zod';
@@ -29,7 +28,7 @@ import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
 import {usePathname} from 'next/navigation';
-import {INote} from '@/shared/types/notes.types';
+import {ICreateNoteDto} from '@/shared/types/notes.types';
 
 interface Props {
   variant: 'create' | 'update';
@@ -46,14 +45,14 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
 
   const noteId = useMemo(() => pathname.split('/')[3], [pathname]);
 
-  const { data: queryCategoriesListData, isPending: isPendingCategoriesList } = useQuery<ICategory>({
+  const { data: queryCategoriesListData, isPending: isPendingCategoriesList } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  const { data: queryNoteData, isPending: isPendingNote } = useQuery<INote>({
+  const { data: queryNoteData, isPending: isPendingNote } = useQuery({
     queryKey: [noteId],
     queryFn: async () => await fetchNoteById(noteId),
     staleTime: 5 * 1000,
@@ -120,18 +119,18 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   };
 
   const mutationCreateOrUpdate = useMutation({
-    mutationFn: (values) => variant === 'create' ?
-      createNote({
+    mutationFn: async (values: ICreateNoteDto) => variant === 'create' ?
+      await createNote({
       noteValue: values.noteValue,
-      endCalculationDate: values.endCalculationDate.toISOString(),
+      endCalculationDate: new Date(values.endCalculationDate),
       noteDescription: values.noteDescription || 'Default description',
       noteCoefficient: values.noteCoefficient,
       categoryId: values.categoryId,
     })
     :
-    updateNote({
+    await updateNote({
       noteValue: values.noteValue,
-      endCalculationDate: values.endCalculationDate.toISOString(),
+      endCalculationDate: new Date(values.endCalculationDate),
       noteDescription: values.noteDescription || 'Default description',
       noteCoefficient: values.noteCoefficient,
       categoryId: values.categoryId,

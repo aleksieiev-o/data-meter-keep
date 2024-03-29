@@ -1,5 +1,5 @@
-import {RowData, Table} from '@tanstack/react-table';
+import { Table } from '@tanstack/react-table';
 
-export interface ITableRowData {
-  table: Table<RowData>;
+export interface ITableRowData<TData> {
+	table: Table<TData>;
 }

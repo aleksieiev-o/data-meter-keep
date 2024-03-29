@@ -11,7 +11,8 @@ type TCreateEndpoint = Omit<IPayload, 'itemId'>;
 type TCreateItemDataEndpoint = IPayload;
 
 export const createDataEndpoint = (payload: TCreateEndpoint): string => {
-  const {endpoint, userUID = firebaseAuth.currentUser.uid} = payload;
+  // TODO FIX: change chaining operator with default value for uid
+  const {endpoint, userUID = firebaseAuth.currentUser?.uid || ''} = payload;
 
   try {
     return `${endpoint}`.replace('_userUID_', userUID);
@@ -21,7 +22,8 @@ export const createDataEndpoint = (payload: TCreateEndpoint): string => {
 };
 
 export const createDataItemEndpoint = (payload: TCreateItemDataEndpoint): string => {
-  const {endpoint, userUID = firebaseAuth.currentUser.uid, itemId} = payload;
+  // TODO FIX: change chaining operator with default value for uid
+  const {endpoint, userUID = firebaseAuth.currentUser?.uid || '', itemId} = payload;
 
   try {
     return `${endpoint}`.replace('_userUID_', userUID).replace('[id]', itemId);

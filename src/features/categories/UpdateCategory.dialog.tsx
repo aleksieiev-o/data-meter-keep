@@ -1,7 +1,7 @@
 'use client';
 
 import {FC, ReactElement, useId, useMemo} from 'react';
-import {ICategory} from '@/shared/types/categories.types';
+import {ICategory, TCreateCategoryDto} from '@/shared/types/categories.types';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
@@ -89,7 +89,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   };
 
   const mutation = useMutation({
-    mutationFn: (values) => updateCategory({categoryName: values.categoryName}, category.categoryId),
+    mutationFn: async (values: TCreateCategoryDto) => await updateCategory({categoryName: values.categoryName}, category.categoryId),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },

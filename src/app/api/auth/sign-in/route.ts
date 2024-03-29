@@ -22,10 +22,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<APIRespon
       success: true,
       data: 'Success',
     });
-  } catch (err) {
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return NextResponse.json<APIResponse>({
+        success: false,
+        error: err.message,
+      });
+    }
+
     return NextResponse.json<APIResponse>({
       success: false,
-      error: err.message,
+      error: 'Some POST error',
     });
   }
 }

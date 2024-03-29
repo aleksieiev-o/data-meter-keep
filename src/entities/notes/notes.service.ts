@@ -1,4 +1,4 @@
-import {INote, TCreateNoteDto} from '@/shared/types/notes.types';
+import {INote, ICreateNoteDto} from '@/shared/types/notes.types';
 import {push, ref, set} from '@firebase/database';
 import {firebaseDataBase} from '@/lib/firebase/firebase';
 import {EndpointsList} from '@/shared/Endpoints.enum';
@@ -19,7 +19,7 @@ export const fetchNoteById = async(itemId: string, userUID?: string): Promise<IN
   return await fetchDataItemById<INote>(EndpointsList.NOTE_BY_ID, itemId, userUID);
 };
 
-export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
+export const createNote = async (payload: ICreateNoteDto): Promise<void> => {
   try {
     const {noteValue, endCalculationDate, noteDescription, noteCoefficient, categoryId} = payload;
     const notesRef = push(ref(firebaseDataBase, createDataEndpoint({endpoint: EndpointsList.NOTES})));
@@ -27,7 +27,7 @@ export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
     const category: INote = {
       noteId: notesRef.key!,
       noteValue,
-      endCalculationDate,
+      endCalculationDate: endCalculationDate.toISOString(),
       noteDescription,
       noteCoefficient,
       categoryId,
@@ -42,7 +42,7 @@ export const createNote = async (payload: TCreateNoteDto): Promise<void> => {
   }
 };
 
-export const updateNote = async (payload: TCreateNoteDto, id: string): Promise<void> => {
+export const updateNote = async (payload: ICreateNoteDto, id: string): Promise<void> => {
   return await updateDataItemById(EndpointsList.NOTES, id, payload);
 };
 

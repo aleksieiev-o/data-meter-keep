@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {Button} from '@/components/ui/button';
 import {ArrowDownAZ, ArrowUpAZ, ArrowUpDown} from 'lucide-react';
-import {Column} from '@tanstack/table-core/build/lib/types';
+import {Column} from '@tanstack/react-table';
 
 interface Props<TData, TValue> {
   columnName: string;

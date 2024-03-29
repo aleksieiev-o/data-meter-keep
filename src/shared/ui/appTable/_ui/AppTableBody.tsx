@@ -1,13 +1,13 @@
-import {FC, ReactElement} from 'react';
+import {ReactElement} from 'react';
 import {ColumnDef, flexRender} from '@tanstack/react-table';
 import {TableBody, TableCell, TableRow} from '@/components/ui/table';
 import {ITableRowData} from '@/shared/ui/appTable/_types/TableRowData.interface';
 
-interface Props<TData, TValue> extends ITableRowData {
+interface Props<TData, TValue> extends ITableRowData<TData> {
   columns: ColumnDef<TData, TValue>[];
 }
 
-const AppTableBody: FC = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
+const AppTableBody = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
   const {table, columns} = props;
 
   return (

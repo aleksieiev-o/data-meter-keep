@@ -20,7 +20,7 @@ const envSchema = object({
 
 type TEnvSchema = z.infer<typeof envSchema>;
 
-const {privateKey} = JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY);
+const {privateKey} = JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY as string);
 
 export const firebaseAdminEnvSchema: TEnvSchema = envSchema.parse({
   credential: {

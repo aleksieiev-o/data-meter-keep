@@ -4,7 +4,6 @@ import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {ICategory} from '@/shared/types/categories.types';
 import {removeNote} from '@/entities/notes/notes.service';
 import RemoveConfirmDialog from '@/shared/ui/RemoveConfirm.dialog';
 
@@ -44,8 +43,8 @@ const RemoveConfirmNoteDialog: FC<Props> = (props): ReactElement => {
     setDialogIsOpen(false);
   };
 
-  const mutation = useMutation<ICategory>({
-    mutationFn: (id) => removeNote(id),
+  const mutation = useMutation({
+    mutationFn: async (id: string) => await removeNote(id),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },

@@ -12,7 +12,6 @@ import {fetchCategories} from '@/entities/categories/categories.service';
 import {useQuery} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
-import {ICategory} from '@/shared/types/categories.types';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import EmptyDataAppTable from '@/shared/ui/appTable/EmptyDataAppTable';
 import AppTable from '@/shared/ui/appTable/AppTable';
@@ -30,16 +29,15 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: queryData, isPending } = useQuery<ICategory>({
+  const { data: queryData, isPending, isSuccess } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  /* tslint:disable */
   const table = useReactTable({
-    data: queryData,
+    data: isSuccess ? queryData as TData[] : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
@@ -54,7 +52,6 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
       columnFilters,
     },
   });
-  /* tslint:enable */
 
   return (
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>

@@ -2,10 +2,8 @@ import 'server-only';
 
 import {cookies} from 'next/headers';
 import {App, cert, getApps, initializeApp} from 'firebase-admin/app';
-import {getAuth, SessionCookieOptions} from 'firebase-admin/auth';
-import {Auth} from 'firebase-admin/lib/auth/auth';
+import {getAuth, SessionCookieOptions, Auth, UserRecord} from 'firebase-admin/auth';
 import {firebaseAdminEnvSchema} from '@/lib/firebase/_types/firebaseAdminEnvSchema';
-import {UserRecord} from 'firebase-admin/lib/auth/user-record';
 
 const initApp = (): App => {
   return initializeApp({

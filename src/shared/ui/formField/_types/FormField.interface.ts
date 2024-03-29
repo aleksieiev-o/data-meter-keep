@@ -1,6 +1,7 @@
+/* tslint:disable */
 export interface IFormField {
   mode: 'input' | 'textarea';
-  formModel: unknown;
+  formModel: any; // TODO fix field typing
   type: 'text' | 'email' | 'password' | 'number';
   name: string; // TODO add field typing
   label: string;

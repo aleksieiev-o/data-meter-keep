@@ -13,7 +13,6 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useQuery} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {INote} from '@/shared/types/notes.types';
 import {fetchNotes} from '@/entities/notes/notes.service';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
@@ -38,16 +37,15 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
   const [filteredColumn, setFilteredColumn] = useState<ENoteTableColumnAccessorKeys>(ENoteTableColumnAccessorKeys.CATEGORY_ID);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: queryData, isPending } = useQuery<INote>({
+  const { data: queryData, isPending, isSuccess } = useQuery({
     queryKey: [RoutePath.NOTE_LIST],
     queryFn: async () => await fetchNotes(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  /* tslint:disable */
   const table = useReactTable({
-    data: queryData,
+    data: isSuccess ? queryData as TData[] : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
@@ -62,7 +60,6 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
       columnFilters,
     },
   });
-  /* tslint:enable */
 
   return (
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>

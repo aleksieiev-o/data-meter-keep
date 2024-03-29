@@ -17,7 +17,6 @@ import Link from 'next/link';
 import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {APIResponse} from '@/app/api/auth/APIResponse';
-import {UserCredential} from '@firebase/auth';
 
 const AuthenticationCard: FC = (): ReactElement => {
   const authFormID = useId();
@@ -54,7 +53,7 @@ const AuthenticationCard: FC = (): ReactElement => {
   });
 
   const handleUserAuth = async (email: string, password: string): Promise<APIResponse<string>> => {
-    const userCredential: UserCredential = isSignInPage ?
+    const userCredential = isSignInPage ?
       await signInWithEmailAndPassword(email, password)
       :
       await createUserWithEmailAndPassword(email, password);

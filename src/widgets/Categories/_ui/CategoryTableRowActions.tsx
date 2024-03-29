@@ -1,7 +1,7 @@
 'use client';
 
 import {ReactElement, useState} from 'react';
-import {Row} from '@tanstack/table-core/build/lib/types';
+import {Row} from '@tanstack/react-table';
 import RemoveConfirmCategoryDialog from '@/features/categories/RemoveConfirmCategory.dialog';
 import {ICategory} from '@/shared/types/categories.types';
 import UpdateCategoryDialog from '@/features/categories/UpdateCategory.dialog';

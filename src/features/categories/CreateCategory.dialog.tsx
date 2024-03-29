@@ -24,6 +24,7 @@ import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import CloseButton from '@/shared/ui/Close.button';
+import {TCreateCategoryDto} from '@/shared/types/categories.types';
 
 const CreateCategoryDialog: FC = (): ReactElement => {
   const formID = useId();
@@ -65,7 +66,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   };
 
   const mutationCreate = useMutation({
-    mutationFn: (values) => createCategory({categoryName: values.categoryName}),
+    mutationFn: async (values: TCreateCategoryDto) => await createCategory({categoryName: values.categoryName}),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },

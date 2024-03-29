@@ -1,21 +1,12 @@
 'use client';
 
 import {FC, ReactElement} from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription, DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from '@/components/ui/dialog';
 import {ICategory} from '@/shared/types/categories.types';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {removeCategory} from '@/entities/categories/categories.service';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {Button} from '@/components/ui/button';
 import RemoveConfirmDialog from '@/shared/ui/RemoveConfirm.dialog';
 
 interface Props {
@@ -54,8 +45,8 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
     setDialogIsOpen(false);
   };
 
-  const mutation = useMutation<ICategory>({
-    mutationFn: (id) => removeCategory(id),
+  const mutation = useMutation({
+    mutationFn: async (id: string) => await removeCategory(id),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
