@@ -20,7 +20,6 @@ const NoteTableRowActions = <TData,>(props: Props<TData>): ReactElement => {
   const [dialogRemoveIsOpen, setDialogRemoveIsOpen] = useState<boolean>(false);
 
   const handlePrepareUpdate = () => {
-    // TODO fix here get current note ID
     push(RoutePath.UPDATE_NOTE.replace('[id]', row.getValue(ENoteTableColumnAccessorKeys.NOTE_ID)));
   };
 
