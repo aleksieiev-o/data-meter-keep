@@ -25,8 +25,8 @@ const {privateKey} = JSON.parse(process.env.NEXT_PUBLIC_PRIVATE_KEY as string);
 export const firebaseAdminEnvSchema: TEnvSchema = envSchema.parse({
   credential: {
     type: process.env.NEXT_PUBLIC_TYPE,
-    projectId: process.env.PROJECT_ID,
-    privateKeyId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+    privateKeyId: process.env.NEXT_PUBLIC_PRIVATE_KEY_ID,
     privateKey,
     clientEmail: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
