@@ -9,7 +9,7 @@ import {LogIn, LogOut} from 'lucide-react';
 import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
-import SignOutConfirmDialog from '@/widgets/Header/_ui/SignOutConfirm.dialog';
+import SignOutConfirmDialog from '@/features/authentication/SignOutConfirm.dialog';
 
 const AuthStateChangeButton: FC = (): ReactElement => {
   const [user] = useAuthState(firebaseAuth);

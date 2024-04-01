@@ -17,6 +17,7 @@ import Link from 'next/link';
 import {useCreateUserWithEmailAndPassword, useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {APIResponse} from '@/app/api/auth/APIResponse';
+import {signInSignUpAdmin} from '@/shared/api/signInSignUpAdmin';
 
 const AuthenticationCard: FC = (): ReactElement => {
   const authFormID = useId();
@@ -52,34 +53,14 @@ const AuthenticationCard: FC = (): ReactElement => {
     },
   });
 
-  const handleUserAuth = async (email: string, password: string): Promise<APIResponse<string>> => {
-    const userCredential = isSignInPage ?
-      await signInWithEmailAndPassword(email, password)
-      :
-      await createUserWithEmailAndPassword(email, password);
-
-    const idToken = await userCredential?.user.getIdToken();
-
-    const response = await fetch('/api/auth/sign-in', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ idToken }),
-    });
-
-    const resBody = (await response.json()) as unknown as APIResponse<string>;
-
-    if (response.ok && resBody.success) {
-      return Promise.resolve(resBody);
-    }
-
-    return Promise.reject(resBody);
-  };
-
   const handleSubmitForm = async (values: z.infer<typeof authSchema>) => {
     try {
-      await handleUserAuth(values.email, values.password);
+      const userCredential = isSignInPage ?
+        await signInWithEmailAndPassword(values.email, values.password)
+        :
+        await createUserWithEmailAndPassword(values.email, values.password);
+
+      await signInSignUpAdmin(userCredential);
 
       const description = isSignInPage ? 'You signed in successfully.' : 'Profile created successfully.';
 

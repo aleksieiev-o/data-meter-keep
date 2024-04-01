@@ -17,6 +17,7 @@ import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {APIResponse} from '@/app/api/auth/APIResponse';
+import {signOutAdmin} from '@/shared/api/signOutAdmin';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -29,27 +30,10 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
   const { toast } = useToast();
   const {replace} = useRouter();
 
-  const handleSignOut = async (): Promise<APIResponse<string>> => {
-    await signOut();
-
-    const response = await fetch('/api/auth/sign-out', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const resBody = (await response.json()) as unknown as APIResponse<string>;
-
-    if (response.ok && resBody.success) {
-      return resBody;
-    }
-
-    return resBody;
-  };
-
   const handleConfirm = async (): Promise<void> => {
     try {
-      await handleSignOut();
+      await signOut();
+      await signOutAdmin();
 
       toast({title: 'Success', description: 'You signed out successfully.'});
 
