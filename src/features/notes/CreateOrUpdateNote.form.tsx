@@ -17,8 +17,7 @@ import SubmitButton from '@/shared/ui/Submit.button';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
-import {SelectContent, SelectItem, SelectTrigger} from '@/components/ui/select';
-import {Select, SelectValue} from '@radix-ui/react-select';
+import {SelectContent, SelectItem, SelectTrigger, Select, SelectValue} from '@/components/ui/select';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Popover, PopoverTrigger} from '@radix-ui/react-popover';
 import {Button} from '@/components/ui/button';
@@ -191,7 +190,6 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
                       </Select>
                     </FormItem>
                   )}>
-
                 </FormField>
 
                 <CreateCategoryDialog/>
