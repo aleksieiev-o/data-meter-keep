@@ -89,7 +89,7 @@ const AuthenticationCard: FC = (): ReactElement => {
         }
         default: {
           toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
-          console.warn(signInError?.code, signUpError?.code);
+          console.warn(err);
         }
       }
     }

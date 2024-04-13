@@ -52,4 +52,6 @@ next-env.d.ts
 .eslintcache
 
 # Firebase
-data-meter-keep-*.json
+database-debug.log
+firebase-debug.log
+ui-debug.log
