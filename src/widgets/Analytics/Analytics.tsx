@@ -3,7 +3,6 @@
 import {FC, useMemo, useState} from 'react';
 import { RoutePath } from '@/shared/router/Routes.enum';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Chart, ChartWrapperOptions } from 'react-google-charts';
 import { fetchNotes } from '@/entities/notes/notes.service';
 import { firebaseAuth } from '@/lib/firebase/firebase';
 import { useQuery } from '@tanstack/react-query';
@@ -11,12 +10,10 @@ import { fetchCategories } from '@/entities/categories/categories.service';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Label} from '@/components/ui/label';
-import {useTheme} from 'next-themes';
-import {AppThemeEnum} from '@/shared/types/appTheme.enum';
+import AnalyticsChart from './AnalyticsChart';
 
 const Analytics: FC = () => {
 	const [user] = useAuthState(firebaseAuth);
-	const { theme } = useTheme();
 	const [currentCategoryId, setCurrentCategoryId] = useState<string>('');
 
 	const { data: categoriesQueryData, isPending: categoriesIsPending, isSuccess: categoriesIsSuccess } = useQuery({
@@ -38,46 +35,31 @@ const Analytics: FC = () => {
 
 		if (currentCategory) {
 			const mappedData = notesQueryData
-				?.filter((note) => note.categoryId === currentCategoryId)
-				.map((note) => ([new Date(note.endCalculationDate), note.noteValue * note.noteCoefficient])) || [];
+			?.filter((note) => note.categoryId === currentCategoryId)
+			.map((note) => {
+				const formattedDate = new Date(note.endCalculationDate).toLocaleDateString('en-US', {
+					day: '2-digit',
+					month: '2-digit',
+					year: 'numeric'
+				});
 
-			return [['Category name', currentCategory.categoryName], ...mappedData];
+				return [formattedDate, note.noteValue * note.noteCoefficient];
+			}) || [];
+
+			if (mappedData.length) {
+				return [['Category name', currentCategory.categoryName], ...mappedData];
+			}
+
+			return [];
 		}
 
 		return [];
 	}, [currentCategoryId, categoriesQueryData, notesQueryData]);
 
-	const data1 = [
-		['Category name', 'Category 1'],
-		[new Date('2024-03-01T22:00:00.000Z'), 12],
-		[new Date('2024-04-01T22:00:00.000Z'), 34],
-		[new Date('2024-05-01T22:00:00.000Z'), 45],
-		[new Date('2024-06-01T22:00:00.000Z'), 78],
-		[new Date('2024-07-01T22:00:00.000Z'), 57],
-		[new Date('2024-08-01T22:00:00.000Z'), 99],
-	];
-
-	const chartColors = useMemo(() => {
-		const isDarkTheme = theme === AppThemeEnum.DARK;
-
-		return {
-			textColor: { color: isDarkTheme ? '#fff' : 'rgb(54, 60, 66)' },
-			gridColor: { color: isDarkTheme ? 'rgb(54, 60, 66)' : 'rgb(54, 60, 66)' },
-		};
-	}, [theme]);
-
-	const options: ChartWrapperOptions['options'] = useMemo(() => ({
-		title: 'Analytics of the notes list',
-		hAxis: { title: 'End calculation date', textStyle: chartColors.textColor, titleTextStyle: chartColors.textColor, gridlines: chartColors.gridColor },
-		vAxis: { title: 'Value', textStyle: chartColors.textColor, titleTextStyle: chartColors.textColor, gridlines: chartColors.gridColor },
-		backgroundColor: 'transparent',
-		legend: { position: 'right', textStyle: chartColors.textColor },
-	}), [chartColors.gridColor, chartColors.textColor]);
-
 	return (
-		<div className='w-full h-full flex flex-col items-start justify-start gap-4'>
+		<div className='w-full h-full flex flex-col gap-6 py-6'>
 			{
-				categoriesQueryData && categoriesQueryData.length ?
+				categoriesQueryData && categoriesQueryData.length > 0 ?
 					<div className={'w-full flex flex-col items-end gap-4'}>
 						<Label htmlFor="analytics-set-category">
 							Categories list
@@ -104,22 +86,19 @@ const Analytics: FC = () => {
 					:
 					<div className={'w-full flex flex-col items-end gap-4'}>
 						{
-							categoriesIsPending ?
-								<Skeleton className={'w-[250px] h-12 rounded-md border'}/>
-								:
-								<p>
-									There are no categories yet.
-								</p>
+							categoriesIsPending && <Skeleton className={'w-[250px] h-12 rounded-md border'}/>
 						}
 					</div>
 			}
-												
-			<Chart
-				chartType="LineChart"
-				width="100%"
-				height="500px"
-				data={data1} /* TODO add chartData there */
-				options={options}/>
+
+			<AnalyticsChart
+				isDataSuccess={categoriesIsSuccess && notesIsSuccess}
+				isDataPending={categoriesIsPending && notesIsPending}
+				isDataNotEmpty={!!(categoriesQueryData && categoriesQueryData.length > 0)}
+				isChartListNotEmpty={!!chartData.length}
+				isMainCriterionSelected={!!currentCategoryId}
+				chartData={chartData}
+				chartType='AreaChart'/>
 		</div>
 	);
 };
