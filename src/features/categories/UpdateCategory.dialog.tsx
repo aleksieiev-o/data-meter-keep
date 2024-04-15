@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, ReactElement, useId, useMemo} from 'react';
+import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
 import {ICategory, TCreateCategoryDto} from '@/shared/types/categories.types';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
@@ -61,6 +61,10 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
       categoryName: category.categoryName,
     },
   });
+
+  useEffect(() => {
+    formModel.reset({categoryName: category.categoryName});
+  }, [category.categoryName, formModel]);
 
   const onSuccessCallback = async (): Promise<void> => {
     await queryClient.invalidateQueries({
