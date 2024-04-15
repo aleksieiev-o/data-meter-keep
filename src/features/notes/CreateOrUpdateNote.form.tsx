@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, ReactElement, useId, useMemo} from 'react';
+import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
 import {Form, FormControl, FormField, FormItem, FormLabel} from '@/components/ui/form';
 import FormFieldText from '@/shared/ui/formField/FormField.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
@@ -26,7 +26,7 @@ import {PopoverContent} from '@/components/ui/popover';
 import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import {ICreateNoteDto} from '@/shared/types/notes.types';
 
 interface Props {
@@ -41,6 +41,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   const queryClient = useQueryClient();
   const [user] = useAuthState(firebaseAuth);
   const pathname = usePathname();
+  const router = useRouter();
 
   const noteId = useMemo(() => pathname.split('/')[3], [pathname]);
 
@@ -72,31 +73,28 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     })
   ), []);
 
-  const defaultValues = useMemo(() => {
+  const formModel = useForm<z.infer<typeof noteSchema>>({
+    resolver: zodResolver(noteSchema),
+  });
+
+  useEffect(() => {
     if (variant === 'create') {
-      return {
+      formModel.reset({
         noteCoefficient: 1,
-        noteDescription: 'Default description',
-      };
+        noteDescription: '...',
+      });
     }
 
-    if (variant === 'update' && queryNoteData) { // TODO no redrawing with queryNoteData values
-      return {
+    if (variant === 'update' && queryNoteData) {
+      formModel.reset({
         noteCoefficient: queryNoteData.noteCoefficient,
         noteDescription: queryNoteData.noteDescription,
         endCalculationDate: new Date(queryNoteData.endCalculationDate),
         noteValue: queryNoteData.noteValue,
         categoryId: queryNoteData.categoryId,
-      };
+      });
     }
-
-    return {};
-  }, [queryNoteData, variant]);
-
-  const formModel = useForm<z.infer<typeof noteSchema>>({
-    resolver: zodResolver(noteSchema),
-    defaultValues,
-  });
+  }, [formModel, queryNoteData, variant]);
 
   const onSuccessCallback = async (): Promise<void> => {
     await queryClient.invalidateQueries({
@@ -107,6 +105,10 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     toast({title: 'Success', description});
 
     formModel.reset();
+
+    if (variant === 'update') {
+      router.back();
+    }
   };
 
   const onErrorCallback = async (): Promise<void> => {
@@ -122,7 +124,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       await createNote({
       noteValue: values.noteValue,
       endCalculationDate: new Date(values.endCalculationDate),
-      noteDescription: values.noteDescription || 'Default description',
+      noteDescription: values.noteDescription || '...',
       noteCoefficient: values.noteCoefficient,
       categoryId: values.categoryId,
     })
@@ -130,7 +132,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     await updateNote({
       noteValue: values.noteValue,
       endCalculationDate: new Date(values.endCalculationDate),
-      noteDescription: values.noteDescription || 'Default description',
+      noteDescription: values.noteDescription || '...',
       noteCoefficient: values.noteCoefficient,
       categoryId: values.categoryId,
     }, noteId),
@@ -169,7 +171,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
                         Categories list
                       </FormLabel>
 
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange}>
                         <FormControl aria-required={true}>
                           <SelectTrigger className={'w-full'} disabled={isLoading}>
                             <SelectValue
