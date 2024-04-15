@@ -2,10 +2,10 @@
 
 import React, {FC, ReactElement, useId, useState} from 'react';
 import {Checkbox} from '@/components/ui/checkbox';
-import FormFieldText from '@/shared/ui/formField/FormField.text';
-import {IFormField} from '@/shared/ui/formField/_types/FormField.interface';
+import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
+import {IFormTextField} from '@/shared/ui/formFields/formTextFields/_types/FormTextField.interface';
 
-type Props = Pick<IFormField, 'formModel' | 'disabled'>;
+type Props = Pick<IFormTextField, 'formModel' | 'disabled'>;
 
 const FormFieldPassword: FC<Props> = (props): ReactElement => {
   const {formModel, disabled} = props;
@@ -22,7 +22,8 @@ const FormFieldPassword: FC<Props> = (props): ReactElement => {
         label={'Password'}
         placeholder={checked ? 'Password' : '•••••••••'}
         required={true}
-        disabled={disabled}/>
+        disabled={disabled}
+        isDataPending={false}/>
 
       <div className={'flex items-end gap-2'}>
         <Checkbox

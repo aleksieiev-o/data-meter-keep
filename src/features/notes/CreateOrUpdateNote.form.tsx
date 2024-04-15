@@ -2,7 +2,7 @@
 
 import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
 import {Form, FormControl, FormField, FormItem, FormLabel} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/formField/FormField.text';
+import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
@@ -28,6 +28,7 @@ import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
 import {usePathname, useRouter} from 'next/navigation';
 import {ICreateNoteDto} from '@/shared/types/notes.types';
+import FormFieldSelect from '@/shared/ui/formFields/FormField.select';
 
 interface Props {
   variant: 'create' | 'update';
@@ -119,23 +120,19 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     setIsLoading(false);
   };
 
+  const createNoteData = (values: ICreateNoteDto): ICreateNoteDto => ({
+    noteValue: values.noteValue,
+    endCalculationDate: new Date(values.endCalculationDate),
+    noteDescription: values.noteDescription || '...',
+    noteCoefficient: values.noteCoefficient,
+    categoryId: values.categoryId,
+  });
+
   const mutationCreateOrUpdate = useMutation({
     mutationFn: async (values: ICreateNoteDto) => variant === 'create' ?
-      await createNote({
-      noteValue: values.noteValue,
-      endCalculationDate: new Date(values.endCalculationDate),
-      noteDescription: values.noteDescription || '...',
-      noteCoefficient: values.noteCoefficient,
-      categoryId: values.categoryId,
-    })
-    :
-    await updateNote({
-      noteValue: values.noteValue,
-      endCalculationDate: new Date(values.endCalculationDate),
-      noteDescription: values.noteDescription || '...',
-      noteCoefficient: values.noteCoefficient,
-      categoryId: values.categoryId,
-    }, noteId),
+      await createNote(createNoteData(values))
+      :
+      await updateNote(createNoteData(values), noteId),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -156,60 +153,21 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   return (
     <div className={'w-full h-full flex flex-col items-center justify-center gap-6'}>
       <Form {...formModel}>
-        <form
-          onSubmit={formModel.handleSubmit(handleSubmitForm)}
-          id={formID}
-          className={'w-full flex flex-col items-start justify-center gap-4'}>
-          {
-            queryCategoriesListData && queryCategoriesListData.length ?
-              <div className={'w-full flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-end justify-between gap-4'}>
-                <FormField
-                  name={'categoryId'}
-                  render={({field}) => (
-                    <FormItem className={'w-full'}>
-                      <FormLabel aria-required={true}>
-                        Categories list
-                      </FormLabel>
+        <form onSubmit={formModel.handleSubmit(handleSubmitForm)} id={formID} className={'w-full flex flex-col items-start justify-center gap-4'}>
+          <div className={'w-full flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-end justify-between gap-4'}>
+          <FormFieldSelect
+            formModel={formModel}
+            name={'categoryId'}
+            label={'List of categories'}
+            placeholder={'Select category'}
+            isRequired={true}
+            isDisabled={isLoading}
+            isDataPending={isPendingCategoriesList}
+            dataList={queryCategoriesListData || []}
+            emptyDataListMessage={'There are no categories yet'}/>
 
-                      <Select onValueChange={field.onChange}>
-                        <FormControl aria-required={true}>
-                          <SelectTrigger className={'w-full'} disabled={isLoading}>
-                            <SelectValue
-                              placeholder={'Select category'}
-                              aria-required={true}/>
-                          </SelectTrigger>
-                        </FormControl>
-
-                        <SelectContent>
-                          {
-                            queryCategoriesListData.map((category) => (
-                              <SelectItem key={category.categoryId} value={category.categoryId}>
-                                {category.categoryName}
-                              </SelectItem>
-                            ))
-                          }
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}>
-                </FormField>
-
-                <CreateCategoryDialog/>
-              </div>
-              :
-              <div className={'w-full flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-center justify-between gap-4'}>
-                {
-                  isPendingCategoriesList ?
-                    <Skeleton className={'w-full h-12 rounded-md border'}/>
-                    :
-                    <p>
-                      There are no categories yet.
-                    </p>
-                }
-
-                <CreateCategoryDialog/>
-              </div>
-          }
+            <CreateCategoryDialog/>
+          </div>
 
           <FormField
             name={'endCalculationDate'}
@@ -220,7 +178,11 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
                 </FormLabel>
 
                 <Popover>
-                  <PopoverTrigger asChild>
+                  {
+                    isPendingNote ?
+                    <Skeleton className={'w-full h-12'}/>
+                    :
+                    <PopoverTrigger asChild>
                     <FormControl aria-required={true}>
                       <Button
                         variant={'outline'}
@@ -235,6 +197,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
+                  }
 
                   <PopoverContent className="w-auto p-0">
                     <Calendar
@@ -256,7 +219,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             label={'Note value'}
             placeholder={'100'}
             required={true}
-            disabled={isLoading}/>
+            disabled={isLoading}
+            isDataPending={isPendingNote}/>
 
           <FormFieldText
             mode={'textarea'}
@@ -266,7 +230,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             label={'Note description'}
             placeholder={'Description'}
             required={false}
-            disabled={isLoading}/>
+            disabled={isLoading}
+            isDataPending={isPendingNote}/>
 
           <FormFieldText
             mode={'input'}
@@ -276,7 +241,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             label={'Note coefficient'}
             placeholder={'1'}
             required={true}
-            disabled={isLoading}/>
+            disabled={isLoading}
+            isDataPending={isPendingNote}/>
         </form>
       </Form>
 
@@ -287,7 +253,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
           formId={formID}
           title={variant === 'create' ? 'Create' : 'Update'}
           btnBody={variant === 'create' ? 'Create' : 'Update'}
-          isLoading={isLoading}/>
+          isLoading={isLoading}
+          isDisabled={isPendingNote}/>
       </div>
     </div>
   );

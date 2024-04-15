@@ -4,8 +4,8 @@ import {FC, ReactElement, useId, useMemo} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import FormFieldText from '@/shared/ui/formField/FormField.text';
-import FormFieldPassword from '@/shared/ui/formField/FormField.password';
+import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
+import FormFieldPassword from '@/shared/ui/formFields/formTextFields/FormField.password';
 import {Button} from '@/components/ui/button';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
@@ -121,7 +121,8 @@ const AuthenticationCard: FC = (): ReactElement => {
                   label={'Email'}
                   placeholder={'john.doe@company.com'}
                   required={true}
-                  disabled={isLoading}/>
+                  disabled={isLoading}
+                  isDataPending={false}/>
 
                 <FormFieldPassword
                   formModel={formModel}
@@ -155,7 +156,8 @@ const AuthenticationCard: FC = (): ReactElement => {
             formId={authFormID}
             title={isSignInPage ? 'Sign in' : 'Sign up'}
             btnBody={isSignInPage ? 'Sign in' : 'Sign up'}
-            isLoading={isLoading}/>
+            isLoading={isLoading}
+            isDisabled={false}/>
         </CardFooter>
       </Card>
     </section>

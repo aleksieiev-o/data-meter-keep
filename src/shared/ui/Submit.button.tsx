@@ -5,18 +5,19 @@ import {Button} from '@/components/ui/button';
 interface Props {
   formId: string;
   isLoading: boolean;
+  isDisabled: boolean;
   title: string;
   btnBody: string;
 }
 
 const SubmitButton: FC<Props> = (props): ReactElement => {
-  const {formId, isLoading, title, btnBody} = props;
+  const {formId, isLoading, title, btnBody, isDisabled} = props;
 
   return (
     <Button
       type={'submit'}
       form={formId}
-      disabled={isLoading}
+      disabled={isLoading || isDisabled}
       title={title}>
       <>
         {

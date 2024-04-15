@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {Form} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/formField/FormField.text';
+import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
 import SubmitButton from '@/shared/ui/Submit.button';
 import {z, ZodIssueCode} from 'zod';
 import {useForm} from 'react-hook-form';
@@ -135,7 +135,8 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
                 label={'New category name'}
                 placeholder={'New category...'}
                 required={true}
-                disabled={isLoading}/>
+                disabled={isLoading}
+                isDataPending={false}/>
             </form>
           </Form>
         </div>
@@ -151,7 +152,8 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
             formId={formID}
             title={'Update'}
             btnBody={'Update'}
-            isLoading={isLoading}/>
+            isLoading={isLoading}
+            isDisabled={false}/>
         </DialogFooter>
       </DialogContent>
     </Dialog>

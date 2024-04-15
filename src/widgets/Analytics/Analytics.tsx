@@ -58,38 +58,39 @@ const Analytics: FC = () => {
 
 	return (
 		<div className='w-full h-full flex flex-col gap-6 py-6'>
-			{
-				categoriesQueryData && categoriesQueryData.length > 0 ?
-					<div className={'w-full flex flex-col items-end gap-4'}>
-						<Label htmlFor="analytics-set-category">
-							Categories list
-						</Label>
+			<div className={'w-full flex flex-col items-end gap-4'}>
+				<Label htmlFor="analytics-set-category">
+					List of categories
+				</Label>
 
-						<Select onValueChange={(value) => setCurrentCategoryId(value)} defaultValue={currentCategoryId}>
-							<SelectTrigger className={'w-[250px]'} id='analytics-set-category'>
-								<SelectValue
-									placeholder={'Select category'}
-									aria-required={true}/>
-							</SelectTrigger>
+				<Select onValueChange={(value) => setCurrentCategoryId(value)} defaultValue={currentCategoryId}>
+					{
+						categoriesIsPending ?
+						<Skeleton className={'w-[250px] h-12 rounded-md border'}/>
+						:
+						<SelectTrigger className={'w-[250px]'} id='analytics-set-category'>
+							<SelectValue
+								placeholder={'Select category'}
+								aria-required={true}/>
+						</SelectTrigger>
+					}
 
-							<SelectContent>
-								{
-									categoriesQueryData.map((category) => (
-										<SelectItem key={category.categoryId} value={category.categoryId}>
-											{category.categoryName}
-										</SelectItem>
-									))
-								}
-							</SelectContent>
-						</Select>
-					</div>
-					:
-					<div className={'w-full flex flex-col items-end gap-4'}>
+					<SelectContent>
 						{
-							categoriesIsPending && <Skeleton className={'w-[250px] h-12 rounded-md border'}/>
+							categoriesQueryData && categoriesQueryData.length > 0 ?
+							categoriesQueryData.map((category) => (
+								<SelectItem key={category.categoryId} value={category.categoryId}>
+									{category.categoryName}
+								</SelectItem>
+							))
+							:
+							<SelectItem value='null' disabled={true}>
+								There are no categories yet
+							</SelectItem>
 						}
-					</div>
-			}
+					</SelectContent>
+				</Select>
+			</div>
 
 			<AnalyticsChart
 				isDataSuccess={categoriesIsSuccess && notesIsSuccess}

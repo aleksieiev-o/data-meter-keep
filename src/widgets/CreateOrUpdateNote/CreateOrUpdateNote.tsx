@@ -1,6 +1,5 @@
 import {FC, ReactElement} from 'react';
 import CreateOrUpdateNoteForm from '@/features/notes/CreateOrUpdateNote.form';
-import {ICategory} from '@/shared/types/categories.types';
 
 interface Props {
   variant: 'create' | 'update';
