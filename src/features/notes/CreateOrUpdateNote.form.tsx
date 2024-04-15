@@ -64,7 +64,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       noteValue: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
         .nonnegative(),
       endCalculationDate: z.date({ required_error: 'Field is required', invalid_type_error: 'Value must be a date' }),
-      noteDescription: z.string({ invalid_type_error: 'Value must be a string' })
+      noteDescription: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
         .trim()
         .max(180, 'Note description length must not exceed 180 characters'),
       noteCoefficient: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
