@@ -13,7 +13,7 @@ const CreateOrUpdateNote: FC<Props> = (props): ReactElement => {
     <section className={'w-full h-full max-w-[512px] flex flex-col items-start justify-center gap-6 py-4 md:py-8'}>
       <div className={'flex flex-col items-start justify-center gap-4'}>
         <h2 className={'font-bold text-2xl'}>
-          {variant === 'create' ? 'Create new note' : 'Update this note'}
+          {variant === 'create' ? 'Create note' : 'Update note'}
         </h2>
 
         <p className={'text-sm text-muted-foreground'}>

@@ -76,11 +76,11 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
         </div>
 
         <Link href={RoutePath.CRETE_NOTE}>
-          <Button variant={'default'} title={'Add note'}>
+          <Button variant={'default'} title={'Create note'}>
             <Plus/>
 
             <span className={'ml-2'}>
-            Add note
+            Create note
           </span>
           </Button>
         </Link>
