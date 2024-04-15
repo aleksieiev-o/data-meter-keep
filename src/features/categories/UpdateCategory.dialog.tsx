@@ -57,9 +57,6 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
 
   const formModel = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
-    defaultValues: {
-      categoryName: category.categoryName,
-    },
   });
 
   useEffect(() => {
