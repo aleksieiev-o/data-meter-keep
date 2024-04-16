@@ -1,5 +1,5 @@
 /* tslint:disable */
-export interface IFormTextField {
+export interface IAppFormInput {
 	mode: 'input' | 'textarea';
 	formModel: any; // TODO fix type
 	type: 'text' | 'email' | 'password' | 'number';
@@ -10,3 +10,4 @@ export interface IFormTextField {
 	disabled: boolean;
 	isDataPending: boolean;
 }
+/* tslint:enable */

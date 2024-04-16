@@ -2,19 +2,19 @@
 
 import React, {FC, ReactElement, useId, useState} from 'react';
 import {Checkbox} from '@/components/ui/checkbox';
-import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
-import {IFormTextField} from '@/shared/ui/formFields/formTextFields/_types/FormTextField.interface';
+import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
+import {IAppFormInput} from '@/shared/ui/appInput/_types/AppFormInput.interface';
 
-type Props = Pick<IFormTextField, 'formModel' | 'disabled'>;
+type Props = Pick<IAppFormInput, 'formModel' | 'disabled'>;
 
-const FormFieldPassword: FC<Props> = (props): ReactElement => {
+const AppFormInputPassword: FC<Props> = (props): ReactElement => {
   const {formModel, disabled} = props;
   const isPasswordVisibleID = useId();
   const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <div className={'w-full flex flex-col items-start justify-center gap-4'}>
-      <FormFieldText
+      <AppFormInputText
         mode={'input'}
         formModel={formModel}
         type={checked ? 'text' : 'password'}
@@ -45,4 +45,4 @@ const FormFieldPassword: FC<Props> = (props): ReactElement => {
   );
 };
 
-export default FormFieldPassword;
+export default AppFormInputPassword;

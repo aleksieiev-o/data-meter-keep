@@ -5,7 +5,7 @@ import {Row} from '@tanstack/react-table';
 import RemoveConfirmCategoryDialog from '@/features/categories/RemoveConfirmCategory.dialog';
 import {ICategory} from '@/shared/types/categories.types';
 import UpdateCategoryDialog from '@/features/categories/UpdateCategory.dialog';
-import TableActionsDropdown from '@/shared/ui/TableActions.dropdown';
+import TableActionsDropdown from '@/shared/ui/appDropdown/TableActions.dropdown';
 
 interface Props<TData> {
   row: Row<TData>;

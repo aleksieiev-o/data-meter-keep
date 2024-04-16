@@ -3,10 +3,10 @@ import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/compon
 import {Asterisk} from 'lucide-react';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
-import {IFormTextField} from '@/shared/ui/formFields/formTextFields/_types/FormTextField.interface';
+import {IAppFormInput} from '@/shared/ui/appInput/_types/AppFormInput.interface';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const FormFieldText: FC<IFormTextField> = (props): ReactElement => {
+const AppFormInputText: FC<IAppFormInput> = (props): ReactElement => {
   const {mode, formModel, name, label, placeholder, required, disabled, type, isDataPending} = props;
 
   return (
@@ -59,4 +59,4 @@ const FormFieldText: FC<IFormTextField> = (props): ReactElement => {
   );
 };
 
-export default FormFieldText;
+export default AppFormInputText;

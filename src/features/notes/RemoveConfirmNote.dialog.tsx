@@ -5,7 +5,7 @@ import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {removeNote} from '@/entities/notes/notes.service';
-import RemoveConfirmDialog from '@/shared/ui/RemoveConfirm.dialog';
+import RemoveConfirmDialog from '@/shared/ui/appDialog/RemoveConfirm.dialog';
 
 interface Props {
   note: INote;

@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {Form} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
-import SubmitButton from '@/shared/ui/Submit.button';
+import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
+import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {z, ZodIssueCode} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -127,7 +127,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
               onSubmit={formModel.handleSubmit(handleSubmitForm)}
               id={formID}
               className={'w-full flex flex-col items-start justify-center gap-4'}>
-              <FormFieldText
+              <AppFormInputText
                 mode={'input'}
                 type={'text'}
                 formModel={formModel}
@@ -153,7 +153,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
             title={'Update'}
             btnBody={'Update'}
             isLoading={isLoading}
-            isDisabled={false}/>
+            disabled={false}/>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -2,7 +2,7 @@
 
 import {ReactElement, useState} from 'react';
 import {Row} from '@tanstack/react-table';
-import TableActionsDropdown from '@/shared/ui/TableActions.dropdown';
+import TableActionsDropdown from '@/shared/ui/appDropdown/TableActions.dropdown';
 import {INote} from '@/shared/types/notes.types';
 import RemoveConfirmNoteDialog from '@/features/notes/RemoveConfirmNote.dialog';
 import {useRouter} from 'next/navigation';

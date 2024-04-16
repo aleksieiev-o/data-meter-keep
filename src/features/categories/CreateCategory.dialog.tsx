@@ -15,15 +15,15 @@ import {Plus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
-import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
-import SubmitButton from '@/shared/ui/Submit.button';
+import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
+import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import CloseButton from '@/shared/ui/Close.button';
+import CloseButton from '@/shared/ui/appButton/Close.button';
 import {TCreateCategoryDto} from '@/shared/types/categories.types';
 
 const CreateCategoryDialog: FC = (): ReactElement => {
@@ -112,7 +112,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
               onSubmit={formModel.handleSubmit(handleSubmitForm)}
               id={formID}
               className={'w-full flex flex-col items-start justify-center gap-4'}>
-              <FormFieldText
+              <AppFormInputText
                 mode={'input'}
                 type={'text'}
                 formModel={formModel}
@@ -136,7 +136,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
             title={'Create'}
             btnBody={'Create'}
             isLoading={isLoading}
-            isDisabled={false}/>
+            disabled={false}/>
         </DialogFooter>
       </DialogContent>
     </Dialog>

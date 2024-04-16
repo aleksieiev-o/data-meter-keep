@@ -4,10 +4,10 @@ import {FC, ReactElement, useId, useMemo} from 'react';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/components/ui/card';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
-import FormFieldPassword from '@/shared/ui/formFields/formTextFields/FormField.password';
+import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
+import AppFormInputPassword from '@/shared/ui/appInput/AppFormInput.password';
 import {Button} from '@/components/ui/button';
-import SubmitButton from '@/shared/ui/Submit.button';
+import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {usePathname, useRouter} from 'next/navigation';
 import {z} from 'zod';
@@ -113,7 +113,7 @@ const AuthenticationCard: FC = (): ReactElement => {
               id={authFormID}
               className={'w-full flex flex-col items-start justify-center gap-4'}>
               <div className={'w-full flex flex-col items-start justify-center gap-4'}>
-                <FormFieldText
+                <AppFormInputText
                   mode={'input'}
                   type={'email'}
                   formModel={formModel}
@@ -124,7 +124,7 @@ const AuthenticationCard: FC = (): ReactElement => {
                   disabled={isLoading}
                   isDataPending={false}/>
 
-                <FormFieldPassword
+                <AppFormInputPassword
                   formModel={formModel}
                   disabled={isLoading}/>
               </div>
@@ -157,7 +157,7 @@ const AuthenticationCard: FC = (): ReactElement => {
             title={isSignInPage ? 'Sign in' : 'Sign up'}
             btnBody={isSignInPage ? 'Sign in' : 'Sign up'}
             isLoading={isLoading}
-            isDisabled={false}/>
+            disabled={false}/>
         </CardFooter>
       </Card>
     </section>

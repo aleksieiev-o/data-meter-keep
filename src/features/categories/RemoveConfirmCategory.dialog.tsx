@@ -7,7 +7,7 @@ import {useLoading} from '@/shared/hooks/useLoading';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {removeCategory} from '@/entities/categories/categories.service';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import RemoveConfirmDialog from '@/shared/ui/RemoveConfirm.dialog';
+import RemoveConfirmDialog from '@/shared/ui/appDialog/RemoveConfirm.dialog';
 
 interface Props {
   category: ICategory;

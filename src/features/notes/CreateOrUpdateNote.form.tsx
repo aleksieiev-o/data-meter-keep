@@ -2,7 +2,7 @@
 
 import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
 import {Form, FormControl, FormField, FormItem, FormLabel} from '@/components/ui/form';
-import FormFieldText from '@/shared/ui/formFields/formTextFields/FormField.text';
+import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
@@ -12,12 +12,11 @@ import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {createNote, fetchNoteById, updateNote} from '@/entities/notes/notes.service';
-import GoToPreviousPageButton from '@/shared/ui/GoToPreviousPage.button';
-import SubmitButton from '@/shared/ui/Submit.button';
+import GoToPreviousPageButton from '@/shared/ui/appButton/GoToPreviousPage.button';
+import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {useToast} from '@/components/ui/use-toast';
 import {useLoading} from '@/shared/hooks/useLoading';
 import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
-import {SelectContent, SelectItem, SelectTrigger, Select, SelectValue} from '@/components/ui/select';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Popover, PopoverTrigger} from '@radix-ui/react-popover';
 import {Button} from '@/components/ui/button';
@@ -28,7 +27,7 @@ import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
 import {usePathname, useRouter} from 'next/navigation';
 import {ICreateNoteDto} from '@/shared/types/notes.types';
-import FormFieldSelect from '@/shared/ui/formFields/FormField.select';
+import AppFormSelect from '@/shared/ui/appSelect/AppFormSelect';
 
 interface Props {
   variant: 'create' | 'update';
@@ -155,16 +154,17 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       <Form {...formModel}>
         <form onSubmit={formModel.handleSubmit(handleSubmitForm)} id={formID} className={'w-full flex flex-col items-start justify-center gap-4'}>
           <div className={'w-full flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-end justify-between gap-4'}>
-          <FormFieldSelect
-            formModel={formModel}
-            name={'categoryId'}
-            label={'List of categories'}
-            placeholder={'Select category'}
-            isRequired={true}
-            isDisabled={isLoading}
-            isDataPending={isPendingCategoriesList}
-            dataList={queryCategoriesListData || []}
-            emptyDataListMessage={'There are no categories yet'}/>
+            <AppFormSelect
+              formModel={formModel}
+              id='create-update-note-form-select'
+              name={'categoryId'}
+              label={'List of categories'}
+              placeholder={'Select category'}
+              required={true}
+              disabled={isLoading}
+              isDataPending={isPendingCategoriesList}
+              dataList={queryCategoriesListData || []}
+              emptyDataListMessage={'There are no categories yet'}/>
 
             <CreateCategoryDialog/>
           </div>
@@ -211,7 +211,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             )}>
           </FormField>
 
-          <FormFieldText
+          <AppFormInputText
             mode={'input'}
             type={'number'}
             formModel={formModel}
@@ -222,7 +222,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             disabled={isLoading}
             isDataPending={isPendingNote}/>
 
-          <FormFieldText
+          <AppFormInputText
             mode={'textarea'}
             type={'text'}
             formModel={formModel}
@@ -233,7 +233,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             disabled={isLoading}
             isDataPending={isPendingNote}/>
 
-          <FormFieldText
+          <AppFormInputText
             mode={'input'}
             type={'number'}
             formModel={formModel}
@@ -254,7 +254,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
           title={variant === 'create' ? 'Create' : 'Update'}
           btnBody={variant === 'create' ? 'Create' : 'Update'}
           isLoading={isLoading}
-          isDisabled={isPendingNote}/>
+          disabled={isPendingNote}/>
       </div>
     </div>
   );
