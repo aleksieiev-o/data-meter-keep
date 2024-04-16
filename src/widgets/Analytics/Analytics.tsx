@@ -7,10 +7,8 @@ import { fetchNotes } from '@/entities/notes/notes.service';
 import { firebaseAuth } from '@/lib/firebase/firebase';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '@/entities/categories/categories.service';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
-import {Skeleton} from '@/components/ui/skeleton';
-import {Label} from '@/components/ui/label';
 import AnalyticsChart from './AnalyticsChart';
+import AppSelect from '@/shared/ui/appSelect/AppSelect';
 
 const Analytics: FC = () => {
 	const [user] = useAuthState(firebaseAuth);
@@ -58,39 +56,17 @@ const Analytics: FC = () => {
 
 	return (
 		<div className='w-full h-full flex flex-col gap-6 py-6'>
-			<div className={'w-full flex flex-col items-end gap-4'}>
-				<Label htmlFor="analytics-set-category">
-					List of categories
-				</Label>
-
-				<Select onValueChange={(value) => setCurrentCategoryId(value)} defaultValue={currentCategoryId}>
-					{
-						categoriesIsPending ?
-						<Skeleton className={'w-[250px] h-12 rounded-md border'}/>
-						:
-						<SelectTrigger className={'w-[250px]'} id='analytics-set-category'>
-							<SelectValue
-								placeholder={'Select category'}
-								aria-required={true}/>
-						</SelectTrigger>
-					}
-
-					<SelectContent>
-						{
-							categoriesQueryData && categoriesQueryData.length > 0 ?
-							categoriesQueryData.map((category) => (
-								<SelectItem key={category.categoryId} value={category.categoryId}>
-									{category.categoryName}
-								</SelectItem>
-							))
-							:
-							<SelectItem value='null' disabled={true}>
-								There are no categories yet
-							</SelectItem>
-						}
-					</SelectContent>
-				</Select>
-			</div>
+			<AppSelect
+			id={'analytics-categories-select'}
+			label={'List of categories'}
+			placeholder={'Select category'}
+			disabled={false}
+			isDataPending={categoriesIsPending}
+			dataList={categoriesQueryData || []}
+			emptyDataListMessage={'There are no categories yet'}
+			currentValue={currentCategoryId}
+			setCurrentValue={(value) => setCurrentCategoryId(value)}
+			width={250}/>
 
 			<AnalyticsChart
 				isDataSuccess={categoriesIsSuccess && notesIsSuccess}
