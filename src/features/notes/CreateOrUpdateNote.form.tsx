@@ -45,14 +45,14 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
 
   const noteId = useMemo(() => pathname.split('/')[3], [pathname]);
 
-  const { data: queryCategoriesListData, isPending: isPendingCategoriesList } = useQuery({
+  const { data: categoriesQueryData, isPending: categoriesIsPending } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  const { data: queryNoteData, isPending: isPendingNote } = useQuery({
+  const { data: notesQueryData, isPending: notesIsPending } = useQuery({
     queryKey: [noteId],
     queryFn: async () => await fetchNoteById(noteId),
     staleTime: 5 * 1000,
@@ -85,16 +85,16 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       });
     }
 
-    if (variant === 'update' && queryNoteData) {
+    if (variant === 'update' && notesQueryData) {
       formModel.reset({
-        noteCoefficient: queryNoteData.noteCoefficient,
-        noteDescription: queryNoteData.noteDescription,
-        endCalculationDate: new Date(queryNoteData.endCalculationDate),
-        noteValue: queryNoteData.noteValue,
-        categoryId: queryNoteData.categoryId,
+        noteCoefficient: notesQueryData.noteCoefficient,
+        noteDescription: notesQueryData.noteDescription,
+        endCalculationDate: new Date(notesQueryData.endCalculationDate),
+        noteValue: notesQueryData.noteValue,
+        categoryId: notesQueryData.categoryId,
       });
     }
-  }, [formModel, queryNoteData, variant]);
+  }, [formModel, notesQueryData, variant]);
 
   const onSuccessCallback = async (): Promise<void> => {
     await queryClient.invalidateQueries({
@@ -162,8 +162,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
               placeholder={'Select category'}
               required={true}
               disabled={isLoading}
-              isDataPending={isPendingCategoriesList}
-              dataList={queryCategoriesListData || []}
+              isDataPending={categoriesIsPending}
+              dataList={categoriesQueryData || []}
               emptyDataListMessage={'There are no categories yet'}/>
 
             <CreateCategoryDialog/>
@@ -179,7 +179,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
 
                 <Popover>
                   {
-                    isPendingNote ?
+                    notesIsPending ?
                     <Skeleton className={'w-full h-12'}/>
                     :
                     <PopoverTrigger asChild>
@@ -220,7 +220,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'100'}
             required={true}
             disabled={isLoading}
-            isDataPending={isPendingNote}/>
+            isDataPending={notesIsPending}/>
 
           <AppFormInputText
             mode={'textarea'}
@@ -231,7 +231,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'Description'}
             required={false}
             disabled={isLoading}
-            isDataPending={isPendingNote}/>
+            isDataPending={notesIsPending}/>
 
           <AppFormInputText
             mode={'input'}
@@ -242,7 +242,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'1'}
             required={true}
             disabled={isLoading}
-            isDataPending={isPendingNote}/>
+            isDataPending={notesIsPending}/>
         </form>
       </Form>
 
@@ -254,7 +254,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
           title={variant === 'create' ? 'Create' : 'Update'}
           btnBody={variant === 'create' ? 'Create' : 'Update'}
           isLoading={isLoading}
-          disabled={isPendingNote}/>
+          disabled={notesIsPending}/>
       </div>
     </div>
   );

@@ -17,14 +17,14 @@ const AppTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
   return (
     <div className="rounded-md border">
       {
-        !isPending ?
+        isPending ?
+          <Skeleton className={'h-[300px] w-full rounded-md border'}/>
+          :
           <Table>
             <AppTableHeader table={table}/>
 
             <AppTableBody table={table} columns={columns}/>
           </Table>
-          :
-          <Skeleton className={'h-[144px] w-full rounded-md border'}/>
       }
     </div>
   );

@@ -37,7 +37,7 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
   const [filteredColumn, setFilteredColumn] = useState<ENoteTableColumnAccessorKeys>(ENoteTableColumnAccessorKeys.CATEGORY_ID);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: queryData, isPending, isSuccess } = useQuery({
+  const { data: notesQueryData, isPending: notesIsPending, isSuccess: notesIsSuccess } = useQuery({
     queryKey: [RoutePath.NOTE_LIST],
     queryFn: async () => await fetchNotes(),
     staleTime: 5 * 1000,
@@ -45,7 +45,7 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
   });
 
   const table = useReactTable({
-    data: isSuccess ? queryData as TData[] : [],
+    data: notesIsSuccess ? notesQueryData as TData[] : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
@@ -67,7 +67,7 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
         <div className={'w-full flex flex-row items-end gap-2'}>
           <Input
             onChange={(event) => table.getColumn(filteredColumn)?.setFilterValue(event.target.value)}
-            disabled={!queryData || !queryData.length}
+            disabled={!notesQueryData || !notesQueryData.length}
             value={(table.getColumn(filteredColumn)?.getFilterValue() as string) ?? ''}
             placeholder={'Try to search something...'}
             className={'w-full h-12'}/>
@@ -86,15 +86,10 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
         </Link>
       </div>
 
-      {
-        queryData ?
-          <AppTable table={table} columns={columns} isPending={isPending}/>
-          :
-          <EmptyDataAppTable text={'There are no notes yet.'}/>
-      }
+      <AppTable table={table} columns={columns} isPending={notesIsPending}/>
 
       {
-        queryData && queryData.length > 5 && <AppTablePageControls table={table}/>
+        notesQueryData && notesQueryData.length > 5 && <AppTablePageControls table={table}/>
       }
     </div>
   );

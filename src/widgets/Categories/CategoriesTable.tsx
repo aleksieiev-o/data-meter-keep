@@ -29,7 +29,7 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: queryData, isPending, isSuccess } = useQuery({
+  const { data: categoriesQueryData, isPending: categoriesIsPending, isSuccess: categoriesIsSuccess } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
@@ -37,7 +37,7 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   });
 
   const table = useReactTable({
-    data: isSuccess ? queryData as TData[] : [],
+    data: categoriesIsSuccess ? categoriesQueryData as TData[] : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
@@ -58,23 +58,18 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
         <Input
           onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
-          disabled={!queryData || !queryData.length}
+          disabled={!categoriesQueryData || !categoriesQueryData.length}
           value={(table.getColumn('categoryName')?.getFilterValue() as string) ?? ''}
           placeholder={'Try to search something...'}
           className={'w-full h-12'}/>
 
         <CreateCategoryDialog/>
       </div>
+      
+      <AppTable table={table} columns={columns} isPending={categoriesIsPending}/>
 
       {
-        queryData ?
-          <AppTable table={table} columns={columns} isPending={isPending}/>
-          :
-          <EmptyDataAppTable text={'There are no categories yet.'}/>
-      }
-
-      {
-        queryData && queryData.length > 5 && <AppTablePageControls table={table}/>
+        categoriesQueryData && categoriesQueryData.length > 5 && <AppTablePageControls table={table}/>
       }
     </div>
   );
