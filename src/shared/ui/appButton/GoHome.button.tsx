@@ -14,7 +14,7 @@ const GoHomeButton: FC = (): ReactElement => {
 
   return (
     <Button
-      onClick={() => router.replace(user ? RoutePath.CATEGORY_LIST : RoutePath.SIGN_IN)}
+      onClick={() => router.replace(RoutePath.HOME)}
       variant={'default'}
       className={'shadow-md'}
       title={'Go home'}>

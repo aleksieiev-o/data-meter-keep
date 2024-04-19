@@ -12,25 +12,34 @@ import {Skeleton} from '@/components/ui/skeleton';
 import SignOutConfirmDialog from '@/features/authentication/SignOutConfirm.dialog';
 
 const AuthStateChangeButton: FC = (): ReactElement => {
-  const [user] = useAuthState(firebaseAuth);
+  const [user, loading] = useAuthState(firebaseAuth);
   const [, signOutLoading] = useSignOut(firebaseAuth);
   const [dialogIsOpenSignOut, setDialogIsOpenSignOut] = useState<boolean>(false);
 
   return (
     <>
       {user ?
-        <Button
-          onClick={() => setDialogIsOpenSignOut(true)}
-          disabled={signOutLoading}
-          variant={'ghost'}
-          size="icon"
-          title={'Sign out'}>
-          <LogOut className={'h-[1.7rem] w-[1.7rem]'}/>
-        </Button>
+        <>
+          {
+            loading ?
+              <Skeleton className={'h-12 w-12'}/>
+              :
+              <Button
+                onClick={() => setDialogIsOpenSignOut(true)}
+                disabled={signOutLoading}
+                variant={'ghost'}
+                size="icon"
+                title={'Sign out'}>
+                <LogOut className={'h-[1.7rem] w-[1.7rem]'}/>
+              </Button>
+          }
+        </>
         :
         <DropdownMenu>
           {
-            user ?
+            loading ?
+              <Skeleton className={'h-12 w-12'}/>
+              :
               <DropdownMenuTrigger asChild>
                 <Button
                   variant={'ghost'}
@@ -39,8 +48,6 @@ const AuthStateChangeButton: FC = (): ReactElement => {
                   <LogIn className={'h-[1.7rem] w-[1.7rem]'}/>
                 </Button>
               </DropdownMenuTrigger>
-              :
-              <Skeleton className={'h-12 w-12'}/>
           }
 
           <DropdownMenuContent align="end">

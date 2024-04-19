@@ -16,7 +16,7 @@ const HeaderLogo: FC<Props> = (props): ReactElement => {
 
   return (
     <SheetCloseWrapper {...sheetCloseWrapperProps}>
-      <Link href={RoutePath.CATEGORY_LIST}>
+      <Link href={RoutePath.HOME}>
         <div className={'flex flex-row items-end gap-2 overflow-hidden'} title={APP_NAME}>
           <BarChartHorizontal className={'w-12 h-12 stroke-primary'}/>
 
