@@ -34,7 +34,7 @@ const AppFormSelect: FC<Props> = (props) => {
 
 					<Select onValueChange={field.onChange} {...field}>
 						<FormControl aria-required={required}>
-							<AppSelectTrigger id={id} placeholder={placeholder} disabled={disabled} isDataPending={isDataPending}/>
+							<AppSelectTrigger id={id} placeholder={placeholder} disabled={disabled} isDataPending={isDataPending} width={'full'}/>
 						</FormControl>
 
 						<AppSelectContent dataList={dataList} emptyDataListMessage={emptyDataListMessage}/>
