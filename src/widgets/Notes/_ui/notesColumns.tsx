@@ -10,7 +10,7 @@ type TColumns = Omit<INote, ''>;
 
 export enum ENoteTableColumnAccessorKeys {
  NOTE_ID = 'noteId',
- CATEGORY_ID = 'categoryId',
+ CATEGORY_NAME = 'categoryName',
  END_CALCULATION_DATE = 'endCalculationDate',
  NOTE_VALUE = 'noteValue',
  NOTE_COEFFICIENT = 'noteCoefficient',
@@ -25,11 +25,11 @@ export const notesColumns: ColumnDef<TColumns>[] = [
     cell: ({row}) => <div className="text-start">{row.getValue(ENoteTableColumnAccessorKeys.NOTE_ID)}</div>,
   },
   {
-    accessorKey: ENoteTableColumnAccessorKeys.CATEGORY_ID,
+    accessorKey: ENoteTableColumnAccessorKeys.CATEGORY_NAME,
     footer: 'Note category',
     header: ({column}) =>
       <TableColumnHeaderWithSort columnName={'Note category'} menuName={'Note sorting'} column={column}/>,
-    cell: ({row}) => <div className="text-start">{row.getValue(ENoteTableColumnAccessorKeys.CATEGORY_ID)}</div>,
+    cell: ({row}) => <div className="text-start">{row.getValue(ENoteTableColumnAccessorKeys.CATEGORY_NAME)}</div>,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.END_CALCULATION_DATE,

@@ -15,7 +15,7 @@ const AppTableNoteFilterSelect = <TData, >(props: Props<TData>): ReactElement =>
   return (
     <Select
       onValueChange={(value) => setFilteredColumn(value as ENoteTableColumnAccessorKeys)}
-      defaultValue={ENoteTableColumnAccessorKeys.CATEGORY_ID}>
+      defaultValue={ENoteTableColumnAccessorKeys.CATEGORY_NAME}>
       <SelectTrigger className={'w-[180px]'}>
         <SelectValue placeholder={'Set a filtered column'} title={'Set a filtered column'}/>
       </SelectTrigger>
@@ -26,7 +26,7 @@ const AppTableNoteFilterSelect = <TData, >(props: Props<TData>): ReactElement =>
           table.getHeaderGroups().map((headerGroup) => (
             headerGroup.headers
               .filter((header) =>
-                header.id === ENoteTableColumnAccessorKeys.CATEGORY_ID
+                header.id === ENoteTableColumnAccessorKeys.CATEGORY_NAME
                 || header.id === ENoteTableColumnAccessorKeys.NOTE_DESCRIPTION)
               .map((header) => (
                 <SelectItem

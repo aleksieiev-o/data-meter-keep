@@ -1,6 +1,6 @@
 'use client';
 
-import {ReactElement, useState} from 'react';
+import {ReactElement, useMemo, useState} from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -19,10 +19,11 @@ import {Button} from '@/components/ui/button';
 import {Plus} from 'lucide-react';
 import Link from 'next/link';
 import AppTable from '@/shared/ui/appTable/AppTable';
-import EmptyDataAppTable from '@/shared/ui/appTable/EmptyDataAppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 import {ENoteTableColumnAccessorKeys} from '@/widgets/Notes/_ui/notesColumns';
 import AppTableNoteFilterSelect from '@/shared/ui/appTable/_ui/AppTableNoteFilter.select';
+import { fetchCategories } from '@/entities/categories/categories.service';
+import { INoteAugmented } from '@/shared/types/notes.types';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,8 +35,15 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 7});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [filteredColumn, setFilteredColumn] = useState<ENoteTableColumnAccessorKeys>(ENoteTableColumnAccessorKeys.CATEGORY_ID);
+  const [filteredColumn, setFilteredColumn] = useState<ENoteTableColumnAccessorKeys>(ENoteTableColumnAccessorKeys.CATEGORY_NAME);
   const [user] = useAuthState(firebaseAuth);
+
+  const { data: categoriesQueryData, isPending: categoriesIsPending, isSuccess: categoriesIsSuccess } = useQuery({
+    queryKey: [RoutePath.CATEGORY_LIST],
+    queryFn: async () => await fetchCategories(),
+    staleTime: 5 * 1000,
+    enabled: !!user,
+  });
 
   const { data: notesQueryData, isPending: notesIsPending, isSuccess: notesIsSuccess } = useQuery({
     queryKey: [RoutePath.NOTE_LIST],
@@ -44,8 +52,21 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
     enabled: !!user,
   });
 
+  const notesListAugmented = useMemo(() => {
+    if (categoriesIsSuccess && notesIsSuccess) {
+      const categoryMap = new Map(categoriesQueryData.map(category => [category.categoryId, category.categoryName]));
+
+      const augmentedNotes: INoteAugmented[] = notesQueryData.map(note => ({
+        ...note,
+        categoryName: categoryMap.get(note.categoryId) || 'Unknown name',
+      }));
+
+      return augmentedNotes;
+    }
+  }, [categoriesIsSuccess, categoriesQueryData, notesIsSuccess, notesQueryData]);
+
   const table = useReactTable({
-    data: notesIsSuccess ? notesQueryData as TData[] : [],
+    data: notesIsSuccess ? notesListAugmented as TData[] : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
