@@ -11,7 +11,7 @@ const CreateOrUpdateNote: FC<Props> = (props): ReactElement => {
   return (
     <section className={'w-full h-full max-w-[512px] flex flex-col items-start justify-center gap-6 py-4 md:py-8'}>
       <div className={'flex flex-col items-start justify-center gap-4'}>
-        <h2 className={'font-bold text-2xl'}>
+        <h2 className={'font-bold text-3xl'}>
           {variant === 'create' ? 'Create note' : 'Update note'}
         </h2>
 

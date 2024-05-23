@@ -63,7 +63,7 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'ghost'} title={'Close'}>
+            <Button variant={'outline'} title={'Close'}>
               Close
             </Button>
           </DialogClose>

@@ -65,7 +65,9 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
           placeholder={'Try to search something...'}
           className={'w-full h-12'}/>
 
-        <CreateCategoryDialog/>
+        <div>
+          <CreateCategoryDialog/>
+        </div>
       </div>
       
       <AppTable table={table} columns={columns} isPending={categoriesIsPending}/>
