@@ -23,7 +23,7 @@ const AppSelect: FC<Props> = (props) => {
 	const {id, label, placeholder, dataList, emptyDataListMessage, disabled, isDataPending, currentValue, setCurrentValue, width} = props;
 
 	return (
-		<div className={'w-full flex flex-col items-end gap-4'}>
+		<div className={'flex flex-col gap-4'}>
 				<Label htmlFor={id}>
 					{label}
 				</Label>

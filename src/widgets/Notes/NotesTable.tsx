@@ -12,7 +12,7 @@ import {
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useQuery} from '@tanstack/react-query';
-import {RoutePath} from '@/shared/router/Routes.enum';
+import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
 import {fetchNotes} from '@/entities/notes/notes.service';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
@@ -24,6 +24,7 @@ import {ENoteTableColumnAccessorKeys} from '@/widgets/Notes/_ui/notesColumns';
 import AppTableNoteFilterSelect from '@/shared/ui/appTable/_ui/AppTableNoteFilter.select';
 import { fetchCategories } from '@/entities/categories/categories.service';
 import { INoteAugmented } from '@/shared/types/notes.types';
+import PageTitle from '@/shared/widgets/PageTitle';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -84,6 +85,8 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
 
   return (
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>
+      <PageTitle title={RouteName.NOTE_LIST}/>
+
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
         <div className={'w-full flex flex-row items-end gap-2'}>
           <Input

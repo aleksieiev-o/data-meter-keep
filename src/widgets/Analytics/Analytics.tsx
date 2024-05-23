@@ -1,7 +1,7 @@
 'use client';
 
 import {FC, useMemo, useState} from 'react';
-import { RoutePath } from '@/shared/router/Routes.enum';
+import { RouteName, RoutePath } from '@/shared/router/Routes.enum';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { fetchNotes } from '@/entities/notes/notes.service';
 import { firebaseAuth } from '@/lib/firebase/firebase';
@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '@/entities/categories/categories.service';
 import AnalyticsChart from './AnalyticsChart';
 import AppSelect from '@/shared/ui/appSelect/AppSelect';
+import PageTitle from '@/shared/widgets/PageTitle';
 
 const Analytics: FC = () => {
 	const [user] = useAuthState(firebaseAuth);
@@ -56,6 +57,8 @@ const Analytics: FC = () => {
 
 	return (
 		<div className='w-full h-full flex flex-col gap-6 py-6'>
+			<PageTitle title={RouteName.ANALYTICS}/>
+
 			<AppSelect
 			id={'analytics-categories-select'}
 			label={'List of categories'}

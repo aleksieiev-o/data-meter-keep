@@ -12,10 +12,10 @@ import {fetchCategories} from '@/entities/categories/categories.service';
 import {useQuery} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
-import {RoutePath} from '@/shared/router/Routes.enum';
-import EmptyDataAppTable from '@/shared/ui/appTable/EmptyDataAppTable';
+import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
 import AppTable from '@/shared/ui/appTable/AppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
+import PageTitle from '@/shared/widgets/PageTitle';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,6 +55,8 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
 
   return (
     <div className={'w-full h-full flex flex-col gap-6 py-6'}>
+      <PageTitle title={RouteName.CATEGORY_LIST}/>
+
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
         <Input
           onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
