@@ -88,26 +88,26 @@ const NotesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement =>
       <PageTitle title={RouteName.NOTE_LIST}/>
 
       <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
-        <div className={'w-full flex flex-row items-end gap-2'}>
-          <Input
-            onChange={(event) => table.getColumn(filteredColumn)?.setFilterValue(event.target.value)}
-            disabled={!notesQueryData || !notesQueryData.length}
-            value={(table.getColumn(filteredColumn)?.getFilterValue() as string) ?? ''}
-            placeholder={'Try to search something...'}
-            className={'w-full h-12'}/>
+        <Input
+          onChange={(event) => table.getColumn(filteredColumn)?.setFilterValue(event.target.value)}
+          disabled={!notesQueryData || !notesQueryData.length}
+          value={(table.getColumn(filteredColumn)?.getFilterValue() as string) ?? ''}
+          placeholder={'Try to search something...'}
+          className={'w-full h-12'}/>
 
+        <div className={'w-full sm:w-auto flex flex-col xs:flex-row items-end gap-6'}>
           <AppTableNoteFilterSelect table={table} setFilteredColumn={setFilteredColumn}/>
+
+          <Link href={RoutePath.CRETE_NOTE} className='w-full sm:w-auto'>
+            <Button variant={'default'} title={'Create note'} className='w-full sm:w-[200px]'>
+              <Plus/>
+
+              <span className={'ml-2'}>
+              Create note
+            </span>
+            </Button>
+          </Link>
         </div>
-
-        <Link href={RoutePath.CRETE_NOTE}>
-          <Button variant={'default'} title={'Create note'}>
-            <Plus/>
-
-            <span className={'ml-2'}>
-            Create note
-          </span>
-          </Button>
-        </Link>
       </div>
 
       <AppTable table={table} columns={columns} isPending={notesIsPending}/>

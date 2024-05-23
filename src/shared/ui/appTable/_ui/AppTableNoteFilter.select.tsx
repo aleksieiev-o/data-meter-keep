@@ -16,7 +16,7 @@ const AppTableNoteFilterSelect = <TData, >(props: Props<TData>): ReactElement =>
     <Select
       onValueChange={(value) => setFilteredColumn(value as ENoteTableColumnAccessorKeys)}
       defaultValue={ENoteTableColumnAccessorKeys.CATEGORY_NAME}>
-      <SelectTrigger className={'w-[180px]'}>
+      <SelectTrigger className='w-full sm:w-[200px]'>
         <SelectValue placeholder={'Set a filtered column'} title={'Set a filtered column'}/>
       </SelectTrigger>
 

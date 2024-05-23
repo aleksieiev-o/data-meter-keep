@@ -20,7 +20,7 @@ const AppSelectTrigger: FC<Props> = (props) => {
 				isDataPending ?
 				<Skeleton className={cn('h-12 rounded-md border', width === 'full' ? 'w-full' : `w-[${width}px]`)}/>
 				:
-				<SelectTrigger id={id} disabled={disabled} className={width === 'full' ? 'w-full' : `w-[${width}px]`}>
+				<SelectTrigger id={id} disabled={disabled} className={cn('', width === 'full' ? 'w-full' : `w-[${width}px]`)}>
 					<SelectValue placeholder={placeholder}/>
 				</SelectTrigger>
 			}

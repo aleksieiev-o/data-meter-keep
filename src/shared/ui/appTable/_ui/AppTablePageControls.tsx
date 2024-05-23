@@ -12,7 +12,8 @@ const AppTablePageControls = <TData, >(props: ITableRowData<TData>): ReactElemen
         onClick={() => table.previousPage()}
         variant={'default'}
         title={'Previous page'}
-        disabled={!table.getCanPreviousPage()}>
+        disabled={!table.getCanPreviousPage()}
+        className='sm:w-[200px]'>
         <ChevronLeft/>
 
         <span className={'sm:inline hidden ml-2'}>
@@ -24,7 +25,8 @@ const AppTablePageControls = <TData, >(props: ITableRowData<TData>): ReactElemen
         onClick={() => table.nextPage()}
         variant={'default'}
         title={'Next page'}
-        disabled={!table.getCanNextPage()}>
+        disabled={!table.getCanNextPage()}
+        className='sm:w-[200px]'>
         <span className={'sm:inline hidden mr-2'}>
           Next page
         </span>

@@ -87,7 +87,7 @@ const CreateCategoryDialog: FC = (): ReactElement => {
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={'default'} title={'Create category'}>
+        <Button variant={'default'} title={'Create category'} className='w-[200px]'>
           <Plus/>
 
           <span className={'ml-2'}>
