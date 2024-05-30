@@ -3,7 +3,7 @@
 import React, {FC, ReactElement} from 'react';
 import {useTheme} from 'next-themes';
 import {Button} from '@/components/ui/button';
-import {Moon, Sun} from 'lucide-react';
+import {Moon, Sun, SunMoon} from 'lucide-react';
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -12,6 +12,7 @@ import {
   DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
 import {AppThemeEnum} from '@/shared/types/appTheme.enum';
+import DropdownMenuItemContent from '@/shared/ui/DropdownMenuItemContent';
 
 const ThemeChangeButton: FC = (): ReactElement => {
   const { setTheme } = useTheme();
@@ -29,16 +30,16 @@ const ThemeChangeButton: FC = (): ReactElement => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Application theme mode</DropdownMenuLabel>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.SYSTEM)}>
-          System
+        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.SYSTEM)} title='System'>
+          <DropdownMenuItemContent Icon={SunMoon} title='System'/>
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.LIGHT)}>
-          Light
+        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.LIGHT)} title='Light'>
+          <DropdownMenuItemContent Icon={Sun} title='Light'/>
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.DARK)}>
-          Dark
+        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.DARK)} title='Dark'>
+          <DropdownMenuItemContent Icon={Moon} title='Dark'/>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
