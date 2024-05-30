@@ -1,11 +1,9 @@
 import {FC, ReactElement} from 'react';
 import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
-import {categoriesColumns} from '@/widgets/Categories/_ui/categoriesColumns';
-import CategoriesTable from '@/widgets/Categories/CategoriesTable';
 import {dehydrate, QueryClient, HydrationBoundary} from '@tanstack/react-query';
-import {fetchCategories} from '@/entities/categories/categories.service';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {getCurrentUser} from '@/lib/firebase/firebase-admin';
+import UserSettings from '@/widgets/UserSettings/UserSettings';
 
 const CategoriesPage: FC = async (): Promise<ReactElement> => {
   const queryClient = new QueryClient();
@@ -13,8 +11,8 @@ const CategoriesPage: FC = async (): Promise<ReactElement> => {
 
   if (currentUser) {
     await queryClient.prefetchQuery({
-      queryKey: [RoutePath.CATEGORY_LIST, currentUser.uid],
-      queryFn: async () => await fetchCategories(currentUser.uid),
+      queryKey: [RoutePath.USER_SETTINGS, currentUser.uid],
+      // queryFn: async () => await fetchCategories(currentUser.uid),
       staleTime: 5 * 1000,
     });
   }
@@ -22,7 +20,7 @@ const CategoriesPage: FC = async (): Promise<ReactElement> => {
   return (
     <ScrollContentWrapper>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <CategoriesTable columns={categoriesColumns}/>
+        <UserSettings/>
       </HydrationBoundary>
     </ScrollContentWrapper>
   );

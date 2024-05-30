@@ -6,7 +6,7 @@ import {RouteName} from '@/shared/router/Routes.enum';
 import {APP_DESCRIPTION} from '@/shared/appConstants';
 
 export const metadata: Metadata = createAppMetaData({
-  title: RouteName.CATEGORY_LIST,
+  title: RouteName.USER_SETTINGS,
   description: APP_DESCRIPTION,
 });
 
