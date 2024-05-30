@@ -5,7 +5,8 @@ import {Button} from '@/components/ui/button';
 const CloseButton: FC = (): ReactElement => {
   return (
     <Button variant={'outline'} title={'Close'}>
-      <X className={'h-4 w-4 mr-2'}/>
+      <X className={'w-5 h-5 mr-4'}/>
+
       Close
     </Button>
   );

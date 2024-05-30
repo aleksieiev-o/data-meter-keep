@@ -8,7 +8,7 @@ const GoToPreviousPageButton: FC = (): ReactElement => {
 
   return (
     <Button onClick={() => back()} variant={'ghost'} title={'Back'}>
-      <ChevronLeft className={'h-4 w-4 mr-2'}/>
+      <ChevronLeft className={'w-5 h-5 mr-4'}/>
       <p>
         Back
       </p>

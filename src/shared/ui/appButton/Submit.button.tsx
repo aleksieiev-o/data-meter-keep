@@ -21,7 +21,7 @@ const SubmitButton: FC<Props> = (props): ReactElement => {
       title={title}>
       <>
         {
-          isLoading ? <Loader2 className={'h-4 w-4 mr-2 animate-spin'}/> : <Send className={'h-4 w-4 mr-2'}/>
+          isLoading ? <Loader2 className={'w-5 h-5 mr-4 animate-spin'}/> : <Send className={'w-5 h-5 mr-4'}/>
         }
 
         {
