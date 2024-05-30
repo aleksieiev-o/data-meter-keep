@@ -17,7 +17,7 @@ const AppHeaderInfo: FC = (): ReactElement => {
           <div className={'flex flex-row gap-4 items-center justify-start overflow-hidden'}>
             {
               user ?
-                <div className={'flex flex-col items-start justify-start overflow-hidden sm:hidden'}>
+                <div className={'flex-col items-start justify-start overflow-hidden sm:flex hidden'}>
                   <span
                     className={'w-full text-right whitespace-nowrap text-ellipsis overflow-hidden'}>
                     {user?.displayName || 'User'}
@@ -29,7 +29,7 @@ const AppHeaderInfo: FC = (): ReactElement => {
                   </span>
                 </div>
                 :
-                <div className={'flex flex-col gap-2 items-start justify-start overflow-hidden sm:hidden'}>
+                <div className={'flex-col gap-2 items-start justify-start overflow-hidden sm:flex hidden'}>
                   <Skeleton className={'w-[150px] h-4'}/>
                   <Skeleton className={'w-[150px] h-4'}/>
                 </div>
