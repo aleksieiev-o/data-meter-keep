@@ -31,7 +31,7 @@ const AppHeaderInfo: FC = (): ReactElement => {
         user &&
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant={'ghost'} className={'px-0'} title={`${user?.displayName || 'User'}\n${user?.email}`}>
+            <Button variant={'ghost'} className={'px-0'} title='Open user actions'>
               <div className={'flex flex-row gap-4 items-center justify-start overflow-hidden'}>
                 {
                   user ?
