@@ -16,7 +16,6 @@ import {useSignOut} from 'react-firebase-hooks/auth';
 import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import {APIResponse} from '@/app/api/auth/APIResponse';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
 
 interface Props {

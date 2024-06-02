@@ -18,6 +18,7 @@ import SignOutConfirmDialog from '@/features/authentication/SignOutConfirm.dialo
 import { RouteName, RoutePath } from '@/shared/router/Routes.enum';
 import { useRouter } from 'next/navigation';
 import DropdownMenuItemContent from '@/shared/ui/DropdownMenuItemContent';
+import { DEFAULT_USER_DN } from '@/shared/appConstants';
 
 const AppHeaderInfo: FC = (): ReactElement => {
   const {push} = useRouter();
@@ -38,7 +39,7 @@ const AppHeaderInfo: FC = (): ReactElement => {
                     <div className={'flex-col items-start justify-start overflow-hidden sm:flex hidden'}>
                       <span
                         className={'w-full text-right whitespace-nowrap text-ellipsis overflow-hidden'}>
-                        {user?.displayName || 'User'}
+                        {user?.displayName || DEFAULT_USER_DN}
                       </span>
         
                       <span

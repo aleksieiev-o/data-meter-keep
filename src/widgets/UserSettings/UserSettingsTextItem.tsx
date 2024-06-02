@@ -1,4 +1,4 @@
-import {ElementType, FC, ReactElement} from 'react';
+import {Dispatch, ElementType, FC, ReactElement, SetStateAction} from 'react';
 import { Button } from '@/components/ui/button';
 
 interface Props {
@@ -6,10 +6,11 @@ interface Props {
 	itemData: string;
 	ButtonIcon: ElementType;
 	buttonTitle: string;
+	handleClick: () => void;
 }
 
 const UserSettingsTextItem: FC<Props> = (props): ReactElement => {
-	const {title, itemData, buttonTitle, ButtonIcon} = props;
+	const {title, itemData, buttonTitle, ButtonIcon, handleClick} = props;
 
 	return (
 		<div className='flex flex-col items-start justify-center gap-4'>
@@ -24,7 +25,7 @@ const UserSettingsTextItem: FC<Props> = (props): ReactElement => {
 			</div>
 
 			<Button
-				onClick={() => undefined}
+				onClick={handleClick}
 				title={buttonTitle}>
 				<ButtonIcon className={'w-5 h-5 mr-4'}/>
 
