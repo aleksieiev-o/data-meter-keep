@@ -21,6 +21,9 @@
 		"start": "next start",
 		"lint": "next lint",
 		"lint_fix": "next lint --fix",
+		"inc ver patch": "./bump-version.sh patch",
+		"inc ver minor": "./bump-version.sh minor",
+		"inc ver major": "./bump-version.sh major",
 		"prepare": "husky"
 	},
 	"dependencies": {
