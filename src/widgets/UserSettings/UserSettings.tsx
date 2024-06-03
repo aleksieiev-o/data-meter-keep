@@ -11,6 +11,7 @@ import { User, Mail, LockKeyhole } from 'lucide-react';
 import ChangeDisplayNameDialog from '@/features/user-actions/ChangeDisplayName.dialog';
 import { DEFAULT_USER_DN } from '@/shared/appConstants';
 import ChangeEmailDialog from '@/features/user-actions/ChangeEmail.dialog';
+import ChangePasswordDialog from '@/features/user-actions/ChangePassword.dialog';
 
 const UserSettings: FC = (): ReactElement => {
 	const [user] = useAuthState(firebaseAuth);
@@ -57,9 +58,9 @@ const UserSettings: FC = (): ReactElement => {
 				setDialogIsOpen={setDialogIsOpenChangeEmail}
         dialogIsOpen={dialogIsOpenChangeEmail}/>
 
-			{/* <ChangePasswordDialog
+			<ChangePasswordDialog
 				setDialogIsOpen={setDialogIsOpenChangePassword}
-        dialogIsOpen={dialogIsOpenChangePassword}/> */}
+        dialogIsOpen={dialogIsOpenChangePassword}/>
 		</div>
 	);
 };
