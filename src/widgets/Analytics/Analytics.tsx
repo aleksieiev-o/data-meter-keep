@@ -59,26 +59,30 @@ const Analytics: FC = () => {
 		<div className='w-full h-full flex flex-col gap-6 py-6'>
 			<PageTitle title={RouteName.ANALYTICS}/>
 
-			<AppSelect
-			id={'analytics-categories-select'}
-			label={'List of categories'}
-			placeholder={'Select category'}
-			disabled={false}
-			isDataPending={categoriesIsPending}
-			dataList={categoriesQueryData || []}
-			emptyDataListMessage={'There are no categories yet'}
-			currentValue={currentCategoryId}
-			setCurrentValue={(value) => setCurrentCategoryId(value)}
-			width={250}/>
+			<div className='w-full h-full flex flex-col lg:flex-row gap-6 py-6'>
+				<div className='w-[250px] flex flex-col gap-4'>
+					<AppSelect
+						id={'analytics-categories-select'}
+						label={'List of categories'}
+						placeholder={'Select category'}
+						disabled={false}
+						isDataPending={categoriesIsPending}
+						dataList={categoriesQueryData || []}
+						emptyDataListMessage={'There are no categories yet'}
+						currentValue={currentCategoryId}
+						setCurrentValue={(value) => setCurrentCategoryId(value)}
+						width={250}/>
+				</div>
 
-			<AnalyticsChart
-				isDataSuccess={categoriesIsSuccess && notesIsSuccess}
-				isDataPending={categoriesIsPending && notesIsPending}
-				isDataNotEmpty={!!(categoriesQueryData && categoriesQueryData.length > 0)}
-				isChartListNotEmpty={!!chartData.length}
-				isMainCriterionSelected={!!currentCategoryId}
-				chartData={chartData}
-				chartType='AreaChart'/>
+				<AnalyticsChart
+					isDataSuccess={categoriesIsSuccess && notesIsSuccess}
+					isDataPending={categoriesIsPending && notesIsPending}
+					isDataNotEmpty={!!(categoriesQueryData && categoriesQueryData.length > 0)}
+					isChartListNotEmpty={!!chartData.length}
+					isMainCriterionSelected={!!currentCategoryId}
+					chartData={chartData}
+					chartType='AreaChart'/>
+			</div>
 		</div>
 	);
 };

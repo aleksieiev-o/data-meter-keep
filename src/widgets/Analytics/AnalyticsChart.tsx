@@ -37,7 +37,7 @@ const AnalyticsChart: FC<Props> = (props) => {
 		hAxis: { title: 'End calculation date', textStyle: chartColors.textColor, titleTextStyle: chartColors.textColor, gridlines: chartColors.gridColor },
 		vAxis: { title: 'Value', textStyle: chartColors.textColor, titleTextStyle: chartColors.textColor, gridlines: chartColors.gridColor },
 		backgroundColor: 'transparent',
-		legend: { position: 'right', textStyle: chartColors.textColor },
+		legend: { position: 'bottom', textStyle: chartColors.textColor },
 		titleTextStyle: {color: chartColors.titleTextStyle},
 	}), [chartColors.gridColor, chartColors.textColor, chartColors.titleTextStyle]);
 
@@ -45,12 +45,14 @@ const AnalyticsChart: FC<Props> = (props) => {
 		<>
 			{
 				isDataSuccess && isChartListNotEmpty && isMainCriterionSelected &&
-				<Chart
-					chartType={chartType}
-					width="100%"
-					height="500px"
-					data={chartData}
-					options={options}/>
+				<div className='w-full lg:h-[500px] lg:overflow-x-auto lg:overflow-y-hidden'>
+					<Chart
+						chartType={chartType}
+						width="100%"
+						height="500px"
+						data={chartData}
+						options={options}/>
+				</div>
 			}
 
 			{
@@ -59,21 +61,21 @@ const AnalyticsChart: FC<Props> = (props) => {
 
 			{
 				isDataNotEmpty && isDataSuccess && !isChartListNotEmpty && !isMainCriterionSelected &&
-				<div className={'w-full h-full flex items-center justify-center'}>
+				<div className={'w-full h-full flex items-start justify-center'}>
 					<p>Please select your category from the list above.</p>
 				</div>
 			}
 
 			{
 				isDataSuccess && isMainCriterionSelected && !isChartListNotEmpty &&
-				<div className={'w-full h-full flex items-center justify-center'}>
+				<div className={'w-full h-full flex items-start justify-center'}>
 					<p>There are no notes in this category. Chart can not be available.</p>
 				</div>
 			}
 
 			{
 				isDataSuccess && !isDataNotEmpty &&
-				<div className={'w-full h-full flex items-center justify-center'}>
+				<div className={'w-full h-full flex items-start justify-center'}>
 					<p>There are no categories yet.</p>
 				</div>
 			}
