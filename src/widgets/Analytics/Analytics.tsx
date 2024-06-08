@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, useMemo, useState} from 'react';
+import {FC, useId, useMemo, useState} from 'react';
 import { RouteName, RoutePath } from '@/shared/router/Routes.enum';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { fetchNotes } from '@/entities/notes/notes.service';
@@ -11,9 +11,17 @@ import AnalyticsChart from './AnalyticsChart';
 import AppSelect from '@/shared/ui/appSelect/AppSelect';
 import PageTitle from '@/shared/widgets/PageTitle';
 
+enum EDiffMode {
+	DIFF_AC = 'diff-ac',
+	VALUES = 'values',
+}
+
 const Analytics: FC = () => {
+	const categoryDiffMode = useId();
+	const selectedCategoryId = useId();
 	const [user] = useAuthState(firebaseAuth);
 	const [currentCategoryId, setCurrentCategoryId] = useState<string>('');
+	const [diffMode, setDiffMode] = useState<EDiffMode>(EDiffMode.DIFF_AC);
 
 	const { data: categoriesQueryData, isPending: categoriesIsPending, isSuccess: categoriesIsSuccess } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
@@ -29,20 +37,46 @@ const Analytics: FC = () => {
     enabled: !!user,
   });
 
+	const diffModes = useMemo(() => {
+		return [
+			{categoryId: EDiffMode.DIFF_AC, categoryName: 'Difference mode'},
+			{categoryId: EDiffMode.VALUES, categoryName: 'Values mode'},
+		];
+	}, []);
+
 	const chartData = useMemo(() => {
 		const currentCategory = categoriesQueryData?.find((category) => category.categoryId === currentCategoryId);
 
 		if (currentCategory) {
 			const mappedData = notesQueryData
 			?.filter((note) => note.categoryId === currentCategoryId)
-			.map((note) => {
+			.map((note, idx, array) => {
 				const formattedDate = new Date(note.endCalculationDate).toLocaleDateString('en-US', {
 					day: '2-digit',
 					month: '2-digit',
 					year: 'numeric'
 				});
 
-				return [formattedDate, note.noteValue * note.noteCoefficient];
+				if (diffMode === EDiffMode.DIFF_AC) {
+					if (array.length === 1) {
+						return [formattedDate, 0];
+					} else {
+						let diffResult = 0;
+	
+						if (idx > 0) {
+							const arrItem = array[idx - 1];
+						
+							if (arrItem) {
+								diffResult = (note.noteValue * note.noteCoefficient) - (arrItem.noteValue * arrItem.noteCoefficient);
+								return [formattedDate, diffResult];
+							}
+						}
+	
+						return [formattedDate, diffResult];
+					}
+				} else {
+					return [formattedDate, note.noteValue * note.noteCoefficient];
+				}
 			}) || [];
 
 			if (mappedData.length) {
@@ -53,7 +87,7 @@ const Analytics: FC = () => {
 		}
 
 		return [];
-	}, [currentCategoryId, categoriesQueryData, notesQueryData]);
+	}, [categoriesQueryData, currentCategoryId, notesQueryData, diffMode]);
 
 	return (
 		<div className='w-full h-full flex flex-col gap-6 py-6'>
@@ -62,7 +96,19 @@ const Analytics: FC = () => {
 			<div className='w-full h-full flex flex-col lg:flex-row gap-6 py-6'>
 				<div className='w-[250px] flex flex-col gap-4'>
 					<AppSelect
-						id={'analytics-categories-select'}
+						id={categoryDiffMode}
+						label={'Category view mode'}
+						placeholder={'Select category view mode'}
+						disabled={false}
+						isDataPending={categoriesIsPending}
+						dataList={diffModes}
+						emptyDataListMessage={'There are no modes yet'}
+						currentValue={diffMode}
+						setCurrentValue={(value) => setDiffMode(value as EDiffMode)}
+						width={250}/>
+
+					<AppSelect
+						id={selectedCategoryId}
 						label={'List of categories'}
 						placeholder={'Select category'}
 						disabled={false}

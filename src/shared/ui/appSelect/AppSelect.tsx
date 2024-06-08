@@ -1,6 +1,6 @@
 import {Label} from '@/components/ui/label';
 import {Select} from '@/components/ui/select';
-import {Dispatch, FC, SetStateAction} from 'react';
+import {FC} from 'react';
 import AppSelectContent from './_ui/AppSelect.content';
 import AppSelectTrigger from './_ui/AppSelect.trigger';
 
