@@ -1,17 +1,15 @@
 import {FC, ReactElement} from 'react';
 
 interface Props {
-	title: string;
+  title: string;
 }
 
 const PageTitle: FC<Props> = (props): ReactElement => {
-	const {title} = props;
+  const {title} = props;
 
-	return (
-		<h1 className='text-3xl font-bold text-nowrap text-ellipsis'>
-			{title}
-		</h1>
-	);
+  return (
+    <h1 className="text-ellipsis text-nowrap text-3xl font-bold">{title}</h1>
+  );
 };
 
 export default PageTitle;

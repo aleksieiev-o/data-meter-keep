@@ -29,17 +29,20 @@ const CategoryTableRowActions = <TData,>(props: Props<TData>): ReactElement => {
     <>
       <TableActionsDropdown
         handlePrepareUpdate={handlePrepareUpdate}
-        handlePrepareDelete={handlePrepareDelete}/>
+        handlePrepareDelete={handlePrepareDelete}
+      />
 
       <UpdateCategoryDialog
         setDialogIsOpen={setDialogUpdateIsOpen}
         dialogIsOpen={dialogUpdateIsOpen}
-        category={rowOriginal as ICategory}/>
+        category={rowOriginal as ICategory}
+      />
 
       <RemoveConfirmCategoryDialog
         setDialogIsOpen={setDialogRemoveIsOpen}
         dialogIsOpen={dialogRemoveIsOpen}
-        category={rowOriginal as ICategory}/>
+        category={rowOriginal as ICategory}
+      />
     </>
   );
 };

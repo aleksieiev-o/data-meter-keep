@@ -2,19 +2,27 @@ import 'server-only';
 
 import {cookies} from 'next/headers';
 import {App, cert, getApps, initializeApp} from 'firebase-admin/app';
-import {getAuth, SessionCookieOptions, Auth, UserRecord} from 'firebase-admin/auth';
+import {
+  getAuth,
+  SessionCookieOptions,
+  Auth,
+  UserRecord,
+} from 'firebase-admin/auth';
 import {firebaseAdminEnvSchema} from '@/lib/firebase/_types/firebaseAdminEnvSchema';
 
 const initApp = (): App => {
-  return initializeApp({
+  return initializeApp(
+    {
       credential: cert(firebaseAdminEnvSchema.credential),
-      databaseURL: firebaseAdminEnvSchema.databaseURL
+      databaseURL: firebaseAdminEnvSchema.databaseURL,
     },
     firebaseAdminEnvSchema.appName,
   );
 };
 
-const firebaseApp: App = getApps().find((app) => app.name === firebaseAdminEnvSchema.appName) || initApp();
+const firebaseApp: App =
+  getApps().find((app) => app.name === firebaseAdminEnvSchema.appName) ||
+  initApp();
 
 const firebaseAdminAuth: Auth = getAuth(firebaseApp);
 
@@ -46,7 +54,10 @@ async function isUserAuthenticated(session: string | undefined = undefined) {
   }
 
   try {
-    const isRevoked = !(await firebaseAdminAuth.verifySessionCookie(_session, true));
+    const isRevoked = !(await firebaseAdminAuth.verifySessionCookie(
+      _session,
+      true,
+    ));
 
     return !isRevoked;
   } catch (error) {
@@ -55,7 +66,10 @@ async function isUserAuthenticated(session: string | undefined = undefined) {
   }
 }
 
-async function createSessionCookie(idToken: string, sessionCookieOptions: SessionCookieOptions) {
+async function createSessionCookie(
+  idToken: string,
+  sessionCookieOptions: SessionCookieOptions,
+) {
   return firebaseAdminAuth.createSessionCookie(idToken, sessionCookieOptions);
 }
 
@@ -65,4 +79,11 @@ async function revokeAllSessions(session: string) {
   return await firebaseAdminAuth.revokeRefreshTokens(decodedIdToken.sub);
 }
 
-export {firebaseApp, firebaseAdminAuth, isUserAuthenticated, getCurrentUser, createSessionCookie, revokeAllSessions};
+export {
+  firebaseApp,
+  firebaseAdminAuth,
+  isUserAuthenticated,
+  getCurrentUser,
+  createSessionCookie,
+  revokeAllSessions,
+};

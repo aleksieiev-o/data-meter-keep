@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 
@@ -23,24 +23,28 @@ interface Props {
 }
 
 const RemoveConfirmDialog: FC<Props> = (props): ReactElement => {
-  const {isLoading, dialogIsOpen, setDialogIsOpen, handleConfirm, dialogDescription, dialogQuestion, dialogTitle, btnTitle, btnBody} = props;
+  const {
+    isLoading,
+    dialogIsOpen,
+    setDialogIsOpen,
+    handleConfirm,
+    dialogDescription,
+    dialogQuestion,
+    dialogTitle,
+    btnTitle,
+    btnBody,
+  } = props;
 
   return (
     <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogContent className={'flex flex-col gap-6'}>
         <DialogHeader>
-          <DialogTitle>
-            {dialogTitle}
-          </DialogTitle>
+          <DialogTitle>{dialogTitle}</DialogTitle>
 
-          <DialogDescription>
-            {dialogDescription}
-          </DialogDescription>
+          <DialogDescription>{dialogDescription}</DialogDescription>
         </DialogHeader>
 
-        <p>
-          {dialogQuestion}
-        </p>
+        <p>{dialogQuestion}</p>
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
@@ -53,7 +57,8 @@ const RemoveConfirmDialog: FC<Props> = (props): ReactElement => {
             onClick={handleConfirm}
             disabled={isLoading}
             variant={'destructive'}
-            title={btnTitle}>
+            title={btnTitle}
+          >
             {btnBody}
           </Button>
         </DialogFooter>

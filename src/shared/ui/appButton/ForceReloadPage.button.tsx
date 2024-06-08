@@ -14,9 +14,9 @@ const ForceReloadPageButton: FC = (): ReactElement => {
       onClick={() => forceReloadPage()}
       variant={'default'}
       className={'shadow-md'}
-      title={'Reload page'}>
-      <RefreshCw className={'w-5 h-5 mr-4'}/>
-
+      title={'Reload page'}
+    >
+      <RefreshCw className={'mr-4 h-5 w-5'} />
       Reload page
     </Button>
   );

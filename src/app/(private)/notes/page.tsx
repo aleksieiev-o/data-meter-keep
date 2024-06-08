@@ -29,7 +29,7 @@ const NoteListPage: FC = async (): Promise<ReactElement> => {
   return (
     <ScrollContentWrapper>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <NotesTable columns={notesColumns}/>
+        <NotesTable columns={notesColumns} />
       </HydrationBoundary>
     </ScrollContentWrapper>
   );

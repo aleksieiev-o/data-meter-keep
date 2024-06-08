@@ -7,13 +7,15 @@ const GlobalErrorPage: FC = (): ReactElement => {
   return (
     <html>
       <body>
-        <section className={'w-full h-full grid grid-cols-1 content-center justify-items-center overflow-hidden'}>
-          <div className={'h-full grid grid-cols-1 gap-6 content-start'}>
-            <p className={'text-md text-center'}>
-              Something went wrong!
-            </p>
+        <section
+          className={
+            'grid h-full w-full grid-cols-1 content-center justify-items-center overflow-hidden'
+          }
+        >
+          <div className={'grid h-full grid-cols-1 content-start gap-6'}>
+            <p className={'text-md text-center'}>Something went wrong!</p>
 
-            <ForceReloadPageButton/>
+            <ForceReloadPageButton />
           </div>
         </section>
       </body>

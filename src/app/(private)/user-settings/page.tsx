@@ -20,7 +20,7 @@ const CategoriesPage: FC = async (): Promise<ReactElement> => {
   return (
     <ScrollContentWrapper>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <UserSettings/>
+        <UserSettings />
       </HydrationBoundary>
     </ScrollContentWrapper>
   );

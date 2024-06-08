@@ -8,8 +8,8 @@ import AppReactQueryProvider from '@/shared/providers/AppReactQuery.provider';
 const AppProvider: FC<PropsWithChildren> = ({children}): ReactElement => {
   return (
     <ComposeChildren>
-      <AppReactQueryProvider/>
-      <AppThemeProvider/>
+      <AppReactQueryProvider />
+      <AppThemeProvider />
       {children}
     </ComposeChildren>
   );

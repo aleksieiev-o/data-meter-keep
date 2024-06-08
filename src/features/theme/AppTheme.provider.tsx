@@ -11,7 +11,8 @@ const AppThemeProvider: FC<PropsWithChildren> = ({children}): ReactElement => {
       defaultTheme={AppThemeEnum.SYSTEM}
       storageKey={'dmk-app-theme'}
       disableTransitionOnChange
-      enableSystem>
+      enableSystem
+    >
       {children}
     </ThemeProvider>
   );

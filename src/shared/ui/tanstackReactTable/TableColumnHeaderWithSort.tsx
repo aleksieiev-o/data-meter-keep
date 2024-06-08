@@ -4,7 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {Button} from '@/components/ui/button';
 import {ArrowDownAZ, ArrowUpAZ, ArrowUpDown} from 'lucide-react';
@@ -16,7 +16,9 @@ interface Props<TData, TValue> {
   column: Column<TData, TValue>;
 }
 
-const TableColumnHeaderWithSort = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
+const TableColumnHeaderWithSort = <TData, TValue>(
+  props: Props<TData, TValue>,
+): ReactElement => {
   const {columnName, menuName, column} = props;
 
   const handleAscSort = () => {
@@ -28,28 +30,36 @@ const TableColumnHeaderWithSort = <TData, TValue>(props: Props<TData, TValue>): 
   };
 
   return (
-    <div className="font-bold text-start flex items-center whitespace-nowrap">
+    <div className="flex items-center whitespace-nowrap text-start font-bold">
       <div className="mr-2">{columnName}</div>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className={'h-8 w-8 p-0'} title={'Open sorting menu'}>
+          <Button
+            variant="ghost"
+            className={'h-8 w-8 p-0'}
+            title={'Open sorting menu'}
+          >
             <span className="sr-only">Open sorting menu</span>
-            <ArrowUpDown className="h-4 w-4"/>
+            <ArrowUpDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{menuName}</DropdownMenuLabel>
 
-          <DropdownMenuItem onClick={handleAscSort} className={'flex flex-row items-center justify-start gap-4'}>
-            <ArrowUpAZ className={'h-4 w-4'}/>
-            A - Z
+          <DropdownMenuItem
+            onClick={handleAscSort}
+            className={'flex flex-row items-center justify-start gap-4'}
+          >
+            <ArrowUpAZ className={'h-4 w-4'} />A - Z
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={handleDescSort} className={'flex flex-row items-center justify-start gap-4'}>
-            <ArrowDownAZ className={'h-4 w-4'}/>
-            Z - A
+          <DropdownMenuItem
+            onClick={handleDescSort}
+            className={'flex flex-row items-center justify-start gap-4'}
+          >
+            <ArrowDownAZ className={'h-4 w-4'} />Z - A
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

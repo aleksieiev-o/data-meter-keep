@@ -9,13 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenu,
   DropdownMenuTrigger,
-  DropdownMenuLabel
+  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 import {AppThemeEnum} from '@/shared/types/appTheme.enum';
 import DropdownMenuItemContent from '@/shared/ui/DropdownMenuItemContent';
 
 const ThemeChangeButton: FC = (): ReactElement => {
-  const { setTheme } = useTheme();
+  const {setTheme} = useTheme();
 
   return (
     <DropdownMenu>
@@ -30,16 +30,25 @@ const ThemeChangeButton: FC = (): ReactElement => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Application theme mode</DropdownMenuLabel>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.SYSTEM)} title='System'>
-          <DropdownMenuItemContent Icon={SunMoon} title='System'/>
+        <DropdownMenuItem
+          onClick={() => setTheme(AppThemeEnum.SYSTEM)}
+          title="System"
+        >
+          <DropdownMenuItemContent Icon={SunMoon} title="System" />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.LIGHT)} title='Light'>
-          <DropdownMenuItemContent Icon={Sun} title='Light'/>
+        <DropdownMenuItem
+          onClick={() => setTheme(AppThemeEnum.LIGHT)}
+          title="Light"
+        >
+          <DropdownMenuItemContent Icon={Sun} title="Light" />
         </DropdownMenuItem>
 
-        <DropdownMenuItem onClick={() => setTheme(AppThemeEnum.DARK)} title='Dark'>
-          <DropdownMenuItemContent Icon={Moon} title='Dark'/>
+        <DropdownMenuItem
+          onClick={() => setTheme(AppThemeEnum.DARK)}
+          title="Dark"
+        >
+          <DropdownMenuItemContent Icon={Moon} title="Dark" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -7,12 +7,13 @@ export async function GET() {
   const sessionCookie = cookies().get('__session')?.value;
 
   if (!sessionCookie) {
-    return NextResponse.json<APIResponse<string>>({
+    return NextResponse.json<APIResponse<string>>(
+      {
         success: false,
         error: 'Session not found.',
       },
-      { status: 400 },
-      );
+      {status: 400},
+    );
   }
 
   cookies().delete('__session');

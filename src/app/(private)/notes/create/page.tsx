@@ -20,9 +20,9 @@ const CreateNotePage: FC = async (): Promise<ReactElement> => {
 
   return (
     <ScrollContentWrapper>
-      <div className={'w-full h-full flex items-center justify-center'}>
+      <div className={'flex h-full w-full items-center justify-center'}>
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <CreateOrUpdateNote variant={'create'}/>
+          <CreateOrUpdateNote variant={'create'} />
         </HydrationBoundary>
       </div>
     </ScrollContentWrapper>

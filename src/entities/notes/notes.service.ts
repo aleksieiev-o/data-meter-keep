@@ -1,76 +1,76 @@
-import { INote, ICreateNoteDto } from '@/shared/types/notes.types';
-import { push, ref, set } from '@firebase/database';
-import { firebaseDataBase } from '@/lib/firebase/firebase';
-import { EndpointsList } from '@/shared/Endpoints.enum';
-import { createDataEndpoint } from '@/entities/_vm/user';
+import {INote, ICreateNoteDto} from '@/shared/types/notes.types';
+import {push, ref, set} from '@firebase/database';
+import {firebaseDataBase} from '@/lib/firebase/firebase';
+import {EndpointsList} from '@/shared/Endpoints.enum';
+import {createDataEndpoint} from '@/entities/_vm/user';
 import {
-	fetchAllData,
-	fetchDataItemById,
-	removeAllData,
-	removeDataItemById,
-	updateDataItemById,
+  fetchAllData,
+  fetchDataItemById,
+  removeAllData,
+  removeDataItemById,
+  updateDataItemById,
 } from '@/entities/_db.service';
 
 export const fetchNotes = async (userUID?: string): Promise<INote[]> => {
-	return await fetchAllData<INote>(EndpointsList.NOTES, userUID);
+  return await fetchAllData<INote>(EndpointsList.NOTES, userUID);
 };
 
 export const fetchNoteById = async (
-	itemId: string,
-	userUID?: string
+  itemId: string,
+  userUID?: string,
 ): Promise<INote> => {
-	return await fetchDataItemById<INote>(
-		EndpointsList.NOTE_BY_ID,
-		itemId,
-		userUID
-	);
+  return await fetchDataItemById<INote>(
+    EndpointsList.NOTE_BY_ID,
+    itemId,
+    userUID,
+  );
 };
 
 export const createNote = async (payload: ICreateNoteDto): Promise<void> => {
-	try {
-		const {
-			noteValue,
-			endCalculationDate,
-			noteDescription,
-			noteCoefficient,
-			categoryId,
-		} = payload;
-		const notesRef = push(
-			ref(
-				firebaseDataBase,
-				createDataEndpoint({ endpoint: EndpointsList.NOTES })
-			)
-		);
+  try {
+    const {
+      noteValue,
+      endCalculationDate,
+      noteDescription,
+      noteCoefficient,
+      categoryId,
+    } = payload;
+    const notesRef = push(
+      ref(
+        firebaseDataBase,
+        createDataEndpoint({endpoint: EndpointsList.NOTES}),
+      ),
+    );
 
-		const category: INote = {
-			noteId: notesRef.key!,
-			noteValue,
-			endCalculationDate: endCalculationDate.toISOString(),
-			noteDescription,
-			noteCoefficient,
-			categoryId,
-			createdDate: new Date().toISOString(),
-			updatedDate: new Date().toISOString(),
-		};
+    const category: INote = {
+      noteId: notesRef.key!,
+      noteValue,
+      endCalculationDate: endCalculationDate.toISOString(),
+      noteDescription,
+      noteCoefficient,
+      categoryId,
+      createdDate: new Date().toISOString(),
+      updatedDate: new Date().toISOString(),
+    };
 
-		return await set(notesRef, category);
-	} catch (err) {
-		console.warn(err);
-		return Promise.reject(err);
-	}
+    return await set(notesRef, category);
+  } catch (err) {
+    console.warn(err);
+    return Promise.reject(err);
+  }
 };
 
 export const updateNote = async (
-	payload: ICreateNoteDto,
-	id: string
+  payload: ICreateNoteDto,
+  id: string,
 ): Promise<void> => {
-	return await updateDataItemById(EndpointsList.NOTES, id, payload);
+  return await updateDataItemById(EndpointsList.NOTES, id, payload);
 };
 
 export const removeNote = async (id: string): Promise<void> => {
-	return await removeDataItemById(EndpointsList.NOTES, id);
+  return await removeDataItemById(EndpointsList.NOTES, id);
 };
 
 export const removeAllNotes = async (): Promise<void> => {
-	return await removeAllData(EndpointsList.NOTES);
+  return await removeAllData(EndpointsList.NOTES);
 };

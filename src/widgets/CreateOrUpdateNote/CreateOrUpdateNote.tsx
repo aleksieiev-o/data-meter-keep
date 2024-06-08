@@ -9,9 +9,13 @@ const CreateOrUpdateNote: FC<Props> = (props): ReactElement => {
   const {variant} = props;
 
   return (
-    <section className={'w-full h-full max-w-[512px] flex flex-col items-start justify-center gap-6 py-4 md:py-8'}>
+    <section
+      className={
+        'flex h-full w-full max-w-[512px] flex-col items-start justify-center gap-6 py-4 md:py-8'
+      }
+    >
       <div className={'flex flex-col items-start justify-center gap-4'}>
-        <h2 className={'font-bold text-3xl'}>
+        <h2 className={'text-3xl font-bold'}>
           {variant === 'create' ? 'Create note' : 'Update note'}
         </h2>
 
@@ -20,7 +24,7 @@ const CreateOrUpdateNote: FC<Props> = (props): ReactElement => {
         </p>
       </div>
 
-      <CreateOrUpdateNoteForm variant={variant}/>
+      <CreateOrUpdateNoteForm variant={variant} />
     </section>
   );
 };

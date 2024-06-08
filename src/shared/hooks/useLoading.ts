@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import {Dispatch, SetStateAction, useState} from 'react';
 
 interface IUseLoading {
   isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useLoading = (): IUseLoading => {

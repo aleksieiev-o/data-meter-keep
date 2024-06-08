@@ -7,7 +7,7 @@ import {INote} from '@/shared/types/notes.types';
 import RemoveConfirmNoteDialog from '@/features/notes/RemoveConfirmNote.dialog';
 import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import { ENoteTableColumnAccessorKeys } from './notesColumns';
+import {ENoteTableColumnAccessorKeys} from './notesColumns';
 
 interface Props<TData> {
   row: Row<TData>;
@@ -20,7 +20,12 @@ const NoteTableRowActions = <TData,>(props: Props<TData>): ReactElement => {
   const [dialogRemoveIsOpen, setDialogRemoveIsOpen] = useState<boolean>(false);
 
   const handlePrepareUpdate = () => {
-    push(RoutePath.UPDATE_NOTE.replace('[id]', row.getValue(ENoteTableColumnAccessorKeys.NOTE_ID)));
+    push(
+      RoutePath.UPDATE_NOTE.replace(
+        '[id]',
+        row.getValue(ENoteTableColumnAccessorKeys.NOTE_ID),
+      ),
+    );
   };
 
   const handlePrepareDelete = () => {
@@ -31,12 +36,14 @@ const NoteTableRowActions = <TData,>(props: Props<TData>): ReactElement => {
     <>
       <TableActionsDropdown
         handlePrepareUpdate={handlePrepareUpdate}
-        handlePrepareDelete={handlePrepareDelete}/>
+        handlePrepareDelete={handlePrepareDelete}
+      />
 
       <RemoveConfirmNoteDialog
         setDialogIsOpen={setDialogRemoveIsOpen}
         dialogIsOpen={dialogRemoveIsOpen}
-        note={rowOriginal as INote}/>
+        note={rowOriginal as INote}
+      />
     </>
   );
 };

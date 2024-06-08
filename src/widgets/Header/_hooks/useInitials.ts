@@ -8,7 +8,7 @@ export const useInitials = (name: string | null): string => {
 
     return name
       .split(/\s+/)
-      .map(w => [...w][0])
+      .map((w) => [...w][0])
       .slice(0, 3)
       .join('');
   }

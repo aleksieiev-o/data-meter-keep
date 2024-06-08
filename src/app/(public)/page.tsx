@@ -5,7 +5,7 @@ import Home from '@/widgets/Home/Home';
 const HomePage: FC = async (): Promise<ReactElement> => {
   return (
     <ScrollContentWrapper>
-      <Home/>
+      <Home />
     </ScrollContentWrapper>
   );
 };

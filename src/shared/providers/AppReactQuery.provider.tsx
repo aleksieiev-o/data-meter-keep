@@ -2,7 +2,7 @@
 
 import {FC, PropsWithChildren, ReactElement, useState} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 const queryClientOptions = {
   defaultOptions: {
@@ -19,7 +19,7 @@ const AppReactQueryProvider: FC<PropsWithChildren> = (props): ReactElement => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={false}/>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };

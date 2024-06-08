@@ -3,16 +3,30 @@ import {push, ref, set} from '@firebase/database';
 import {firebaseDataBase} from '@/lib/firebase/firebase';
 import {EndpointsList} from '@/shared/Endpoints.enum';
 import {createDataEndpoint} from '@/entities/_vm/user';
-import {fetchAllData, removeAllData, removeDataItemById, updateDataItemById} from '@/entities/_db.service';
+import {
+  fetchAllData,
+  removeAllData,
+  removeDataItemById,
+  updateDataItemById,
+} from '@/entities/_db.service';
 
-export const fetchCategories = async(userUID?: string): Promise<ICategory[]> => {
+export const fetchCategories = async (
+  userUID?: string,
+): Promise<ICategory[]> => {
   return await fetchAllData<ICategory>(EndpointsList.CATEGORIES, userUID);
 };
 
-export const createCategory = async (payload: TCreateCategoryDto): Promise<void> => {
+export const createCategory = async (
+  payload: TCreateCategoryDto,
+): Promise<void> => {
   try {
     const {categoryName} = payload;
-    const categoriesRef = push(ref(firebaseDataBase, createDataEndpoint({endpoint: EndpointsList.CATEGORIES})));
+    const categoriesRef = push(
+      ref(
+        firebaseDataBase,
+        createDataEndpoint({endpoint: EndpointsList.CATEGORIES}),
+      ),
+    );
 
     const category: ICategory = {
       categoryId: categoriesRef.key!,
@@ -28,7 +42,10 @@ export const createCategory = async (payload: TCreateCategoryDto): Promise<void>
   }
 };
 
-export const updateCategory = async (payload: TCreateCategoryDto, id: string): Promise<void> => {
+export const updateCategory = async (
+  payload: TCreateCategoryDto,
+  id: string,
+): Promise<void> => {
   return await updateDataItemById(EndpointsList.CATEGORIES, id, payload);
 };
 

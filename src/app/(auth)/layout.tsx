@@ -4,14 +4,20 @@ import {isUserAuthenticated} from '@/lib/firebase/firebase-admin';
 import {redirect} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
 
-const Layout: FC<PropsWithChildren> = async ({children}): Promise<ReactElement> => {
+const Layout: FC<PropsWithChildren> = async ({
+  children,
+}): Promise<ReactElement> => {
   if (await isUserAuthenticated()) {
     redirect(RoutePath.CATEGORY_LIST);
   }
 
   return (
-    <div className={'w-full h-full flex flex-col items-start justify-start overflow-hidden'}>
-      <AppHeader variant={'auth'}/>
+    <div
+      className={
+        'flex h-full w-full flex-col items-start justify-start overflow-hidden'
+      }
+    >
+      <AppHeader variant={'auth'} />
 
       {children}
     </div>

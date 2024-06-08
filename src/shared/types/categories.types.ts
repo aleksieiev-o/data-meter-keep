@@ -5,4 +5,7 @@ export interface ICategory {
   updatedDate: string;
 }
 
-export type TCreateCategoryDto = Omit<ICategory, 'categoryId' | 'createdDate' | 'updatedDate'>;
+export type TCreateCategoryDto = Omit<
+  ICategory,
+  'categoryId' | 'createdDate' | 'updatedDate'
+>;

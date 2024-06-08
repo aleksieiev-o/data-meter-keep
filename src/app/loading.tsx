@@ -4,10 +4,18 @@ import {Loader2} from 'lucide-react';
 
 const Loading: FC = (): ReactElement => {
   return (
-    <section className={'w-full h-full grid grid-cols-1 content-center overflow-hidden'}>
+    <section
+      className={
+        'grid h-full w-full grid-cols-1 content-center overflow-hidden'
+      }
+    >
       <ScrollContentWrapper>
-        <div className={'w-full h-full flex flex-col items-center justify-center gap-2'}>
-          <Loader2 className={'h-10 w-10 animate-spin'}/>
+        <div
+          className={
+            'flex h-full w-full flex-col items-center justify-center gap-2'
+          }
+        >
+          <Loader2 className={'h-10 w-10 animate-spin'} />
 
           <span>Loading...</span>
         </div>

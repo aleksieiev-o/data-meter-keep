@@ -17,7 +17,7 @@ interface Props {
 
 const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
   const {category, dialogIsOpen, setDialogIsOpen} = props;
-  const { toast } = useToast();
+  const {toast} = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
 
@@ -74,7 +74,8 @@ const RemoveConfirmCategoryDialog: FC<Props> = (props): ReactElement => {
       dialogDescription={'You are about to remove this category.'}
       dialogQuestion={'Are you sure you want to delete this category?'}
       btnTitle={'Remove category'}
-      btnBody={'Remove'}/>
+      btnBody={'Remove'}
+    />
   );
 };
 

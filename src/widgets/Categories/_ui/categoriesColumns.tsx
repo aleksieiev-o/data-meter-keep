@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import {ColumnDef} from '@tanstack/react-table';
 import TableColumnHeaderWithSort from '@/shared/ui/tanstackReactTable/TableColumnHeaderWithSort';
 import CategoryTableRowActions from '@/widgets/Categories/_ui/CategoryTableRowActions';
 import {ICategory} from '@/shared/types/categories.types';
@@ -15,16 +15,32 @@ enum ECategoryTableColumnAccessorKeys {
 export const categoriesColumns: ColumnDef<TColumns>[] = [
   {
     accessorKey: ECategoryTableColumnAccessorKeys.CATEGORY_ID,
-    header: () => <div className="font-bold text-start whitespace-nowrap">Category ID</div>,
-    cell: ({row}) => <div className="text-start">{row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_ID)}</div>,
+    header: () => (
+      <div className="whitespace-nowrap text-start font-bold">Category ID</div>
+    ),
+    cell: ({row}) => (
+      <div className="text-start">
+        {row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_ID)}
+      </div>
+    ),
   },
   {
     accessorKey: ECategoryTableColumnAccessorKeys.CATEGORY_NAME,
-    header: ({ column }) => <TableColumnHeaderWithSort columnName={'Category name'} menuName={'Category sorting'} column={column}/>,
-    cell: ({row}) => <div className="text-start">{row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_NAME)}</div>,
+    header: ({column}) => (
+      <TableColumnHeaderWithSort
+        columnName={'Category name'}
+        menuName={'Category sorting'}
+        column={column}
+      />
+    ),
+    cell: ({row}) => (
+      <div className="text-start">
+        {row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_NAME)}
+      </div>
+    ),
   },
   {
     id: 'actions',
-    cell: ({row}) => <CategoryTableRowActions row={row}/>,
+    cell: ({row}) => <CategoryTableRowActions row={row} />,
   },
 ];

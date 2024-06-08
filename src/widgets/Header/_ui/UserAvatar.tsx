@@ -13,18 +13,20 @@ const UserAvatar: FC = (): ReactElement => {
 
   return (
     <>
-      {
-        user ?
-          <Avatar className={'h-12 w-12'}>
-            <AvatarImage src={user?.photoURL || ''}/>
+      {user ? (
+        <Avatar className={'h-12 w-12'}>
+          <AvatarImage src={user?.photoURL || ''} />
 
-            <AvatarFallback className={'text-primary-foreground text-xl font-bold'} aria-hidden={true}>
-              {userInitials}
-            </AvatarFallback>
-          </Avatar>
-          :
-          <Skeleton className={'h-12 w-12 rounded-full'}/>
-      }
+          <AvatarFallback
+            className={'text-xl font-bold text-primary-foreground'}
+            aria-hidden={true}
+          >
+            {userInitials}
+          </AvatarFallback>
+        </Avatar>
+      ) : (
+        <Skeleton className={'h-12 w-12 rounded-full'} />
+      )}
     </>
   );
 };

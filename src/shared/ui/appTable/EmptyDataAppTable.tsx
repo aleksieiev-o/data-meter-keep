@@ -8,7 +8,7 @@ const EmptyDataAppTable: FC<Props> = (props): ReactElement => {
   const {text} = props;
 
   return (
-    <div className={'w-full flex items-center justify-center px-4'}>
+    <div className={'flex w-full items-center justify-center px-4'}>
       <p>{text}</p>
     </div>
   );

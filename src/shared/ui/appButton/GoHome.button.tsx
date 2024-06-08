@@ -17,12 +17,11 @@ const GoHomeButton: FC = (): ReactElement => {
       onClick={() => router.replace(RoutePath.HOME)}
       variant={'default'}
       className={'shadow-md'}
-      title={'Go home'}>
-      <Home className={'w-5 h-5 mr-4'}/>
+      title={'Go home'}
+    >
+      <Home className={'mr-4 h-5 w-5'} />
 
-      <p>
-        Go home
-      </p>
+      <p>Go home</p>
     </Button>
   );
 };

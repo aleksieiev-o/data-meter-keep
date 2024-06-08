@@ -21,9 +21,15 @@ export const createDataEndpoint = (payload: TCreateEndpoint): string => {
   }
 };
 
-export const createDataItemEndpoint = (payload: TCreateItemDataEndpoint): string => {
+export const createDataItemEndpoint = (
+  payload: TCreateItemDataEndpoint,
+): string => {
   // TODO FIX: change chaining operator with default value for uid
-  const {endpoint, userUID = firebaseAuth.currentUser?.uid || '', itemId} = payload;
+  const {
+    endpoint,
+    userUID = firebaseAuth.currentUser?.uid || '',
+    itemId,
+  } = payload;
 
   try {
     return `${endpoint}`.replace('_userUID_', userUID).replace('[id]', itemId);

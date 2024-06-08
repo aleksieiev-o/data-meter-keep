@@ -13,7 +13,7 @@ export const createAppMetaData = (metaData: Metadata): Metadata => {
       },
     };
   }
-  
+
   return {
     title: `${title} | Data meter keep`,
     robots: {

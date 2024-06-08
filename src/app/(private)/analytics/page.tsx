@@ -1,11 +1,11 @@
 import {FC, ReactElement} from 'react';
 import ScrollContentWrapper from '@/widgets/ScrollContentWrapper';
 import Analytics from '@/widgets/Analytics/Analytics';
-import { RoutePath } from '@/shared/router/Routes.enum';
-import { fetchCategories } from '@/entities/categories/categories.service';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import { getCurrentUser } from '@/lib/firebase/firebase-admin';
-import { fetchNotes } from '@/entities/notes/notes.service';
+import {RoutePath} from '@/shared/router/Routes.enum';
+import {fetchCategories} from '@/entities/categories/categories.service';
+import {HydrationBoundary, QueryClient, dehydrate} from '@tanstack/react-query';
+import {getCurrentUser} from '@/lib/firebase/firebase-admin';
+import {fetchNotes} from '@/entities/notes/notes.service';
 
 const AnalyticsPage: FC = async (): Promise<ReactElement> => {
   const queryClient = new QueryClient();
@@ -28,7 +28,7 @@ const AnalyticsPage: FC = async (): Promise<ReactElement> => {
   return (
     <ScrollContentWrapper>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Analytics/>
+        <Analytics />
       </HydrationBoundary>
     </ScrollContentWrapper>
   );

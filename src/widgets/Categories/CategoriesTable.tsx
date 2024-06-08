@@ -2,8 +2,13 @@
 
 import {ReactElement, useState} from 'react';
 import {
-  ColumnDef, ColumnFiltersState,
-  getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState,
+  ColumnDef,
+  ColumnFiltersState,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import {Input} from '@/components/ui/input';
@@ -22,14 +27,20 @@ interface Props<TData, TValue> {
   // data: TData[];
 }
 
-const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactElement => {
+const CategoriesTable = <TData, TValue>(
+  props: Props<TData, TValue>,
+): ReactElement => {
   const {columns} = props;
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [user] = useAuthState(firebaseAuth);
 
-  const { data: categoriesQueryData, isPending: categoriesIsPending, isSuccess: categoriesIsSuccess } = useQuery({
+  const {
+    data: categoriesQueryData,
+    isPending: categoriesIsPending,
+    isSuccess: categoriesIsSuccess,
+  } = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
@@ -37,7 +48,7 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   });
 
   const table = useReactTable({
-    data: categoriesIsSuccess ? categoriesQueryData as TData[] : [],
+    data: categoriesIsSuccess ? (categoriesQueryData as TData[]) : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onPaginationChange: setPagination,
@@ -54,27 +65,36 @@ const CategoriesTable = <TData, TValue>(props: Props<TData, TValue>): ReactEleme
   });
 
   return (
-    <div className={'w-full h-full flex flex-col gap-6 py-6'}>
-      <PageTitle title={RouteName.CATEGORY_LIST}/>
+    <div className={'flex h-full w-full flex-col gap-6 py-6'}>
+      <PageTitle title={RouteName.CATEGORY_LIST} />
 
-      <div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between gap-6">
+      <div className="flex w-full flex-col items-end justify-between gap-6 sm:flex-row sm:items-center">
         <Input
-          onChange={(event) => table.getColumn('categoryName')?.setFilterValue(event.target.value)}
+          onChange={(event) =>
+            table.getColumn('categoryName')?.setFilterValue(event.target.value)
+          }
           disabled={!categoriesQueryData || !categoriesQueryData.length}
-          value={(table.getColumn('categoryName')?.getFilterValue() as string) ?? ''}
+          value={
+            (table.getColumn('categoryName')?.getFilterValue() as string) ?? ''
+          }
           placeholder={'Try to search something...'}
-          className={'w-full h-12'}/>
+          className={'h-12 w-full'}
+        />
 
         <div>
-          <CreateCategoryDialog/>
+          <CreateCategoryDialog />
         </div>
       </div>
-      
-      <AppTable table={table} columns={columns} isPending={categoriesIsPending}/>
 
-      {
-        categoriesQueryData && categoriesQueryData.length > 5 && <AppTablePageControls table={table}/>
-      }
+      <AppTable
+        table={table}
+        columns={columns}
+        isPending={categoriesIsPending}
+      />
+
+      {categoriesQueryData && categoriesQueryData.length > 5 && (
+        <AppTablePageControls table={table} />
+      )}
     </div>
   );
 };

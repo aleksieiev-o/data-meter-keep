@@ -12,15 +12,22 @@ interface Props {
 
 const HeaderLogo: FC<Props> = (props): ReactElement => {
   const {appNameVisibilityClasses, withSheetClose} = props;
-  const [SheetCloseWrapper, sheetCloseWrapperProps] = withSheetClose ? [SheetClose, {asChild: true}] : [React.Fragment, {}];
+  const [SheetCloseWrapper, sheetCloseWrapperProps] = withSheetClose
+    ? [SheetClose, {asChild: true}]
+    : [React.Fragment, {}];
 
   return (
     <SheetCloseWrapper {...sheetCloseWrapperProps}>
       <Link href={RoutePath.HOME}>
-        <div className={'flex flex-row items-end gap-2 overflow-hidden'} title={APP_NAME}>
-          <BarChartHorizontal className={'w-12 h-12 stroke-primary'}/>
+        <div
+          className={'flex flex-row items-end gap-2 overflow-hidden'}
+          title={APP_NAME}
+        >
+          <BarChartHorizontal className={'h-12 w-12 stroke-primary'} />
 
-          <strong className={`${appNameVisibilityClasses} text-primary font-bold leading-5 whitespace-nowrap`}>
+          <strong
+            className={`${appNameVisibilityClasses} whitespace-nowrap font-bold leading-5 text-primary`}
+          >
             {APP_NAME}
           </strong>
         </div>

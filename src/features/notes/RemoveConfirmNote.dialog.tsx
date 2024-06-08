@@ -15,7 +15,7 @@ interface Props {
 
 const RemoveConfirmNoteDialog: FC<Props> = (props): ReactElement => {
   const {note, dialogIsOpen, setDialogIsOpen} = props;
-  const { toast } = useToast();
+  const {toast} = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
 
@@ -72,7 +72,8 @@ const RemoveConfirmNoteDialog: FC<Props> = (props): ReactElement => {
       dialogDescription={'You are about to remove this note.'}
       dialogQuestion={'Are you sure you want to delete this note?'}
       btnTitle={'Remove note'}
-      btnBody={'Remove'}/>
+      btnBody={'Remove'}
+    />
   );
 };
 

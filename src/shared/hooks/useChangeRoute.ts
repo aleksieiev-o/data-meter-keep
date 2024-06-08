@@ -14,6 +14,6 @@ export const useChangeRoute = (): IUseChangeRoute => {
       push(to);
     }
   };
-  
-  return { changeRoute };
+
+  return {changeRoute};
 };

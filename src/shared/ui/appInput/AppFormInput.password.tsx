@@ -13,7 +13,7 @@ const AppFormInputPassword: FC<Props> = (props): ReactElement => {
   const [checked, setChecked] = useState<boolean>(false);
 
   return (
-    <div className={'w-full flex flex-col items-start justify-center gap-4'}>
+    <div className={'flex w-full flex-col items-start justify-center gap-4'}>
       <AppFormInputText
         mode={'input'}
         formModel={formModel}
@@ -23,7 +23,8 @@ const AppFormInputPassword: FC<Props> = (props): ReactElement => {
         placeholder={checked ? 'Password' : '•••••••••'}
         required={true}
         disabled={disabled}
-        isDataPending={false}/>
+        isDataPending={false}
+      />
 
       <div className={'flex items-end gap-2'}>
         <Checkbox
@@ -31,12 +32,16 @@ const AppFormInputPassword: FC<Props> = (props): ReactElement => {
           checked={checked}
           disabled={disabled}
           onCheckedChange={(isChecked) => setChecked(isChecked as boolean)}
-          title={'Show password'}/>
+          title={'Show password'}
+        />
 
         <div className={'grid gap-1.5 leading-none'}>
           <label
             htmlFor={isPasswordVisibleID}
-            className={'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'}>
+            className={
+              'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+            }
+          >
             Show password
           </label>
         </div>

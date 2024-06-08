@@ -3,13 +3,15 @@ import GoHomeButton from '@/shared/ui/appButton/GoHome.button';
 
 const NotFoundPage: FC = (): ReactElement => {
   return (
-    <section className={'w-full h-full grid grid-cols-1 content-center justify-items-center overflow-hidden'}>
-      <div className={'h-full grid grid-cols-1 gap-6 content-start'}>
-        <p className={'text-md text-center'}>
-          Page not found
-        </p>
+    <section
+      className={
+        'grid h-full w-full grid-cols-1 content-center justify-items-center overflow-hidden'
+      }
+    >
+      <div className={'grid h-full grid-cols-1 content-start gap-6'}>
+        <p className={'text-md text-center'}>Page not found</p>
 
-        <GoHomeButton/>
+        <GoHomeButton />
       </div>
     </section>
   );

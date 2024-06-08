@@ -10,10 +10,16 @@ export const metadata: Metadata = createAppMetaData({
   description: APP_DESCRIPTION,
 });
 
-const Layout: FC<PropsWithChildren> = async ({children}): Promise<ReactElement> => {
+const Layout: FC<PropsWithChildren> = async ({
+  children,
+}): Promise<ReactElement> => {
   return (
-    <div className={'w-full h-full flex flex-col items-start justify-start overflow-hidden'}>
-      <AppHeader variant={'public'}/>
+    <div
+      className={
+        'flex h-full w-full flex-col items-start justify-start overflow-hidden'
+      }
+    >
+      <AppHeader variant={'public'} />
 
       {children}
     </div>

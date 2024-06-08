@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import {Button} from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -8,16 +8,20 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
-import { firebaseAuth } from '@/lib/firebase/firebase';
-import { useRouter } from 'next/navigation';
+import {useToast} from '@/components/ui/use-toast';
+import {firebaseAuth} from '@/lib/firebase/firebase';
+import {useRouter} from 'next/navigation';
 import {FC, ReactElement} from 'react';
-import { useAuthState, useSendPasswordResetEmail, useSignOut } from 'react-firebase-hooks/auth';
+import {
+  useAuthState,
+  useSendPasswordResetEmail,
+  useSignOut,
+} from 'react-firebase-hooks/auth';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
-import { RoutePath } from '@/shared/router/Routes.enum';
-import { Send } from 'lucide-react';
+import {RoutePath} from '@/shared/router/Routes.enum';
+import {Send} from 'lucide-react';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -25,30 +29,39 @@ interface Props {
 }
 
 const ChangePasswordDialog: FC<Props> = (props): ReactElement => {
-	const {dialogIsOpen, setDialogIsOpen} = props;
-	const { toast } = useToast();
-	const [user] = useAuthState(firebaseAuth);
-	const [signOut, signOutLoading] = useSignOut(firebaseAuth);
+  const {dialogIsOpen, setDialogIsOpen} = props;
+  const {toast} = useToast();
+  const [user] = useAuthState(firebaseAuth);
+  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
   const {replace} = useRouter();
-	const [sendPasswordResetEmail, sendPasswordResetEmailLoading] = useSendPasswordResetEmail(firebaseAuth);
+  const [sendPasswordResetEmail, sendPasswordResetEmailLoading] =
+    useSendPasswordResetEmail(firebaseAuth);
 
-	const handleSendRequest = async () => {
+  const handleSendRequest = async () => {
     try {
-			await sendPasswordResetEmail(user?.email || '', undefined);
+      await sendPasswordResetEmail(user?.email || '', undefined);
 
       toast({
         title: 'Re-authentication is required',
-        description: 'Please check your email and click on the link to change your password. After changing your password, you will need to re-authenticate.',
-        action: <Button
+        description:
+          'Please check your email and click on the link to change your password. After changing your password, you will need to re-authenticate.',
+        action: (
+          <Button
             onClick={handleSignOut}
             disabled={signOutLoading}
             variant={'destructive'}
-            title={'Sign out'}>
+            title={'Sign out'}
+          >
             Sign out
-          </Button>,
+          </Button>
+        ),
       });
     } catch (e) {
-      toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
+      toast({
+        title: 'Failure',
+        description: 'An error has occurred. Something went wrong.',
+        variant: 'destructive',
+      });
       console.warn(e);
     } finally {
       setDialogIsOpen(false);
@@ -64,29 +77,32 @@ const ChangePasswordDialog: FC<Props> = (props): ReactElement => {
 
       replace(RoutePath.SIGN_IN);
     } catch (e) {
-      toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
+      toast({
+        title: 'Failure',
+        description: 'An error has occurred. Something went wrong.',
+        variant: 'destructive',
+      });
       console.warn(e);
     } finally {
       setDialogIsOpen(false);
     }
   };
 
-	return (
-		<Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
+  return (
+    <Dialog open={dialogIsOpen} onOpenChange={setDialogIsOpen}>
       <DialogContent className={'flex flex-col gap-6'}>
         <DialogHeader>
-          <DialogTitle>
-						Change password
-					</DialogTitle>
+          <DialogTitle>Change password</DialogTitle>
 
           <DialogDescription>
             You are about to change your password.
           </DialogDescription>
         </DialogHeader>
 
-        <div className='w-full flex flex-col items-start justify-start gap-2 text-sm text-muted-foreground'>
+        <div className="flex w-full flex-col items-start justify-start gap-2 text-sm text-muted-foreground">
           <p>
-            You will be prompted to change your password using your email address.
+            You will be prompted to change your password using your email
+            address.
           </p>
         </div>
 
@@ -101,17 +117,16 @@ const ChangePasswordDialog: FC<Props> = (props): ReactElement => {
             onClick={handleSendRequest}
             disabled={sendPasswordResetEmailLoading}
             variant={'default'}
-            title={'Send request'}>
-            <Send className={'w-5 h-5 mr-4'}/>
+            title={'Send request'}
+          >
+            <Send className={'mr-4 h-5 w-5'} />
 
-            <p>
-              Send request
-            </p>
+            <p>Send request</p>
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-	);
+  );
 };
 
 export default ChangePasswordDialog;

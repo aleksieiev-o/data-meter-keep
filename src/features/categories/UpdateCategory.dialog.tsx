@@ -33,27 +33,34 @@ interface Props {
 const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
   const {category, dialogIsOpen, setDialogIsOpen} = props;
-  const { toast } = useToast();
+  const {toast} = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
 
-  const categorySchema = useMemo(() => (z.
-    object({
-      categoryName: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-        .trim()
-        .min(3, 'Category name length must be at least 3 characters')
-        .max(180, 'Category name length must not exceed 180 characters'),
-    })
-    .superRefine((data, ctx) => {
-      if (data.categoryName === category.categoryName) {
-        ctx.addIssue({
-          code: ZodIssueCode.custom,
-          path: ['categoryName'],
-          message: 'The names of category are the same',
-        });
-      }
-    })
-  ), [category.categoryName]);
+  const categorySchema = useMemo(
+    () =>
+      z
+        .object({
+          categoryName: z
+            .string({
+              required_error: 'Field is required',
+              invalid_type_error: 'Value must be a string',
+            })
+            .trim()
+            .min(3, 'Category name length must be at least 3 characters')
+            .max(180, 'Category name length must not exceed 180 characters'),
+        })
+        .superRefine((data, ctx) => {
+          if (data.categoryName === category.categoryName) {
+            ctx.addIssue({
+              code: ZodIssueCode.custom,
+              path: ['categoryName'],
+              message: 'The names of category are the same',
+            });
+          }
+        }),
+    [category.categoryName],
+  );
 
   const formModel = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
@@ -90,7 +97,11 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
   };
 
   const mutation = useMutation({
-    mutationFn: async (values: TCreateCategoryDto) => await updateCategory({categoryName: values.categoryName}, category.categoryId),
+    mutationFn: async (values: TCreateCategoryDto) =>
+      await updateCategory(
+        {categoryName: values.categoryName},
+        category.categoryId,
+      ),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -115,18 +126,23 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
           <DialogTitle>Update category</DialogTitle>
 
           <DialogDescription>
-            {
-              `Current category name is ${category.categoryName}.`
-            }
+            {`Current category name is ${category.categoryName}.`}
           </DialogDescription>
         </DialogHeader>
 
-        <div className={'w-full h-full flex flex-col items-center justify-center gap-6'}>
+        <div
+          className={
+            'flex h-full w-full flex-col items-center justify-center gap-6'
+          }
+        >
           <Form {...formModel}>
             <form
               onSubmit={formModel.handleSubmit(handleSubmitForm)}
               id={formID}
-              className={'w-full flex flex-col items-start justify-center gap-4'}>
+              className={
+                'flex w-full flex-col items-start justify-center gap-4'
+              }
+            >
               <AppFormInputText
                 mode={'input'}
                 type={'text'}
@@ -136,7 +152,8 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
                 placeholder={'New category...'}
                 required={true}
                 disabled={isLoading}
-                isDataPending={false}/>
+                isDataPending={false}
+              />
             </form>
           </Form>
         </div>
@@ -153,7 +170,8 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
             title={'Update'}
             btnBody={'Update'}
             isLoading={isLoading}
-            disabled={false}/>
+            disabled={false}
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

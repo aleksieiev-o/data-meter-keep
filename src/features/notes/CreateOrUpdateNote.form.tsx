@@ -1,7 +1,13 @@
 'use client';
 
 import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
-import {Form, FormControl, FormField, FormItem, FormLabel} from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useAuthState} from 'react-firebase-hooks/auth';
@@ -11,7 +17,11 @@ import {fetchCategories} from '@/entities/categories/categories.service';
 import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {createNote, fetchNoteById, updateNote} from '@/entities/notes/notes.service';
+import {
+  createNote,
+  fetchNoteById,
+  updateNote,
+} from '@/entities/notes/notes.service';
 import GoToPreviousPageButton from '@/shared/ui/appButton/GoToPreviousPage.button';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {useToast} from '@/components/ui/use-toast';
@@ -36,7 +46,7 @@ interface Props {
 const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   const {variant} = props;
   const formID = useId();
-  const { toast } = useToast();
+  const {toast} = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
   const [user] = useAuthState(firebaseAuth);
@@ -45,33 +55,54 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
 
   const noteId = useMemo(() => pathname.split('/')[3], [pathname]);
 
-  const { data: categoriesQueryData, isPending: categoriesIsPending } = useQuery({
+  const {data: categoriesQueryData, isPending: categoriesIsPending} = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  const { data: notesQueryData, isPending: notesIsPending } = useQuery({
+  const {data: notesQueryData, isPending: notesIsPending} = useQuery({
     queryKey: [noteId],
     queryFn: async () => await fetchNoteById(noteId),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
 
-  const noteSchema = useMemo(() => (z.
-    object({
-      noteValue: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
-        .nonnegative(),
-      endCalculationDate: z.date({ required_error: 'Field is required', invalid_type_error: 'Value must be a date' }),
-      noteDescription: z.string({ required_error: 'Field is required', invalid_type_error: 'Value must be a string' })
-        .trim()
-        .max(180, 'Note description length must not exceed 180 characters'),
-      noteCoefficient: z.coerce.number({ required_error: 'Field is required', invalid_type_error: 'Value must be a number' })
-        .nonnegative(),
-      categoryId: z.string({ required_error: 'Field is required', invalid_type_error: 'You need to select one of the categories or create new one' }),
-    })
-  ), []);
+  const noteSchema = useMemo(
+    () =>
+      z.object({
+        noteValue: z.coerce
+          .number({
+            required_error: 'Field is required',
+            invalid_type_error: 'Value must be a number',
+          })
+          .nonnegative(),
+        endCalculationDate: z.date({
+          required_error: 'Field is required',
+          invalid_type_error: 'Value must be a date',
+        }),
+        noteDescription: z
+          .string({
+            required_error: 'Field is required',
+            invalid_type_error: 'Value must be a string',
+          })
+          .trim()
+          .max(180, 'Note description length must not exceed 180 characters'),
+        noteCoefficient: z.coerce
+          .number({
+            required_error: 'Field is required',
+            invalid_type_error: 'Value must be a number',
+          })
+          .nonnegative(),
+        categoryId: z.string({
+          required_error: 'Field is required',
+          invalid_type_error:
+            'You need to select one of the categories or create new one',
+        }),
+      }),
+    [],
+  );
 
   const formModel = useForm<z.infer<typeof noteSchema>>({
     resolver: zodResolver(noteSchema),
@@ -101,7 +132,10 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
       queryKey: [RoutePath.NOTE_LIST],
     });
 
-    const description = variant === 'create' ? 'You have successfully created a new note.' : 'You have successfully updated this note.';
+    const description =
+      variant === 'create'
+        ? 'You have successfully created a new note.'
+        : 'You have successfully updated this note.';
     toast({title: 'Success', description});
 
     formModel.reset();
@@ -112,7 +146,11 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   };
 
   const onErrorCallback = async (): Promise<void> => {
-    toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
+    toast({
+      title: 'Failure',
+      description: 'An error has occurred. Something went wrong.',
+      variant: 'destructive',
+    });
   };
 
   const onSettledCallback = async (): Promise<void> => {
@@ -128,10 +166,10 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   });
 
   const mutationCreateOrUpdate = useMutation({
-    mutationFn: async (values: ICreateNoteDto) => variant === 'create' ?
-      await createNote(createNoteData(values))
-      :
-      await updateNote(createNoteData(values), noteId),
+    mutationFn: async (values: ICreateNoteDto) =>
+      variant === 'create'
+        ? await createNote(createNoteData(values))
+        : await updateNote(createNoteData(values), noteId),
     onSuccess: async (data, variables, context) => {
       await onSuccessCallback();
     },
@@ -150,13 +188,25 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   };
 
   return (
-    <div className={'w-full h-full flex flex-col items-center justify-center gap-6'}>
+    <div
+      className={
+        'flex h-full w-full flex-col items-center justify-center gap-6'
+      }
+    >
       <Form {...formModel}>
-        <form onSubmit={formModel.handleSubmit(handleSubmitForm)} id={formID} className={'w-full flex flex-col items-start justify-center gap-4'}>
-          <div className={'w-full flex flex-col sm:flex-row sm:flex-nowrap items-start sm:items-end justify-between gap-4'}>
+        <form
+          onSubmit={formModel.handleSubmit(handleSubmitForm)}
+          id={formID}
+          className={'flex w-full flex-col items-start justify-center gap-4'}
+        >
+          <div
+            className={
+              'flex w-full flex-col items-start justify-between gap-4 sm:flex-row sm:flex-nowrap sm:items-end'
+            }
+          >
             <AppFormSelect
               formModel={formModel}
-              id='create-update-note-form-select'
+              id="create-update-note-form-select"
               name={'categoryId'}
               label={'List of categories'}
               placeholder={'Select category'}
@@ -164,52 +214,56 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
               disabled={isLoading}
               isDataPending={categoriesIsPending}
               dataList={categoriesQueryData || []}
-              emptyDataListMessage={'There are no categories yet'}/>
+              emptyDataListMessage={'There are no categories yet'}
+            />
 
-            <CreateCategoryDialog/>
+            <CreateCategoryDialog />
           </div>
 
           <FormField
             name={'endCalculationDate'}
             render={({field}) => (
               <FormItem className={'w-full'}>
-                <FormLabel aria-required={true}>
-                  End calculation date
-                </FormLabel>
+                <FormLabel aria-required={true}>End calculation date</FormLabel>
 
                 <Popover>
-                  {
-                    notesIsPending ?
-                    <Skeleton className={'w-full h-12'}/>
-                    :
+                  {notesIsPending ? (
+                    <Skeleton className={'h-12 w-full'} />
+                  ) : (
                     <PopoverTrigger asChild>
-                    <FormControl aria-required={true}>
-                      <Button
-                        variant={'outline'}
-                        disabled={isLoading}
-                        className={cn(
-                          'w-full justify-start text-left font-normal',
-                          !field.value && 'text-muted-foreground'
-                        )}>
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                      <FormControl aria-required={true}>
+                        <Button
+                          variant={'outline'}
+                          disabled={isLoading}
+                          className={cn(
+                            'w-full justify-start text-left font-normal',
+                            !field.value && 'text-muted-foreground',
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
 
-                        {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  }
+                          {field.value ? (
+                            format(field.value, 'PPP')
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                  )}
 
                   <PopoverContent className="w-auto p-0">
                     <Calendar
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      initialFocus/>
+                      initialFocus
+                    />
                   </PopoverContent>
                 </Popover>
               </FormItem>
-            )}>
-          </FormField>
+            )}
+          ></FormField>
 
           <AppFormInputText
             mode={'input'}
@@ -220,7 +274,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'100'}
             required={true}
             disabled={isLoading}
-            isDataPending={notesIsPending}/>
+            isDataPending={notesIsPending}
+          />
 
           <AppFormInputText
             mode={'textarea'}
@@ -231,7 +286,8 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'Description'}
             required={false}
             disabled={isLoading}
-            isDataPending={notesIsPending}/>
+            isDataPending={notesIsPending}
+          />
 
           <AppFormInputText
             mode={'input'}
@@ -242,19 +298,21 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             placeholder={'1'}
             required={true}
             disabled={isLoading}
-            isDataPending={notesIsPending}/>
+            isDataPending={notesIsPending}
+          />
         </form>
       </Form>
 
-      <div className={'w-full flex flex-row items-center justify-end gap-4'}>
-        <GoToPreviousPageButton/>
+      <div className={'flex w-full flex-row items-center justify-end gap-4'}>
+        <GoToPreviousPageButton />
 
         <SubmitButton
           formId={formID}
           title={variant === 'create' ? 'Create' : 'Update'}
           btnBody={variant === 'create' ? 'Create' : 'Update'}
           isLoading={isLoading}
-          disabled={notesIsPending}/>
+          disabled={notesIsPending}
+        />
       </div>
     </div>
   );

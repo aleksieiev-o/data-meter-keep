@@ -1,13 +1,29 @@
 import React, {FC, ReactElement} from 'react';
-import {FormControl, FormField, FormItem, FormLabel, FormMessage} from '@/components/ui/form';
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import {Asterisk} from 'lucide-react';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {IAppFormInput} from '@/shared/ui/appInput/_types/AppFormInput.interface';
-import { Skeleton } from '@/components/ui/skeleton';
+import {Skeleton} from '@/components/ui/skeleton';
 
 const AppFormInputText: FC<IAppFormInput> = (props): ReactElement => {
-  const {mode, formModel, name, label, placeholder, required, disabled, type, isDataPending} = props;
+  const {
+    mode,
+    formModel,
+    name,
+    label,
+    placeholder,
+    required,
+    disabled,
+    type,
+    isDataPending,
+  } = props;
 
   return (
     <FormField
@@ -18,44 +34,44 @@ const AppFormInputText: FC<IAppFormInput> = (props): ReactElement => {
           <FormLabel aria-required={required} className={'flex'}>
             <span className={'mr-0.5'}>{label}</span>
 
-            <Asterisk className={'w-2.5 h-2.5 stroke-destructive self-start'}/>
+            <Asterisk className={'h-2.5 w-2.5 self-start stroke-destructive'} />
           </FormLabel>
 
           <FormControl aria-required={required}>
-            {
-              mode === 'input' ?
+            {mode === 'input' ? (
               <>
-                {
-                  isDataPending ?
-                  <Skeleton className={'w-full h-12'}/>
-                  :
+                {isDataPending ? (
+                  <Skeleton className={'h-12 w-full'} />
+                ) : (
                   <Input
                     placeholder={placeholder}
                     aria-required={required}
                     type={type}
                     disabled={disabled}
-                    {...field}/>
-                }
+                    {...field}
+                  />
+                )}
               </>
-              :
+            ) : (
               <>
-                {
-                  isDataPending ?
-                  <Skeleton className={'w-full min-h-[80px]'}/>
-                  :
+                {isDataPending ? (
+                  <Skeleton className={'min-h-[80px] w-full'} />
+                ) : (
                   <Textarea
                     placeholder={placeholder}
                     aria-required={required}
                     disabled={disabled}
-                    {...field}/>
-                }
+                    {...field}
+                  />
+                )}
               </>
-            }
+            )}
           </FormControl>
 
-          <FormMessage/>
+          <FormMessage />
         </FormItem>
-      )}/>
+      )}
+    />
   );
 };
 

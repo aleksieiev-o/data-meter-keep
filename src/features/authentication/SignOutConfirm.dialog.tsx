@@ -8,7 +8,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
@@ -26,7 +26,7 @@ interface Props {
 const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
   const {dialogIsOpen, setDialogIsOpen} = props;
   const [signOut, signOutLoading] = useSignOut(firebaseAuth);
-  const { toast } = useToast();
+  const {toast} = useToast();
   const {replace} = useRouter();
 
   const handleConfirm = async (): Promise<void> => {
@@ -38,7 +38,11 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
 
       replace(RoutePath.SIGN_IN);
     } catch (e) {
-      toast({title: 'Failure', description: 'An error has occurred. Something went wrong.', variant: 'destructive'});
+      toast({
+        title: 'Failure',
+        description: 'An error has occurred. Something went wrong.',
+        variant: 'destructive',
+      });
       console.warn(e);
     } finally {
       setDialogIsOpen(false);
@@ -51,14 +55,10 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
         <DialogHeader>
           <DialogTitle>Sign out confirmation</DialogTitle>
 
-          <DialogDescription>
-            You are about to sign out.
-          </DialogDescription>
+          <DialogDescription>You are about to sign out.</DialogDescription>
         </DialogHeader>
 
-        <p>
-          Are you sure you want to sign out?
-        </p>
+        <p>Are you sure you want to sign out?</p>
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
@@ -71,7 +71,8 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
             onClick={handleConfirm}
             disabled={signOutLoading}
             variant={'destructive'}
-            title={'Sign out'}>
+            title={'Sign out'}
+          >
             Sign out
           </Button>
         </DialogFooter>

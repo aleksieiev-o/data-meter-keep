@@ -14,43 +14,56 @@ const AppHeader: FC<Props> = (props): ReactElement => {
   const {variant} = props;
 
   return (
-    <header className={'w-full h-20 flex flex-row items-center justify-between gap-4 lg:gap-6 overflow-hidden border-b shadow-md px-2 md:px-4'}>
-      {
-        variant !== 'auth' &&
-        <HeaderDrawer/>
+    <header
+      className={
+        'flex h-20 w-full flex-row items-center justify-between gap-4 overflow-hidden border-b px-2 shadow-md md:px-4 lg:gap-6'
       }
+    >
+      {variant !== 'auth' && <HeaderDrawer />}
 
-      {
-        variant === 'auth' &&
-        <div className={'h-full flex md:hidden items-center'}>
-          <HeaderLogo appNameVisibilityClasses={''} withSheetClose={false}/>
+      {variant === 'auth' && (
+        <div className={'flex h-full items-center md:hidden'}>
+          <HeaderLogo appNameVisibilityClasses={''} withSheetClose={false} />
         </div>
-      }
+      )}
 
-      <div className={'w-full h-full hidden md:flex items-center justify-start gap-4 lg:gap-6'}>
-        <HeaderLogo appNameVisibilityClasses={'hidden lg:block'} withSheetClose={false}/>
-
-        {
-          variant !== 'auth' &&
-          <div className={'flex flex-row items-center justify-center gap-4 lg:gap-6 mx-auto'}>
-            <HeaderNav withSheetClose={false}/>
-          </div>
+      <div
+        className={
+          'hidden h-full w-full items-center justify-start gap-4 md:flex lg:gap-6'
         }
+      >
+        <HeaderLogo
+          appNameVisibilityClasses={'hidden lg:block'}
+          withSheetClose={false}
+        />
+
+        {variant !== 'auth' && (
+          <div
+            className={
+              'mx-auto flex flex-row items-center justify-center gap-4 lg:gap-6'
+            }
+          >
+            <HeaderNav withSheetClose={false} />
+          </div>
+        )}
       </div>
 
-      <div className={'h-20 grid grid-flow-col auto-cols-max gap-4 lg:gap-6 items-center'}>
-        {
-          variant !== 'auth' &&
-          <>
-            <AppHeaderInfo/>
-
-            <AuthStateChangeButton/>
-          </>
+      <div
+        className={
+          'grid h-20 auto-cols-max grid-flow-col items-center gap-4 lg:gap-6'
         }
+      >
+        {variant !== 'auth' && (
+          <>
+            <AppHeaderInfo />
+
+            <AuthStateChangeButton />
+          </>
+        )}
 
         {/*<LocaleChangeButton/>*/}
 
-        <ThemeChangeButton/>
+        <ThemeChangeButton />
       </div>
     </header>
   );

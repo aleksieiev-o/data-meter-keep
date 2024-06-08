@@ -11,11 +11,7 @@ export const metadata: Metadata = createAppMetaData({
 });
 
 const HomeLayout: FC<PropsWithChildren> = ({children}): ReactElement => {
-  return (
-    <AppContentWrapper>
-      {children}
-    </AppContentWrapper>
-  );
+  return <AppContentWrapper>{children}</AppContentWrapper>;
 };
 
 export default HomeLayout;

@@ -31,8 +31,15 @@ interface IAppearanceDelayOptions {
   minDisplay?: number;
 }
 
-export const useAppearanceDelay = (show?: boolean, options = {} as IAppearanceDelayOptions) => {
-  const {minDisplay = 500, defaultValue = false, appearanceDelay = 500} = options;
+export const useAppearanceDelay = (
+  show?: boolean,
+  options = {} as IAppearanceDelayOptions,
+) => {
+  const {
+    minDisplay = 500,
+    defaultValue = false,
+    appearanceDelay = 500,
+  } = options;
   const [delayedShow, setDelayedShow] = useState(defaultValue);
 
   useEffect(() => {
@@ -54,33 +61,42 @@ export const useAppearanceDelay = (show?: boolean, options = {} as IAppearanceDe
   return delayedShow;
 };
 
-export const ComposeChildren: FC<PropsWithChildren> = ({children}): ReactElement => {
+export const ComposeChildren: FC<PropsWithChildren> = ({
+  children,
+}): ReactElement => {
   const array = Children.toArray(children);
   const last = array.pop();
 
   return (
     <>
-      {
-        array.reduceRight((child, element) => isValidElement(element)
-          ? createElement(element.type, element.props, child)
-          : child, last)
-      }
+      {array.reduceRight(
+        (child, element) =>
+          isValidElement(element)
+            ? createElement(element.type, element.props, child)
+            : child,
+        last,
+      )}
     </>
   );
 };
 
 type Fn<ARGS extends any[], R> = (...args: ARGS) => R;
 
-export const useEventCallback = <A extends any[], R>(fn: Fn<A, R>): Fn<A, R> => {
+export const useEventCallback = <A extends any[], R>(
+  fn: Fn<A, R>,
+): Fn<A, R> => {
   const ref = useRef<Fn<A, R>>(fn);
 
   useEffect(() => {
     ref.current = fn;
   });
 
-  return useMemo(() =>
+  return useMemo(
+    () =>
       (...args: A): R => {
-        const { current } = ref;
+        const {current} = ref;
         return current(...args);
-      }, []);
+      },
+    [],
+  );
 };
