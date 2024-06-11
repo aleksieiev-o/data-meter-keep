@@ -12,21 +12,15 @@ import {
 } from '@/components/ui/dialog';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useRouter} from 'next/navigation';
-import {FC, ReactElement, useId, useMemo, useState} from 'react';
-import {
-  useAuthState,
-  useSignOut,
-  useVerifyBeforeUpdateEmail,
-} from 'react-firebase-hooks/auth';
-import {signOutAdmin} from '@/shared/api/signOutAdmin';
+import {FC, ReactElement, useContext, useId, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {z, ZodIssueCode} from 'zod';
 import {RoutePath} from '@/shared/router/Routes.enum';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -37,11 +31,14 @@ const ChangeEmailDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
   const {dialogIsOpen, setDialogIsOpen} = props;
   const {toast} = useToast();
-  const [user] = useAuthState(firebaseAuth);
-  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
+  const {
+    user,
+    signOut,
+    signOutLoading,
+    verifyBeforeUpdateEmail,
+    verifyBeforeUpdateEmailLoading,
+  } = useContext(AppAuthContext);
   const {replace} = useRouter();
-  const [verifyBeforeUpdateEmail, verifyBeforeUpdateEmailLoading] =
-    useVerifyBeforeUpdateEmail(firebaseAuth);
   const [additionalInfo, setAdditionalInfo] = useState<boolean>(false);
 
   const isUserNeedsReAuth = () => {

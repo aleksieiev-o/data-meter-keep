@@ -1,20 +1,19 @@
 'use client';
 
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {RouteName} from '@/shared/router/Routes.enum';
 import GoToPreviousPageButton from '@/shared/ui/appButton/GoToPreviousPage.button';
 import PageTitle from '@/shared/widgets/PageTitle';
-import {FC, ReactElement, useState} from 'react';
-import {useAuthState} from 'react-firebase-hooks/auth';
+import {FC, ReactElement, useContext, useState} from 'react';
 import UserSettingsTextItem from './UserSettingsTextItem';
 import {User, Mail, LockKeyhole} from 'lucide-react';
 import ChangeDisplayNameDialog from '@/features/user-actions/ChangeDisplayName.dialog';
 import {DEFAULT_USER_DN} from '@/shared/appConstants';
 import ChangeEmailDialog from '@/features/user-actions/ChangeEmail.dialog';
 import ChangePasswordDialog from '@/features/user-actions/ChangePassword.dialog';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 const UserSettings: FC = (): ReactElement => {
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
   const [dialogIsOpenChangeDisplayName, setDialogIsOpenChangeDisplayName] =
     useState<boolean>(false);
   const [dialogIsOpenChangeEmail, setDialogIsOpenChangeEmail] =

@@ -5,12 +5,9 @@ import {Button} from '@/components/ui/button';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {useRouter} from 'next/navigation';
 import {Home} from 'lucide-react';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 
 const GoHomeButton: FC = (): ReactElement => {
   const router = useRouter();
-  const [user] = useAuthState(firebaseAuth);
 
   return (
     <Button

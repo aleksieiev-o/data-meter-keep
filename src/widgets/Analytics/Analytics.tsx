@@ -1,15 +1,14 @@
 'use client';
 
-import {FC, useId, useMemo, useState} from 'react';
+import {FC, useContext, useId, useMemo, useState} from 'react';
 import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
-import {useAuthState} from 'react-firebase-hooks/auth';
 import {fetchNotes} from '@/entities/notes/notes.service';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useQuery} from '@tanstack/react-query';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import AnalyticsChart from './AnalyticsChart';
 import AppSelect from '@/shared/ui/appSelect/AppSelect';
 import PageTitle from '@/shared/widgets/PageTitle';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 enum EDiffMode {
   DIFF_AC = 'diff-ac',
@@ -19,7 +18,7 @@ enum EDiffMode {
 const Analytics: FC = () => {
   const categoryDiffMode = useId();
   const selectedCategoryId = useId();
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
   const [currentCategoryId, setCurrentCategoryId] = useState<string>('');
   const [diffMode, setDiffMode] = useState<EDiffMode>(EDiffMode.DIFF_AC);
 

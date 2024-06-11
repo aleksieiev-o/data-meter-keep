@@ -1,9 +1,7 @@
 'use client';
 
-import {FC, ReactElement, useState} from 'react';
+import {FC, ReactElement, useContext, useState} from 'react';
 import UserAvatar from '@/widgets/Header/_ui/UserAvatar';
-import {useAuthState, useSignOut} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Button} from '@/components/ui/button';
 import {
@@ -19,11 +17,11 @@ import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
 import {useRouter} from 'next/navigation';
 import DropdownMenuItemContent from '@/shared/ui/DropdownMenuItemContent';
 import {DEFAULT_USER_DN} from '@/shared/appConstants';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 const AppHeaderInfo: FC = (): ReactElement => {
   const {push} = useRouter();
-  const [user, loading] = useAuthState(firebaseAuth);
-  const [, signOutLoading] = useSignOut(firebaseAuth);
+  const {user, loading, signOutLoading} = useContext(AppAuthContext);
   const [dialogIsOpenSignOut, setDialogIsOpenSignOut] =
     useState<boolean>(false);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, ReactElement} from 'react';
+import {FC, ReactElement, useContext} from 'react';
 import {
   Dialog,
   DialogClose,
@@ -12,11 +12,10 @@ import {
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
 import {useToast} from '@/components/ui/use-toast';
-import {useSignOut} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -25,7 +24,7 @@ interface Props {
 
 const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
   const {dialogIsOpen, setDialogIsOpen} = props;
-  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
+  const {signOut, signOutLoading} = useContext(AppAuthContext);
   const {toast} = useToast();
   const {replace} = useRouter();
 

@@ -1,6 +1,6 @@
 'use client';
 
-import {ReactElement, useState} from 'react';
+import {ReactElement, useContext, useState} from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,12 +15,11 @@ import {Input} from '@/components/ui/input';
 import CreateCategoryDialog from '@/features/categories/CreateCategory.dialog';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {useQuery} from '@tanstack/react-query';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
 import AppTable from '@/shared/ui/appTable/AppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 import PageTitle from '@/shared/widgets/PageTitle';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,7 +33,7 @@ const CategoriesTable = <TData, TValue>(
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
 
   const {
     data: categoriesQueryData,

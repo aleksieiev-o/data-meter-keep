@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, ReactElement, useId, useMemo} from 'react';
+import {FC, ReactElement, useContext, useId, useMemo} from 'react';
 import {
   Card,
   CardContent,
@@ -20,22 +20,22 @@ import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import {
-  useCreateUserWithEmailAndPassword,
-  useSignInWithEmailAndPassword,
-} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {signInSignUpAdmin} from '@/shared/api/signInSignUpAdmin';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 const AuthenticationCard: FC = (): ReactElement => {
   const authFormID = useId();
   const {toast} = useToast();
   const pathname = usePathname();
   const {replace} = useRouter();
-  const [signInWithEmailAndPassword, , signInLoading, signInError] =
-    useSignInWithEmailAndPassword(firebaseAuth);
-  const [createUserWithEmailAndPassword, , signUpLoading, signUpError] =
-    useCreateUserWithEmailAndPassword(firebaseAuth);
+  const {
+    signInWithEmailAndPassword,
+    signInLoading,
+    signInError,
+    createUserWithEmailAndPassword,
+    signUpLoading,
+    signUpError,
+  } = useContext(AppAuthContext);
 
   const isSignInPage = useMemo(
     () => pathname === RoutePath.SIGN_IN,

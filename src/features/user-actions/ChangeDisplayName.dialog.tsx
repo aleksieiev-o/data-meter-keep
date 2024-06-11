@@ -12,13 +12,12 @@ import {
 } from '@/components/ui/dialog';
 import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {DEFAULT_USER_DN} from '@/shared/appConstants';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {FC, ReactElement, useId, useMemo} from 'react';
-import {useAuthState, useUpdateProfile} from 'react-firebase-hooks/auth';
+import {FC, ReactElement, useContext, useId, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 import {z, ZodIssueCode} from 'zod';
 
@@ -31,8 +30,8 @@ const ChangeDisplayNameDialog: FC<Props> = (props): ReactElement => {
   const formID = useId();
   const {dialogIsOpen, setDialogIsOpen} = props;
   const {toast} = useToast();
-  const [user] = useAuthState(firebaseAuth);
-  const [updateProfile, updateProfileLoading] = useUpdateProfile(firebaseAuth);
+  const {user, updateProfile, updateProfileLoading} =
+    useContext(AppAuthContext);
 
   const displayNameSchema = useMemo(
     () =>

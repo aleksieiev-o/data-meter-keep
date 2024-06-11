@@ -1,6 +1,6 @@
 'use client';
 
-import {FC, ReactElement, useEffect, useId, useMemo} from 'react';
+import {FC, ReactElement, useContext, useEffect, useId, useMemo} from 'react';
 import {
   Form,
   FormControl,
@@ -10,8 +10,6 @@ import {
 } from '@/components/ui/form';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {z} from 'zod';
@@ -38,6 +36,7 @@ import {format} from 'date-fns';
 import {usePathname, useRouter} from 'next/navigation';
 import {ICreateNoteDto} from '@/shared/types/notes.types';
 import AppFormSelect from '@/shared/ui/appSelect/AppFormSelect';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props {
   variant: 'create' | 'update';
@@ -49,7 +48,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
   const {toast} = useToast();
   const {isLoading, setIsLoading} = useLoading();
   const queryClient = useQueryClient();
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
   const pathname = usePathname();
   const router = useRouter();
 

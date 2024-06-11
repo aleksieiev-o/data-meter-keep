@@ -1,13 +1,12 @@
 'use client';
 
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useContext} from 'react';
 import Link from 'next/link';
 import {Button} from '@/components/ui/button';
 import {SheetClose} from '@/components/ui/sheet';
 import {router} from '@/shared/router/Router';
 import {usePathname} from 'next/navigation';
-import {firebaseAuth} from '@/lib/firebase/firebase';
-import {useAuthState} from 'react-firebase-hooks/auth';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props {
   withSheetClose: boolean;
@@ -15,7 +14,7 @@ interface Props {
 
 const HeaderNav: FC<Props> = (props): ReactElement => {
   const {withSheetClose} = props;
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
   const pathname = usePathname();
   const [SheetCloseWrapper, sheetCloseWrapperProps] = withSheetClose
     ? [SheetClose, {asChild: true}]

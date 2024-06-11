@@ -1,6 +1,6 @@
 'use client';
 
-import {ReactElement, useMemo, useState} from 'react';
+import {ReactElement, useContext, useMemo, useState} from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,8 +11,6 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useQuery} from '@tanstack/react-query';
 import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
 import {fetchNotes} from '@/entities/notes/notes.service';
@@ -27,6 +25,7 @@ import AppTableNoteFilterSelect from '@/shared/ui/appTable/_ui/AppTableNoteFilte
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {INoteAugmented} from '@/shared/types/notes.types';
 import PageTitle from '@/shared/widgets/PageTitle';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,7 +43,7 @@ const NotesTable = <TData, TValue>(
     useState<ENoteTableColumnAccessorKeys>(
       ENoteTableColumnAccessorKeys.CATEGORY_NAME,
     );
-  const [user] = useAuthState(firebaseAuth);
+  const {user} = useContext(AppAuthContext);
 
   const {
     data: categoriesQueryData,

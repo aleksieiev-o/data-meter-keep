@@ -1,15 +1,15 @@
 'use client';
 
-import {FC, ReactElement} from 'react';
+import {FC, ReactElement, useContext} from 'react';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {useInitials} from '@/widgets/Header/_hooks/useInitials';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import {DEFAULT_USER_DN} from '@/shared/appConstants';
 
 const UserAvatar: FC = (): ReactElement => {
-  const [user] = useAuthState(firebaseAuth);
-  const userInitials = useInitials(user?.displayName || '');
+  const {user} = useContext(AppAuthContext);
+  const userInitials = useInitials(user?.displayName || DEFAULT_USER_DN);
 
   return (
     <>

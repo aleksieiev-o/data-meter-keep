@@ -11,17 +11,12 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {useToast} from '@/components/ui/use-toast';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {useRouter} from 'next/navigation';
-import {FC, ReactElement} from 'react';
-import {
-  useAuthState,
-  useSendPasswordResetEmail,
-  useSignOut,
-} from 'react-firebase-hooks/auth';
+import {FC, ReactElement, useContext} from 'react';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {Send} from 'lucide-react';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -31,11 +26,14 @@ interface Props {
 const ChangePasswordDialog: FC<Props> = (props): ReactElement => {
   const {dialogIsOpen, setDialogIsOpen} = props;
   const {toast} = useToast();
-  const [user] = useAuthState(firebaseAuth);
-  const [signOut, signOutLoading] = useSignOut(firebaseAuth);
+  const {
+    user,
+    signOut,
+    signOutLoading,
+    sendPasswordResetEmail,
+    sendPasswordResetEmailLoading,
+  } = useContext(AppAuthContext);
   const {replace} = useRouter();
-  const [sendPasswordResetEmail, sendPasswordResetEmailLoading] =
-    useSendPasswordResetEmail(firebaseAuth);
 
   const handleSendRequest = async () => {
     try {

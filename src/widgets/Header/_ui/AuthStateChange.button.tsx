@@ -1,6 +1,6 @@
 'use client';
 
-import React, {FC, ReactElement} from 'react';
+import React, {FC, ReactElement, useContext} from 'react';
 import {Button} from '@/components/ui/button';
 import {
   DropdownMenuContent,
@@ -11,12 +11,11 @@ import {
 import Link from 'next/link';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {LogIn} from 'lucide-react';
-import {useAuthState} from 'react-firebase-hooks/auth';
-import {firebaseAuth} from '@/lib/firebase/firebase';
 import {Skeleton} from '@/components/ui/skeleton';
+import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 const AuthStateChangeButton: FC = (): ReactElement => {
-  const [user, loading] = useAuthState(firebaseAuth);
+  const {user, loading} = useContext(AppAuthContext);
 
   return (
     <>
