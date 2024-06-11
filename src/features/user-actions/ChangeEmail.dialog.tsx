@@ -21,6 +21,7 @@ import {useForm} from 'react-hook-form';
 import {z, ZodIssueCode} from 'zod';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import {signOutAdmin} from '@/shared/api/signOutAdmin';
 
 interface Props {
   dialogIsOpen: boolean;
