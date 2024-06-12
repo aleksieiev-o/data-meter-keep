@@ -1,6 +1,5 @@
 'use client';
 
-import {Button} from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -14,6 +13,7 @@ import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
 import {DEFAULT_USER_DN} from '@/shared/appConstants';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import CloseButton from '@/shared/ui/appButton/Close.button';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -139,9 +139,7 @@ const ChangeDisplayNameDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'outline'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton />
           </DialogClose>
 
           <SubmitButton

@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import {Button} from '@/components/ui/button';
+import CloseButton from '../appButton/Close.button';
 
 interface Props {
   isLoading: boolean;
@@ -48,9 +49,7 @@ const RemoveConfirmDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'outline'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton />
           </DialogClose>
 
           <Button

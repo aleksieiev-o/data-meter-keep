@@ -17,6 +17,7 @@ import {signOutAdmin} from '@/shared/api/signOutAdmin';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {Send} from 'lucide-react';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import CloseButton from '@/shared/ui/appButton/Close.button';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -106,9 +107,7 @@ const ChangePasswordDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'outline'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton />
           </DialogClose>
 
           <Button

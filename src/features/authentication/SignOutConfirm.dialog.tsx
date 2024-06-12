@@ -16,6 +16,7 @@ import {useRouter} from 'next/navigation';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import CloseButton from '@/shared/ui/appButton/Close.button';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -61,9 +62,7 @@ const SignOutConfirmDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'outline'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton />
           </DialogClose>
 
           <Button

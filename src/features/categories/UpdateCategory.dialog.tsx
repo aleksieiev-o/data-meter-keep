@@ -16,13 +16,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {Button} from '@/components/ui/button';
 import {Form} from '@/components/ui/form';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import {z, ZodIssueCode} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
+import CloseButton from '@/shared/ui/appButton/Close.button';
 
 interface Props {
   category: ICategory;
@@ -160,9 +160,7 @@ const UpdateCategoryDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <Button variant={'outline'} title={'Close'}>
-              Close
-            </Button>
+            <CloseButton />
           </DialogClose>
 
           <SubmitButton
