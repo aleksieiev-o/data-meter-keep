@@ -138,10 +138,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     toast({title: 'Success', description});
 
     formModel.reset();
-
-    if (variant === 'update') {
-      router.back();
-    }
+    router.back();
   };
 
   const onErrorCallback = async (): Promise<void> => {
@@ -160,7 +157,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
     noteValue: values.noteValue,
     endCalculationDate: new Date(values.endCalculationDate),
     noteDescription: values.noteDescription || '...',
-    noteCoefficient: values.noteCoefficient,
+    noteCoefficient: values.noteCoefficient || 1,
     categoryId: values.categoryId,
   });
 
@@ -270,7 +267,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             formModel={formModel}
             name={'noteValue'}
             label={'Note value'}
-            placeholder={'100'}
+            placeholder={'Enter a value'}
             required={true}
             disabled={isLoading}
             isDataPending={notesIsPending}
@@ -282,7 +279,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             formModel={formModel}
             name={'noteDescription'}
             label={'Note description'}
-            placeholder={'Description'}
+            placeholder={'Enter a description'}
             required={false}
             disabled={isLoading}
             isDataPending={notesIsPending}
@@ -294,7 +291,7 @@ const CreateOrUpdateNoteForm: FC<Props> = (props): ReactElement => {
             formModel={formModel}
             name={'noteCoefficient'}
             label={'Note coefficient'}
-            placeholder={'1'}
+            placeholder={'Enter a coefficient'}
             required={true}
             disabled={isLoading}
             isDataPending={notesIsPending}
