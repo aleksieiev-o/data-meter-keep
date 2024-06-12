@@ -36,7 +36,7 @@ const NotesTable = <TData, TValue>(
   props: Props<TData, TValue>,
 ): ReactElement => {
   const {columns} = props;
-  const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 7});
+  const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filteredColumn, setFilteredColumn] =

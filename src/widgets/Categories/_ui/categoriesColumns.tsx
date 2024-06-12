@@ -19,7 +19,7 @@ export const categoriesColumns: ColumnDef<TColumns>[] = [
       <div className="whitespace-nowrap text-start font-bold">Category ID</div>
     ),
     cell: ({row}) => (
-      <div className="text-start">
+      <div className="w-[70px] overflow-hidden text-ellipsis whitespace-nowrap text-start">
         {row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_ID)}
       </div>
     ),
