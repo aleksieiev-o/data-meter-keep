@@ -1,5 +1,5 @@
 import {APIResponse} from '@/app/api/auth/APIResponse';
-import {UserCredential} from '@firebase/auth';
+import {UserCredential} from 'firebase/auth';
 
 export const signInSignUpAdmin = async (
   userCredential: UserCredential | undefined,

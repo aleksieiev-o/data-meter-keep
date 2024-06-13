@@ -6,7 +6,7 @@ import {
   getApp,
 } from 'firebase/app';
 import {getDatabase, Database} from 'firebase/database';
-import {Auth, getAuth} from '@firebase/auth';
+import {Auth, getAuth} from 'firebase/auth';
 import {firebaseEnvSchema} from '@/lib/firebase/_types/firebaseEnvSchema';
 
 const firebaseConfig: FirebaseOptions = firebaseEnvSchema;
