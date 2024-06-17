@@ -13,13 +13,13 @@ import {Form} from '@/components/ui/form';
 import {useToast} from '@/components/ui/use-toast';
 import {DEFAULT_USER_DN} from '@/shared/appConstants';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
-import CloseButton from '@/shared/ui/appButton/Close.button';
 import SubmitButton from '@/shared/ui/appButton/Submit.button';
 import AppFormInputText from '@/shared/ui/appInput/AppFormInput.text';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {FC, ReactElement, useContext, useId, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
 import {z, ZodIssueCode} from 'zod';
+import {Button} from '@/components/ui/button';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -139,7 +139,9 @@ const ChangeDisplayNameDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <CloseButton />
+            <Button variant={'outline'} title={'Close'}>
+              Close
+            </Button>
           </DialogClose>
 
           <SubmitButton

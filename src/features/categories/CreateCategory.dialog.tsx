@@ -24,7 +24,6 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {createCategory} from '@/entities/categories/categories.service';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {RoutePath} from '@/shared/router/Routes.enum';
-import CloseButton from '@/shared/ui/appButton/Close.button';
 import {TCreateCategoryDto} from '@/shared/types/categories.types';
 
 const CreateCategoryDialog: FC = (): ReactElement => {
@@ -153,7 +152,9 @@ const CreateCategoryDialog: FC = (): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <CloseButton />
+            <Button variant={'outline'} title={'Close'}>
+              Close
+            </Button>
           </DialogClose>
 
           <SubmitButton

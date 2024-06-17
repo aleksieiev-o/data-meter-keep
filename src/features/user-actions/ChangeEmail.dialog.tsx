@@ -22,7 +22,6 @@ import {z, ZodIssueCode} from 'zod';
 import {RoutePath} from '@/shared/router/Routes.enum';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 import {signOutAdmin} from '@/shared/api/signOutAdmin';
-import CloseButton from '@/shared/ui/appButton/Close.button';
 
 interface Props {
   dialogIsOpen: boolean;
@@ -206,7 +205,9 @@ const ChangeEmailDialog: FC<Props> = (props): ReactElement => {
 
         <DialogFooter className="flex justify-end gap-4">
           <DialogClose asChild>
-            <CloseButton />
+            <Button variant={'outline'} title={'Close'}>
+              Close
+            </Button>
           </DialogClose>
 
           {additionalInfo ? (
