@@ -29,6 +29,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ENoteTableColumnAccessorKeys.NOTE_ID)}
       </div>
     ),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.CATEGORY_NAME,
@@ -45,6 +46,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ENoteTableColumnAccessorKeys.CATEGORY_NAME)}
       </div>
     ),
+    enableGlobalFilter: true,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.END_CALCULATION_DATE,
@@ -63,6 +65,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
         )}
       </div>
     ),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.NOTE_VALUE,
@@ -80,6 +83,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
           Number(row.getValue(ENoteTableColumnAccessorKeys.NOTE_COEFFICIENT))}
       </div>
     ),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.NOTE_COEFFICIENT,
@@ -96,6 +100,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ENoteTableColumnAccessorKeys.NOTE_COEFFICIENT)}
       </div>
     ),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: ENoteTableColumnAccessorKeys.NOTE_DESCRIPTION,
@@ -112,6 +117,7 @@ export const notesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ENoteTableColumnAccessorKeys.NOTE_DESCRIPTION)}
       </div>
     ),
+    enableGlobalFilter: true,
   },
   {
     id: 'actions',

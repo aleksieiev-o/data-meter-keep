@@ -3,7 +3,6 @@
 import {ReactElement, useContext, useMemo, useState} from 'react';
 import {
   ColumnDef,
-  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -21,7 +20,6 @@ import Link from 'next/link';
 import AppTable from '@/shared/ui/appTable/AppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 import {ENoteTableColumnAccessorKeys} from '@/widgets/Notes/_ui/notesColumns';
-import AppTableNoteFilterSelect from '@/shared/ui/appTable/_ui/AppTableNoteFilter.select';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {INoteAugmented} from '@/shared/types/notes.types';
 import PageTitle from '@/shared/widgets/PageTitle';
@@ -29,7 +27,6 @@ import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  // data: TData[];
 }
 
 const NotesTable = <TData, TValue>(
@@ -38,7 +35,7 @@ const NotesTable = <TData, TValue>(
   const {columns} = props;
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<string>('');
   const [filteredColumn, setFilteredColumn] =
     useState<ENoteTableColumnAccessorKeys>(
       ENoteTableColumnAccessorKeys.CATEGORY_NAME,
@@ -98,12 +95,12 @@ const NotesTable = <TData, TValue>(
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       pagination,
       sorting,
-      columnFilters,
+      globalFilter: columnFilters,
     },
   });
 
@@ -113,13 +110,9 @@ const NotesTable = <TData, TValue>(
 
       <div className="flex w-full flex-col items-end justify-between gap-6 sm:flex-row sm:items-center">
         <Input
-          onChange={(event) =>
-            table.getColumn(filteredColumn)?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => setColumnFilters(event.target.value)}
           disabled={!notesQueryData || !notesQueryData.length}
-          value={
-            (table.getColumn(filteredColumn)?.getFilterValue() as string) ?? ''
-          }
+          value={columnFilters}
           placeholder={'Try to search something...'}
           className={'h-12 w-full'}
         />
@@ -129,11 +122,6 @@ const NotesTable = <TData, TValue>(
             'flex w-full flex-col items-end gap-6 xs:flex-row sm:w-auto'
           }
         >
-          <AppTableNoteFilterSelect
-            table={table}
-            setFilteredColumn={setFilteredColumn}
-          />
-
           <Link href={RoutePath.CRETE_NOTE} className="w-full sm:w-auto">
             <Button
               variant={'default'}
