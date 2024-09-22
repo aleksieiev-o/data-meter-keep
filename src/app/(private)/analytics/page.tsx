@@ -5,7 +5,7 @@ import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {HydrationBoundary, QueryClient, dehydrate} from '@tanstack/react-query';
 import {getCurrentUser} from '@/lib/firebase/firebase-admin';
-import {fetchNotes} from '@/entities/notes/notes.service';
+import {fetchSortedWithDateNotes} from '@/entities/notes/notes.service';
 
 const AnalyticsPage: FC = async (): Promise<ReactElement> => {
   const queryClient = new QueryClient();
@@ -20,7 +20,7 @@ const AnalyticsPage: FC = async (): Promise<ReactElement> => {
 
     await queryClient.prefetchQuery({
       queryKey: [RoutePath.NOTE_LIST, currentUser.uid],
-      queryFn: async () => await fetchNotes(currentUser.uid),
+      queryFn: async () => await fetchSortedWithDateNotes(currentUser.uid),
       staleTime: 5 * 1000,
     });
   }

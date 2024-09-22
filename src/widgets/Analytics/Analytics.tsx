@@ -2,7 +2,7 @@
 
 import {FC, useContext, useId, useMemo, useState} from 'react';
 import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
-import {fetchNotes} from '@/entities/notes/notes.service';
+import {fetchSortedWithDateNotes} from '@/entities/notes/notes.service';
 import {useQuery} from '@tanstack/react-query';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import AnalyticsChart from './AnalyticsChart';
@@ -39,7 +39,7 @@ const Analytics: FC = () => {
     isSuccess: notesIsSuccess,
   } = useQuery({
     queryKey: [RoutePath.NOTE_LIST],
-    queryFn: async () => await fetchNotes(),
+    queryFn: async () => await fetchSortedWithDateNotes(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });
@@ -60,11 +60,6 @@ const Analytics: FC = () => {
       const mappedData =
         notesQueryData
           ?.filter((note) => note.categoryId === currentCategoryId)
-          .sort(
-            (a, b) =>
-              new Date(a.endCalculationDate).getTime() -
-              new Date(b.endCalculationDate).getTime(),
-          )
           .map((note, idx, array) => {
             const formattedDate = new Date(
               note.endCalculationDate,
@@ -98,8 +93,6 @@ const Analytics: FC = () => {
             }
           }) || [];
 
-      // eslint-disable-next-line no-console
-      console.log(111, mappedData, 222, notesQueryData);
       if (mappedData.length) {
         return [['Category name', currentCategory.categoryName], ...mappedData];
       }

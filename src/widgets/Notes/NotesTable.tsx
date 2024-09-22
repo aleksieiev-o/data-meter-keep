@@ -12,7 +12,7 @@ import {
 } from '@tanstack/react-table';
 import {useQuery} from '@tanstack/react-query';
 import {RouteName, RoutePath} from '@/shared/router/Routes.enum';
-import {fetchNotes} from '@/entities/notes/notes.service';
+import {fetchSortedWithDateNotes} from '@/entities/notes/notes.service';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {Plus} from 'lucide-react';
@@ -59,7 +59,7 @@ const NotesTable = <TData, TValue>(
     isSuccess: notesIsSuccess,
   } = useQuery({
     queryKey: [RoutePath.NOTE_LIST],
-    queryFn: async () => await fetchNotes(),
+    queryFn: async () => await fetchSortedWithDateNotes(),
     staleTime: 5 * 1000,
     enabled: !!user,
   });

@@ -5,7 +5,7 @@ import {RoutePath} from '@/shared/router/Routes.enum';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import NotesTable from '@/widgets/Notes/NotesTable';
 import {notesColumns} from '@/widgets/Notes/_ui/notesColumns';
-import {fetchNotes} from '@/entities/notes/notes.service';
+import {fetchSortedWithDateNotes} from '@/entities/notes/notes.service';
 import {getCurrentUser} from '@/lib/firebase/firebase-admin';
 
 const NoteListPage: FC = async (): Promise<ReactElement> => {
@@ -21,7 +21,7 @@ const NoteListPage: FC = async (): Promise<ReactElement> => {
 
     await queryClient.prefetchQuery({
       queryKey: [RoutePath.NOTE_LIST, currentUser.uid],
-      queryFn: async () => await fetchNotes(currentUser.uid),
+      queryFn: async () => await fetchSortedWithDateNotes(currentUser.uid),
       staleTime: 5 * 1000,
     });
   }

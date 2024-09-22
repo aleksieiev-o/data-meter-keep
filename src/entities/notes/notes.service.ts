@@ -11,8 +11,19 @@ import {
   updateDataItemById,
 } from '@/entities/_db.service';
 
-export const fetchNotes = async (userUID?: string): Promise<INote[]> => {
-  return await fetchAllData<INote>(EndpointsList.NOTES, userUID);
+const sortNotes = (notesList: INote[]): INote[] => {
+  return notesList.sort(
+    (a, b) =>
+      new Date(a.endCalculationDate).getTime() -
+      new Date(b.endCalculationDate).getTime(),
+  );
+};
+
+export const fetchSortedWithDateNotes = async (
+  userUID?: string,
+): Promise<INote[]> => {
+  const data = await fetchAllData<INote>(EndpointsList.NOTES, userUID);
+  return sortNotes(data);
 };
 
 export const fetchNoteById = async (
