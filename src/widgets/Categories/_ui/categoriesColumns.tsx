@@ -23,6 +23,7 @@ export const categoriesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_ID)}
       </div>
     ),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: ECategoryTableColumnAccessorKeys.CATEGORY_NAME,
@@ -38,6 +39,7 @@ export const categoriesColumns: ColumnDef<TColumns>[] = [
         {row.getValue(ECategoryTableColumnAccessorKeys.CATEGORY_NAME)}
       </div>
     ),
+    enableGlobalFilter: true,
   },
   {
     id: 'actions',

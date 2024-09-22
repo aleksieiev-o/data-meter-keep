@@ -19,11 +19,11 @@ import {Plus} from 'lucide-react';
 import Link from 'next/link';
 import AppTable from '@/shared/ui/appTable/AppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
-import {ENoteTableColumnAccessorKeys} from '@/widgets/Notes/_ui/notesColumns';
 import {fetchCategories} from '@/entities/categories/categories.service';
 import {INoteAugmented} from '@/shared/types/notes.types';
 import PageTitle from '@/shared/widgets/PageTitle';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import {useDebounce} from '@/shared/hooks/useDebounce';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,17 +36,10 @@ const NotesTable = <TData, TValue>(
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<string>('');
-  const [filteredColumn, setFilteredColumn] =
-    useState<ENoteTableColumnAccessorKeys>(
-      ENoteTableColumnAccessorKeys.CATEGORY_NAME,
-    );
   const {user} = useContext(AppAuthContext);
+  const columnFiltersDebouncedValue = useDebounce(columnFilters, 500);
 
-  const {
-    data: categoriesQueryData,
-    isPending: categoriesIsPending,
-    isSuccess: categoriesIsSuccess,
-  } = useQuery({
+  const {data: categoriesQueryData, isSuccess: categoriesIsSuccess} = useQuery({
     queryKey: [RoutePath.CATEGORY_LIST],
     queryFn: async () => await fetchCategories(),
     staleTime: 5 * 1000,
@@ -100,7 +93,7 @@ const NotesTable = <TData, TValue>(
     state: {
       pagination,
       sorting,
-      globalFilter: columnFilters,
+      globalFilter: columnFiltersDebouncedValue,
     },
   });
 

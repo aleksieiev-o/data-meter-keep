@@ -3,7 +3,6 @@
 import {ReactElement, useContext, useState} from 'react';
 import {
   ColumnDef,
-  ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -20,10 +19,10 @@ import AppTable from '@/shared/ui/appTable/AppTable';
 import AppTablePageControls from '@/shared/ui/appTable/_ui/AppTablePageControls';
 import PageTitle from '@/shared/widgets/PageTitle';
 import {AppAuthContext} from '@/shared/providers/AppAuth.provider';
+import {useDebounce} from '@/shared/hooks/useDebounce';
 
 interface Props<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  // data: TData[];
 }
 
 const CategoriesTable = <TData, TValue>(
@@ -32,8 +31,9 @@ const CategoriesTable = <TData, TValue>(
   const {columns} = props;
   const [pagination, setPagination] = useState({pageIndex: 0, pageSize: 5});
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useState<string>('');
   const {user} = useContext(AppAuthContext);
+  const columnFiltersDebouncedValue = useDebounce(columnFilters, 500);
 
   const {
     data: categoriesQueryData,
@@ -54,12 +54,12 @@ const CategoriesTable = <TData, TValue>(
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       pagination,
       sorting,
-      columnFilters,
+      globalFilter: columnFiltersDebouncedValue,
     },
   });
 
@@ -69,13 +69,9 @@ const CategoriesTable = <TData, TValue>(
 
       <div className="flex w-full flex-col items-end justify-between gap-6 sm:flex-row sm:items-center">
         <Input
-          onChange={(event) =>
-            table.getColumn('categoryName')?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => setColumnFilters(event.target.value)}
           disabled={!categoriesQueryData || !categoriesQueryData.length}
-          value={
-            (table.getColumn('categoryName')?.getFilterValue() as string) ?? ''
-          }
+          value={columnFilters}
           placeholder={'Try to search something...'}
           className={'h-12 w-full'}
         />
