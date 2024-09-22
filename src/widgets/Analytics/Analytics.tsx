@@ -60,6 +60,11 @@ const Analytics: FC = () => {
       const mappedData =
         notesQueryData
           ?.filter((note) => note.categoryId === currentCategoryId)
+          .sort(
+            (a, b) =>
+              new Date(a.endCalculationDate).getTime() -
+              new Date(b.endCalculationDate).getTime(),
+          )
           .map((note, idx, array) => {
             const formattedDate = new Date(
               note.endCalculationDate,
@@ -93,6 +98,8 @@ const Analytics: FC = () => {
             }
           }) || [];
 
+      // eslint-disable-next-line no-console
+      console.log(111, mappedData, 222, notesQueryData);
       if (mappedData.length) {
         return [['Category name', currentCategory.categoryName], ...mappedData];
       }
